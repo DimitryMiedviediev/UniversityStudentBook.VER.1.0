@@ -1,0 +1,18 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <servlet>
+        <servlet-name>Mainpage</servlet-name>
+        <servlet-class>view.Mainpage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Mainpage</servlet-name>
+        <url-pattern>/main_page</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>controller.Controller</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
+</web-app>
