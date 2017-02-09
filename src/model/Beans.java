@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.reflect.Parameter;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -7,9 +8,9 @@ import java.util.ArrayList;
  * Created by Dimitry on 07.02.17.
  */
 public class Beans {
-    GetTime time = new GetTime();
+    static GetTime time = new GetTime();
 
-    public Connection startConnection() {
+    public static Connection startConnection() {
         Connection connection = null;
         try {
             String driver = "com.mysql.jdbc.Driver";
@@ -38,7 +39,7 @@ public class Beans {
         return connection;
     }
 
-    public void stopConnection(Connection connection) {
+    public static void stopConnection(Connection connection) {
         try {
             connection.close();
             if (connection.isClosed()) {
@@ -49,7 +50,7 @@ public class Beans {
         }
     }
 
-    public ArrayList<Student> getStudLIst() {
+    public static ArrayList<Student> getStudList(String query) {
 
         ArrayList<Student> storage = new ArrayList<>();
 
@@ -57,7 +58,7 @@ public class Beans {
         try {
             con.setCatalog("test");
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT stud_name, stud_surname, stud_lastname, stud_status FROM students");
+            ResultSet resultSet = statement.executeQuery(query);
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -65,7 +66,7 @@ public class Beans {
                 String surname = resultSet.getString(meta.getColumnName(2));
                 String lastname = resultSet.getString(meta.getColumnName(3));
                 String status = resultSet.getString(meta.getColumnName(4));
-                    storage.add(new Student(name, surname, lastname, status));
+                storage.add(new Student(name, surname, lastname, status));
             }
 
         } catch (SQLException e) {
@@ -73,7 +74,39 @@ public class Beans {
         }
         stopConnection(con);
 
+
         return storage;
+    }
+
+    public static boolean qParam(String str, String word) {
+        Boolean bull = false;
+        String[] list = str.split(" ");
+        for (int i = 0; i < list.length; i++) {
+            String ti = list[i];
+            if (ti.equals(word)) {
+                bull = true;
+            }
+        }
+        return bull;
+    }
+
+    public static String addQueryPart(String queryFull, String queryParam, String parameter) {
+        if (parameter != null) {
+            if (qParam(queryFull, queryParam)) {
+                if (qParam(queryFull, "WHERE")) {
+                    queryFull = queryFull + " OR " + queryParam + " = '" + parameter + "'";
+                } else {
+                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                }
+            } else {
+                if (qParam(queryFull, "WHERE")) {
+                    queryFull = queryFull + " AND " + queryParam + " = '" + parameter + "'";
+                } else {
+                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                }
+            }
+        }
+        return queryFull;
     }
 
 }

@@ -1,0 +1,31 @@
+.jumbotron {
+    padding-top: 40px;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee;
+}
+
+table tr td a {
+    display:block;
+    height:100%;
+    width:100%;
+    color: #000000;
+    text-decoration-color: #000000;
+}
+table tr td a :hover{
+    display:block;
+    height:100%;
+    width:100%;
+    color: #000000;
+    text-decoration-color: #000000;
+}
+
+table tr td {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.container {
+    width: 100%;
+}
