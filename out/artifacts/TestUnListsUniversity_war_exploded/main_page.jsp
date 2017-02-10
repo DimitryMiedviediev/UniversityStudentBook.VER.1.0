@@ -97,6 +97,15 @@
                         <h5>Type</h5>
                         <ul>
                             <c:choose>
+                                <c:when test="${!(params.educate == null)}">
+                                    <li><h6><input type="checkbox" name="educate" value="educate" checked> Educate </h6>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><h6><input type="checkbox" name="educate" value="educate"> Educate </h6></li>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
                                 <c:when test="${!(params.archive == null)}">
                                     <li><h6><input type="checkbox" name="archive" value="archive" checked> Archive </h6>
                                     </li>
@@ -141,56 +150,56 @@
                         <ul>
                             <c:choose>
                                 <c:when test="${!(params.course1 == null)}">
-                                    <li><h6><input type="checkbox" name="1 course" value="1 course" checked> 1 course
+                                    <li><h6><input type="checkbox" name="1 course" value="1" checked> 1 course
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="1 course" value="1 course"> 1 course </h6></li>
+                                    <li><h6><input type="checkbox" name="1 course" value="1"> 1 course </h6></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.course2 == null)}">
-                                    <li><h6><input type="checkbox" name="2 course" value="2 course" checked> 2 course
+                                    <li><h6><input type="checkbox" name="2 course" value="2" checked> 2 course
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="2 course" value="2 course"> 2 course </h6></li>
+                                    <li><h6><input type="checkbox" name="2 course" value="2"> 2 course </h6></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.course3 == null)}">
-                                    <li><h6><input type="checkbox" name="3 course" value="3 course" checked> 3 course
+                                    <li><h6><input type="checkbox" name="3 course" value="3" checked> 3 course
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="3 course" value="3 course"> 3 course </h6></li>
+                                    <li><h6><input type="checkbox" name="3 course" value="3"> 3 course </h6></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.course4 == null)}">
-                                    <li><h6><input type="checkbox" name="4 course" value="4 course" checked> 4 course
+                                    <li><h6><input type="checkbox" name="4 course" value="4" checked> 4 course
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="4 course" value="4 course"> 4 course </h6></li>
+                                    <li><h6><input type="checkbox" name="4 course" value="4"> 4 course </h6></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.course5 == null)}">
-                                    <li><h6><input type="checkbox" name="5 course" value="5 course" checked> 5 course
+                                    <li><h6><input type="checkbox" name="5 course" value="5" checked> 5 course
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="5 course" value="5 course"> 5 course </h6></li>
+                                    <li><h6><input type="checkbox" name="5 course" value="5"> 5 course </h6></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.course6 == null)}">
-                                    <li><h6><input type="checkbox" name="6 course" value="6 course" checked> 6 course
+                                    <li><h6><input type="checkbox" name="6 course" value="6" checked> 6 course
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="6 course" value="6 course"> 6 course </h6></li>
+                                    <li><h6><input type="checkbox" name="6 course" value="6"> 6 course </h6></li>
                                 </c:otherwise>
                             </c:choose>
                         </ul>
@@ -203,6 +212,15 @@
                                 </c:when>
                                 <c:otherwise>
                                     <li><input type="text" placeholder="Group" name="group"></li>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${!(params.subgroup == null)}">
+                                    <li><input type="text" placeholder="Subgroup" name="subgroup" value="${params.subgroup}">
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><input type="text" placeholder="Subgroup" name="subgroup"></li>
                                 </c:otherwise>
                             </c:choose>
                         </ul>
@@ -233,11 +251,11 @@
                         <ul>
                             <c:choose>
                                 <c:when test="${!(params.full_time == null)}">
-                                    <li><h6><input type="checkbox" name="full_time" value="full_time" checked> Full-time
+                                    <li><h6><input type="checkbox" name="full_time" value="full time" checked> Full-time
                                     </h6></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><h6><input type="checkbox" name="full_time" value="full_time"> Full-time </h6>
+                                    <li><h6><input type="checkbox" name="full_time" value="full time"> Full-time </h6>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -272,17 +290,8 @@
                                 </c:otherwise>
                             </c:choose>
                         </ul>
-                        <h5>Other categories</h5>
+                        <h5>Exemptions</h5>
                         <ul>
-                            <c:choose>
-                                <c:when test="${!(params.military == null)}">
-                                    <li><h6><input type="checkbox" name="military" value="military" checked> Military
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="military" value="military"> Military </h6></li>
-                                </c:otherwise>
-                            </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.orphan == null)}">
                                     <li><h6><input type="checkbox" name="orphan" value="orphan" checked> Orphan </h6>

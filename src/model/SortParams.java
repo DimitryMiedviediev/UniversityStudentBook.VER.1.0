@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class SortParams implements Serializable {
     String mechanics;
     String engineers;
+    String educate;
     String archive;
     String bachelor;
     String specialist;
@@ -19,26 +20,27 @@ public class SortParams implements Serializable {
     String course5;
     String course6;
     String group;
+    String subgroup;
     String government;
     String commercial;
     String full_time;
     String distance;
     String state;
     String department;
-    String military;
     String orphan;
     String disabled;
 
     public SortParams() {
     }
 
-    public SortParams(String mechanics, String engineers, String archive, String bachelor, String specialist,
-                      String master, String course1, String course2, String course3, String course4,
-                      String course5, String course6, String group, String government, String commercial,
-                      String full_time, String distance, String state, String department, String military,
-                      String orphan, String disabled) {
+    public SortParams(String mechanics, String engineers, String educate, String archive, String bachelor,
+                      String specialist, String master, String course1, String course2, String course3,
+                      String course4, String course5, String course6, String group, String subgroup,
+                      String government, String commercial, String full_time, String distance,
+                      String state, String department, String orphan, String disabled) {
         this.mechanics = mechanics;
         this.engineers = engineers;
+        this.educate = educate;
         this.archive = archive;
         this.bachelor = bachelor;
         this.specialist = specialist;
@@ -50,13 +52,13 @@ public class SortParams implements Serializable {
         this.course5 = course5;
         this.course6 = course6;
         this.group = group;
+        this.subgroup = subgroup;
         this.government = government;
         this.commercial = commercial;
         this.full_time = full_time;
         this.distance = distance;
         this.state = state;
         this.department = department;
-        this.military = military;
         this.orphan = orphan;
         this.disabled = disabled;
     }
@@ -75,6 +77,14 @@ public class SortParams implements Serializable {
 
     public void setEngineers(String engineers) {
         this.engineers = engineers;
+    }
+
+    public String getEducate() {
+        return educate;
+    }
+
+    public void setEducate(String educate) {
+        this.educate = educate;
     }
 
     public String getArchive() {
@@ -165,6 +175,14 @@ public class SortParams implements Serializable {
         this.group = group;
     }
 
+    public String getSubgroup() {
+        return subgroup;
+    }
+
+    public void setSubgroup(String subgroup) {
+        this.subgroup = subgroup;
+    }
+
     public String getGovernment() {
         return government;
     }
@@ -213,14 +231,6 @@ public class SortParams implements Serializable {
         this.department = department;
     }
 
-    public String getMilitary() {
-        return military;
-    }
-
-    public void setMilitary(String military) {
-        this.military = military;
-    }
-
     public String getOrphan() {
         return orphan;
     }
@@ -246,6 +256,7 @@ public class SortParams implements Serializable {
 
         if (mechanics != null ? !mechanics.equals(that.mechanics) : that.mechanics != null) return false;
         if (engineers != null ? !engineers.equals(that.engineers) : that.engineers != null) return false;
+        if (educate != null ? !educate.equals(that.educate) : that.educate != null) return false;
         if (archive != null ? !archive.equals(that.archive) : that.archive != null) return false;
         if (bachelor != null ? !bachelor.equals(that.bachelor) : that.bachelor != null) return false;
         if (specialist != null ? !specialist.equals(that.specialist) : that.specialist != null) return false;
@@ -257,13 +268,13 @@ public class SortParams implements Serializable {
         if (course5 != null ? !course5.equals(that.course5) : that.course5 != null) return false;
         if (course6 != null ? !course6.equals(that.course6) : that.course6 != null) return false;
         if (group != null ? !group.equals(that.group) : that.group != null) return false;
+        if (subgroup != null ? !subgroup.equals(that.subgroup) : that.subgroup != null) return false;
         if (government != null ? !government.equals(that.government) : that.government != null) return false;
         if (commercial != null ? !commercial.equals(that.commercial) : that.commercial != null) return false;
         if (full_time != null ? !full_time.equals(that.full_time) : that.full_time != null) return false;
         if (distance != null ? !distance.equals(that.distance) : that.distance != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
         if (department != null ? !department.equals(that.department) : that.department != null) return false;
-        if (military != null ? !military.equals(that.military) : that.military != null) return false;
         if (orphan != null ? !orphan.equals(that.orphan) : that.orphan != null) return false;
         return disabled != null ? disabled.equals(that.disabled) : that.disabled == null;
     }
@@ -272,6 +283,7 @@ public class SortParams implements Serializable {
     public int hashCode() {
         int result = mechanics != null ? mechanics.hashCode() : 0;
         result = 31 * result + (engineers != null ? engineers.hashCode() : 0);
+        result = 31 * result + (educate != null ? educate.hashCode() : 0);
         result = 31 * result + (archive != null ? archive.hashCode() : 0);
         result = 31 * result + (bachelor != null ? bachelor.hashCode() : 0);
         result = 31 * result + (specialist != null ? specialist.hashCode() : 0);
@@ -283,13 +295,13 @@ public class SortParams implements Serializable {
         result = 31 * result + (course5 != null ? course5.hashCode() : 0);
         result = 31 * result + (course6 != null ? course6.hashCode() : 0);
         result = 31 * result + (group != null ? group.hashCode() : 0);
+        result = 31 * result + (subgroup != null ? subgroup.hashCode() : 0);
         result = 31 * result + (government != null ? government.hashCode() : 0);
         result = 31 * result + (commercial != null ? commercial.hashCode() : 0);
         result = 31 * result + (full_time != null ? full_time.hashCode() : 0);
         result = 31 * result + (distance != null ? distance.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (department != null ? department.hashCode() : 0);
-        result = 31 * result + (military != null ? military.hashCode() : 0);
         result = 31 * result + (orphan != null ? orphan.hashCode() : 0);
         result = 31 * result + (disabled != null ? disabled.hashCode() : 0);
         return result;
@@ -300,6 +312,7 @@ public class SortParams implements Serializable {
         return "SortParams{" +
                 "mechanics='" + mechanics + '\'' +
                 ", engineers='" + engineers + '\'' +
+                ", educate='" + educate + '\'' +
                 ", archive='" + archive + '\'' +
                 ", bachelor='" + bachelor + '\'' +
                 ", specialist='" + specialist + '\'' +
@@ -311,13 +324,13 @@ public class SortParams implements Serializable {
                 ", course5='" + course5 + '\'' +
                 ", course6='" + course6 + '\'' +
                 ", group='" + group + '\'' +
+                ", subgroup='" + subgroup + '\'' +
                 ", government='" + government + '\'' +
                 ", commercial='" + commercial + '\'' +
                 ", full_time='" + full_time + '\'' +
                 ", distance='" + distance + '\'' +
                 ", state='" + state + '\'' +
                 ", department='" + department + '\'' +
-                ", military='" + military + '\'' +
                 ", orphan='" + orphan + '\'' +
                 ", disabled='" + disabled + '\'' +
                 '}';

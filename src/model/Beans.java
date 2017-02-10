@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Beans {
     static GetTime time = new GetTime();
 
-    public static Connection startConnection() {
+    private static Connection startConnection() {
         Connection connection = null;
         try {
             String driver = "com.mysql.jdbc.Driver";
@@ -39,7 +39,7 @@ public class Beans {
         return connection;
     }
 
-    public static void stopConnection(Connection connection) {
+    private static void stopConnection(Connection connection) {
         try {
             connection.close();
             if (connection.isClosed()) {
@@ -90,8 +90,55 @@ public class Beans {
         return bull;
     }
 
+    public static String qParamGroup(String query) {
+        String[] list = query.split(" ");
+        ArrayList<String> array = new ArrayList<>();
+        for (int i = 0; i < list.length; i++) {
+            array.add(list[i]);
+        }
+
+        for (int i = array.size(); i > 0; i--) {
+            if (i == array.size()) {
+                array.add(i, ")");
+            }
+            if (array.get(i).equals("AND")) {
+                array.add(i + 1, "(");
+                array.add(i, ")");
+            }
+            if (array.get(i).equals("WHERE")) {
+                array.add(i + 1, "(");
+            }
+        }
+
+        String result = "";
+        for (int i = 0; i < array.size(); i++) {
+            result = result + " " + array.get(i);
+        }
+
+        return result;
+    }
+
     public static String addQueryPart(String queryFull, String queryParam, String parameter) {
         if (parameter != null) {
+            if (qParam(queryFull, queryParam)) {
+                if (qParam(queryFull, "WHERE")) {
+                    queryFull = queryFull + " OR " + queryParam + " = '" + parameter + "'";
+                } else {
+                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                }
+            } else {
+                if (qParam(queryFull, "WHERE")) {
+                    queryFull = queryFull + " AND " + queryParam + " = '" + parameter + "'";
+                } else {
+                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                }
+            }
+        }
+        return queryFull;
+    }
+
+    public static String addQueryPartText(String queryFull, String queryParam, String parameter) {
+        if (!parameter.equals("")) {
             if (qParam(queryFull, queryParam)) {
                 if (qParam(queryFull, "WHERE")) {
                     queryFull = queryFull + " OR " + queryParam + " = '" + parameter + "'";
