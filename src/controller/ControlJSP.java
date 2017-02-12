@@ -17,7 +17,6 @@ public class ControlJSP extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         //Create variables with request parameters
         String mechanics = req.getParameter("mechanics");
         String engineers = req.getParameter("engineers");
@@ -93,13 +92,12 @@ public class ControlJSP extends HttpServlet {
         //ADD BRACKETS or ')' '('
         query = beans.qParamGroup(query);
 
-
         System.out.println(query);
         ArrayList<Student> storage = beans.getStudList(query);
         req.setAttribute("studList", storage);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/main_page.jsp");
         dispatcher.forward(req, resp);
-
     }
+
 }

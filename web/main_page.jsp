@@ -1,73 +1,59 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Dimitry
-  Date: 07.02.17
-  Time: 23:45
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Main page</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/users.css" rel="stylesheet">
-    <link href="css/sidebar.css" rel="stylesheet">
+    <title>Student DB</title>
+
+    <!-- Bootstrap CSS-->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Develops CSS -->
+    <link href="../css/users.css" rel="stylesheet">
+    <link href="../css/font_style.css" rel="stylesheet">
+    <link href="../css/stupidtable.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="javascript" src="../js/bootstrap.min.js"></script>
+
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+    <!-- Stupidtable plugin for sorting table-data-->
+    <script src="../js/stupidtable.js"></script>
+    <script>
+        $(function () {
+            $("table").stupidtable();
+        });
+    </script>
+
 </head>
 
 <body>
 
-<!-- Fixed top navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Add new student</a></li>
-                <li><a href="#">LogOut</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-collapse -->
-</nav>
-
-<!-- Header Jumbotron -->
-<div class="jumbotron text-center">
-    <h2>Student Database</h2>
-    <p>It's a page list of all students that are in your university!</p>
-</div>
+<jsp:include page="included_pages/fixedTopNavbar.jsp"/>
+<jsp:include page="included_pages/headerJumbotronDB.jsp"/>
 
 <!-- Body -->
 <div class="container">
     <div class="row">
+        <div class="col-sm-1"></div>
         <div class="col-sm-2">
 
             <!-- Sidebar -->
-            <div class="list-group">
+            <div class="list-group font-table">
                 <form action="control">
                     <c:forEach var="params" items="${paramsList}">
                         <h5>Specialization</h5>
@@ -216,7 +202,8 @@
                             </c:choose>
                             <c:choose>
                                 <c:when test="${!(params.subgroup == null)}">
-                                    <li><input type="text" placeholder="Subgroup" name="subgroup" value="${params.subgroup}">
+                                    <li><input type="text" placeholder="Subgroup" name="subgroup"
+                                               value="${params.subgroup}">
                                     </li>
                                 </c:when>
                                 <c:otherwise>
@@ -317,17 +304,16 @@
             </div>
 
         </div>
-        <div class="col-sm-10">
-
+        <div class="col-sm-8">
             <!-- Tables -->
             <div class="container">
-                <table class="table table-hover">
+                <table id="stupid" class="table table-hover font-table">
                     <thead>
                     <tr>
-                        <th>Surname</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Status</th>
+                        <th data-sort="string-ins">Surname</th>
+                        <th data-sort="string-ins">Firstname</th>
+                        <th data-sort="string-ins">Lastname</th>
+                        <th data-sort="string-ins">Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -342,30 +328,15 @@
                     </c:forEach>
 
                     </tbody>
+
                 </table>
             </div>
-
         </div>
+        <div class="col-sm-1"></div>
     </div>
 </div>
 
-<!-- Footer Jumbotron -->
-<div class="jumbotron text-center">
-    <p>To collaboration call: +38 (097) 709-18-32</p>
-    <p>Date on server: <%= new java.util.Date() %>
-    </p>
-    <p>Request user agent: <%= request.getHeader("User-Agent") %>
-    </p>
-    <p>Request language: <%= request.getLocale() %>
-    </p>
-    <p>Session id: <%= session.getId()%>
-    </p>
-</div>
+<jsp:include page="included_pages/footerJumbotron.jsp"/>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/sidebar.js"></script>
-<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

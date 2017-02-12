@@ -78,7 +78,33 @@ public class Beans {
         return storage;
     }
 
-    public static boolean qParam(String str, String word) {
+    public static String qJoins(String query, ArrayList<SortParams> params) {
+        SortParams sp = params.get(0);
+
+        if (sp.getBachelor() != null || sp.getSpecialist() != null || sp.getMaster() != null || sp.getFull_time() != null ||
+                sp.getDistance() != null || sp.getGovernment() != null || sp.getCommercial() != null ||
+                sp.getCourse1() != null || sp.getCourse2() != null || sp.getCourse3() != null ||
+                sp.getCourse4() != null || sp.getCourse5() != null || sp.getCourse6() != null) {
+            query = query + " INNER JOIN unfiles un ON stud.stud_id = un.stud_id";
+        }
+        if (sp.getOrphan() != null || sp.getDisabled() != null) {
+            query = query + " INNER JOIN exemptions ex ON stud.stud_id = ex.stud_id";
+        }
+        if (sp.getGroup() != null && sp.getSubgroup() != null) {
+            if (!sp.getGroup().equals("") || !sp.getSubgroup().equals("") || sp.getMechanics() != null || sp.getEngineers() != null) {
+                if (sp.getMechanics() != null || sp.getEngineers() != null) {
+                    query = query + " INNER JOIN groups gr ON stud.stud_id = gr.stud_id";
+                    query = query + " INNER JOIN specialities spec ON gr.spec_id = spec.spec_id";
+                } else if (!sp.getGroup().equals("") || !sp.getSubgroup().equals("")) {
+                    query = query + " INNER JOIN groups gr ON stud.stud_id = gr.stud_id";
+                }
+            }
+        }
+
+        return query;
+    }
+
+    private static boolean qParam(String str, String word) {
         Boolean bull = false;
         String[] list = str.split(" ");
         for (int i = 0; i < list.length; i++) {
@@ -96,17 +122,25 @@ public class Beans {
         for (int i = 0; i < list.length; i++) {
             array.add(list[i]);
         }
-
-        for (int i = array.size(); i > 0; i--) {
-            if (i == array.size()) {
-                array.add(i, ")");
-            }
-            if (array.get(i).equals("AND")) {
-                array.add(i + 1, "(");
-                array.add(i, ")");
-            }
+        boolean b = false;
+        for (int i = 0; i < array.size(); i++) {
             if (array.get(i).equals("WHERE")) {
-                array.add(i + 1, "(");
+                b = true;
+            }
+        }
+
+        if (b == true) {
+            for (int i = array.size(); i > 0; i--) {
+                if (i == array.size()) {
+                    array.add(i, ")");
+                }
+                if (array.get(i).equals("AND")) {
+                    array.add(i + 1, "(");
+                    array.add(i, ")");
+                }
+                if (array.get(i).equals("WHERE")) {
+                    array.add(i + 1, "(");
+                }
             }
         }
 
@@ -138,21 +172,24 @@ public class Beans {
     }
 
     public static String addQueryPartText(String queryFull, String queryParam, String parameter) {
-        if (!parameter.equals("")) {
-            if (qParam(queryFull, queryParam)) {
-                if (qParam(queryFull, "WHERE")) {
-                    queryFull = queryFull + " OR " + queryParam + " = '" + parameter + "'";
+        if (parameter != null) {
+            if (!parameter.equals("")) {
+                if (qParam(queryFull, queryParam)) {
+                    if (qParam(queryFull, "WHERE")) {
+                        queryFull = queryFull + " OR " + queryParam + " = '" + parameter + "'";
+                    } else {
+                        queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                    }
                 } else {
-                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
-                }
-            } else {
-                if (qParam(queryFull, "WHERE")) {
-                    queryFull = queryFull + " AND " + queryParam + " = '" + parameter + "'";
-                } else {
-                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                    if (qParam(queryFull, "WHERE")) {
+                        queryFull = queryFull + " AND " + queryParam + " = '" + parameter + "'";
+                    } else {
+                        queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                    }
                 }
             }
         }
+
         return queryFull;
     }
 

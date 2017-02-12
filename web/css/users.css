@@ -29,3 +29,24 @@ table tr td {
 .container {
     width: 100%;
 }
+.form-control {
+    height: 24px;
+    padding: 1px;
+    border-radius: 3px;
+}
+.col-un-padding {
+    padding-right: 15px;
+    padding-left: 0px;
+}
+.select-form {
+    height: 24px;
+}
+.normal-area-input {
+    height: 34px;
+    padding: 3px;
+    border-radius: 3px;
+}
+.option-style {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -1,26 +1,18 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <servlet>
-        <servlet-name>Mainpage</servlet-name>
-        <servlet-class>view.Mainpage</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Mainpage</servlet-name>
-        <url-pattern>/main_page</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>controller.Controller</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/controller</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>ControlJSP</servlet-name>
         <servlet-class>controller.ControlJSP</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ControlJSP</servlet-name>
         <url-pattern>/control</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Control_panel</servlet-name>
+        <servlet-class>controller.Control_panel</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Control_panel</servlet-name>
+        <url-pattern>/control_panel</url-pattern>
     </servlet-mapping>
 </web-app>
