@@ -163,13 +163,6 @@
                                     <c:forEach var="groupList" items="${groupList}">
                                         <option>${groupList.number}</option>
                                     </c:forEach>
-                                    <%--<option>M16.23</option>--%>
-                                    <%--<option>M16.22</option>--%>
-                                    <%--<option>M16.21</option>--%>
-                                    <%--<option>M16.20</option>--%>
-                                    <%--<option>A16.12</option>--%>
-                                    <%--<option>A16.11</option>--%>
-                                    <%--<option>A16.10</option>--%>
                                 </select>
                             </td>
                             <td class="col-sm-2">

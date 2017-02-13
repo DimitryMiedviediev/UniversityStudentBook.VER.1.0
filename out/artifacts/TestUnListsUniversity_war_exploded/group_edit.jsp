@@ -56,75 +56,79 @@
                     <tbody>
                     <tr>
                         <c:forEach var="group" items="${group}">
-                        <form action="control_panel">
-                            <td class="col-sm-6">
-                                <div class="col-sm-4 col-un-padding">
-                                    <select name="cr_gr_spec" class="center-block option-style" required>
-                                        <c:choose>
-                                            <c:when test="${group.speciality == 'Mechanics'}">
-                                                <option selected>Mechanics</option>
-                                                <option>Engineers</option>
-                                            </c:when>
-                                            <c:when test="${group.speciality == 'Engineers'}">
-                                                <option selected>Engineers</option>
-                                                <option>Mechanics</option>
-                                            </c:when>
-                                        </c:choose>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4 col-un-padding">
-                                    <select name="cr_gr_qual" class="center-block option-style" required>
-                                        <c:choose>
-                                            <c:when test="${group.qualificationLevel == 'Bachelor'}">
-                                                <option selected>Bachelor</option>
-                                                <option>Specialist</option>
-                                                <option>Master</option>
-                                            </c:when>
-                                            <c:when test="${group.qualificationLevel == 'Specialist'}">
-                                                <option selected>Specialist</option>
-                                                <option>Bachelor</option>
-                                                <option>Master</option>
-                                            </c:when>
-                                            <c:when test="${group.qualificationLevel == 'Master'}">
-                                                <option selected>Master</option>
-                                                <option>Bachelor</option>
-                                                <option>Specialist</option>
-                                            </c:when>
-                                        </c:choose>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4 col-un-padding">
-                                    <select name="cr_gr_form" class="center-block option-style" required>
-                                        <option selected>Full time</option>
-                                        <option>Distance</option>
-                                        <c:choose>
-                                            <c:when test="${group.educationForm == 'Full time'}">
-                                                <option selected>Full time</option>
-                                                <option>Distance</option>
-                                            </c:when>
-                                            <c:when test="${group.educationForm == 'Distance'}">
-                                                <option selected>Distance</option>
-                                                <option>Full time</option>
-                                            </c:when>
-                                        </c:choose>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6 col-un-padding">
-                                    <input type="text" maxlength="10" class="form-control normal-area-input"
-                                           placeholder="Group num"
-                                           name="cr_gr_num" value="${group.number}">
-                                </div>
-                                <div class="col-sm-6 col-un-padding">
-                                    <input type="text" maxlength="1" class="form-control normal-area-input"
-                                           placeholder="Course"
-                                           name="cr_gr_cource" value="${group.course}">
-                                </div>
-                            </td>
-                            <td class="col-sm-2">
-                                <input type="submit" value="Submit" name="edit_group_submit" class="btn btn-default btn-md btn-block"/>
-                                <input type="submit" value="Cancel" name="cancel" class="btn btn-default btn-md btn-block"/>
-                            </td>
-                        </form>
+                            <form action="control_panel">
+                                <td class="col-sm-6">
+                                    <div class="col-sm-4 col-un-padding">
+                                        <select name="cr_gr_spec" class="center-block option-style" required>
+                                            <c:forEach var="specList" items="${specList}">
+                                                <c:choose>
+                                                    <c:when test="${group.specId == specList.id}">
+                                                        <option selected>${specList.speciality}</option>
+                                                    </c:when>
+                                                    <c:when test="${group.specId != specList.id}">
+                                                        <option>${specList.speciality}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 col-un-padding">
+                                        <select name="cr_gr_qual" class="center-block option-style" required>
+                                            <c:choose>
+                                                <c:when test="${group.qualificationLevel == 'Bachelor'}">
+                                                    <option selected>Bachelor</option>
+                                                    <option>Specialist</option>
+                                                    <option>Master</option>
+                                                </c:when>
+                                                <c:when test="${group.qualificationLevel == 'Specialist'}">
+                                                    <option selected>Specialist</option>
+                                                    <option>Bachelor</option>
+                                                    <option>Master</option>
+                                                </c:when>
+                                                <c:when test="${group.qualificationLevel == 'Master'}">
+                                                    <option selected>Master</option>
+                                                    <option>Bachelor</option>
+                                                    <option>Specialist</option>
+                                                </c:when>
+                                            </c:choose>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 col-un-padding">
+                                        <select name="cr_gr_form" class="center-block option-style" required>
+                                            <c:choose>
+                                                <c:when test="${group.educationForm == 'Full time'}">
+                                                    <option selected>Full time</option>
+                                                    <option>Distance</option>
+                                                </c:when>
+                                                <c:when test="${group.educationForm == 'Distance'}">
+                                                    <option selected>Distance</option>
+                                                    <option>Full time</option>
+                                                </c:when>
+                                            </c:choose>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6 col-un-padding">
+                                        <input type="text" maxlength="10" class="form-control normal-area-input"
+                                               placeholder="Group num"
+                                               name="cr_gr_num" value="${group.number}">
+                                    </div>
+                                    <div class="col-sm-6 col-un-padding">
+                                        <input type="text" maxlength="1" class="form-control normal-area-input"
+                                               placeholder="Course"
+                                               name="cr_gr_cource" value="${group.course}">
+                                    </div>
+                                    <div>
+                                        <input type="hidden" class="form-control normal-area-input"
+                                               name="cr_gr_id" value="${group.groupId}">
+                                    </div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Submit" name="edit_group_submit"
+                                           class="btn btn-default btn-md btn-block"/>
+                                    <input type="submit" value="Cancel" name="cancel"
+                                           class="btn btn-default btn-md btn-block"/>
+                                </td>
+                            </form>
                         </c:forEach>
                     </tr>
                     </tbody>

@@ -307,7 +307,6 @@ public class Beans {
     /**
      * Working with groups in control panel and calling pages
      */
-
     public void createNewGroup(String speciality, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
         Connection conn = startConnection();
 
@@ -364,6 +363,78 @@ public class Beans {
 
 
         return storage;
+    }
+
+    public ArrayList<Group> getOneGroup(String groupNum){
+        ArrayList<Group> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog("studDB");
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_num = \""+ groupNum + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String groupId = resultSet.getString(meta.getColumnName(1));
+                String specId = resultSet.getString(meta.getColumnName(2));
+                String number = resultSet.getString(meta.getColumnName(3));
+                String educationForm = resultSet.getString(meta.getColumnName(4));
+                String qualificationLevel = resultSet.getString(meta.getColumnName(5));
+                String course = resultSet.getString(meta.getColumnName(6));
+                storage.add(new Group(groupId, specId, number, educationForm, qualificationLevel, course));
+            }
+
+            System.out.println("List of editGroup:" + storage);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public void editGroup(String groupId, String specName, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("studDB");
+            Statement statement = conn.createStatement();
+            String specId = null;
+            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \""+ specName + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+            while (resultSet.next()) {
+                specId = resultSet.getString(meta.getColumnName(1));
+            }
+            String query = "UPDATE groups SET spec_id = \"" + specId + "\", group_num = \"" + groupNum + "\", group_educ_form = \""
+                    + groupEducForm + "\", group_qual = \"" + groupEducQual + "\", group_course = \"" + groupCourse + "\" WHERE group_id = \"" + groupId + "\"";
+            if ((!groupNum.equals(""))&&(!groupCourse.equals(""))) {
+                statement.executeUpdate(query);
+                System.out.println("Query edit group: " + query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    public void deleteGroup(String groupNum){
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("studDB");
+            Statement statement = conn.createStatement();
+            String query = "DELETE FROM groups WHERE group_num = \"" + groupNum + "\"";
+            System.out.println("Query delete group: " + query);
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
     }
 
 }
