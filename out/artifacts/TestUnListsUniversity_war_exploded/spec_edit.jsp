@@ -58,13 +58,14 @@
                         <form action="control_panel">
                             <td class="col-sm-6">
                                 <div class="col-sm-12 col-un-padding">
-                                    <input type="text" maxlength="30" class="form-control normal-area-input"
-                                           placeholder="Name of new speciality"
-                                           name="spec_update">
+                                    <c:forEach var="oneSpec" items="${oneSpec}">
+                                        <input type="text" maxlength="30" class="form-control normal-area-input" placeholder="Name of new speciality" name="spec_name" value="${oneSpec.speciality}">
+                                        <input type="hidden" maxlength="30" class="form-control normal-area-input" placeholder="Name of new speciality" name="spec_id" value="${oneSpec.id}">
+                                    </c:forEach>
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Submit" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Submit" name="edit_spec_submit" class="btn btn-default btn-md btn-block"/>
                                 <button formaction="control_panel" class="btn btn-default btn-md btn-block">Cancel
                                 </button>
                             </td>

@@ -64,7 +64,8 @@
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Create" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Create" name="cr_new_spec"
+                                       class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                     </tr>
@@ -75,12 +76,14 @@
                             <td class="col-sm-6">
                                 <select name="edit_speciality" class="center-block option-style">
                                     <option selected disabled>Check something value</option>
-                                    <option>Mechanics</option>
-                                    <option>Engineers</option>
+                                    <c:forEach var="specList" items="${specList}">
+                                        <option>${specList.speciality}</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Edit" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Edit" name="edit_spec"
+                                       class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                     </tr>
@@ -91,12 +94,14 @@
                             <td class="col-sm-6">
                                 <select name="delete_speciality" class="center-block option-style">
                                     <option selected disabled>Check something value</option>
-                                    <option>Mechanics</option>
-                                    <option>Engineers</option>
+                                    <c:forEach var="specList" items="${specList}">
+                                        <option>${specList.speciality}</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Delete" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Delete" name="del_spec"
+                                       class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                     </tr>
@@ -113,8 +118,9 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="cr_gr_spec" class="center-block option-style" required>
-                                        <option selected>Mechanics</option>
-                                        <option>Engineers</option>
+                                        <c:forEach var="specList" items="${specList}">
+                                            <option>${specList.speciality}</option>
+                                        </c:forEach>
                                     </select>
                                 </div>
                                 <div class="col-sm-4 col-un-padding">
@@ -142,7 +148,8 @@
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Create" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Create" name="btn_gr_create"
+                                       class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                     </tr>
@@ -153,17 +160,21 @@
                             <td class="col-sm-6">
                                 <select name="group_edit" class="center-block option-style" required>
                                     <option selected disabled>Check something value</option>
-                                    <option>M16.23</option>
-                                    <option>M16.22</option>
-                                    <option>M16.21</option>
-                                    <option>M16.20</option>
-                                    <option>A16.12</option>
-                                    <option>A16.11</option>
-                                    <option>A16.10</option>
+                                    <c:forEach var="groupList" items="${groupList}">
+                                        <option>${groupList.number}</option>
+                                    </c:forEach>
+                                    <%--<option>M16.23</option>--%>
+                                    <%--<option>M16.22</option>--%>
+                                    <%--<option>M16.21</option>--%>
+                                    <%--<option>M16.20</option>--%>
+                                    <%--<option>A16.12</option>--%>
+                                    <%--<option>A16.11</option>--%>
+                                    <%--<option>A16.10</option>--%>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Edit" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Edit" name="edit_group"
+                                       class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                     </tr>
@@ -174,17 +185,14 @@
                             <td class="col-sm-6">
                                 <select name="group_delete" class="center-block option-style">
                                     <option selected disabled>Check something value</option>
-                                    <option>M16.23</option>
-                                    <option>M16.22</option>
-                                    <option>M16.21</option>
-                                    <option>M16.20</option>
-                                    <option>A16.12</option>
-                                    <option>A16.11</option>
-                                    <option>A16.10</option>
+                                    <c:forEach var="groupList" items="${groupList}">
+                                        <option>${groupList.number}</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Delete" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Delete" name="del_group"
+                                       class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                     </tr>

@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * Created by Dimitry on 07.02.17.
  */
 public class Beans {
-    static GetTime time = new GetTime();
+    GetTime time = new GetTime();
 
-    private static Connection startConnection() {
+    private Connection startConnection() {
         Connection connection = null;
         try {
             String driver = "com.mysql.jdbc.Driver";
@@ -39,7 +39,7 @@ public class Beans {
         return connection;
     }
 
-    private static void stopConnection(Connection connection) {
+    private void stopConnection(Connection connection) {
         try {
             connection.close();
             if (connection.isClosed()) {
@@ -50,7 +50,7 @@ public class Beans {
         }
     }
 
-    public static ArrayList<Student> getStudList(String query) {
+    public ArrayList<Student> getStudList(String query) {
 
         ArrayList<Student> storage = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class Beans {
         return storage;
     }
 
-    public static String qJoins(String query, ArrayList<SortParams> params) {
+    public String qJoins(String query, ArrayList<SortParams> params) {
         SortParams sp = params.get(0);
 
         if (sp.getBachelor() != null || sp.getSpecialist() != null || sp.getMaster() != null || sp.getFull_time() != null ||
@@ -104,7 +104,7 @@ public class Beans {
         return query;
     }
 
-    private static boolean qParam(String str, String word) {
+    private boolean qParam(String str, String word) {
         Boolean bull = false;
         String[] list = str.split(" ");
         for (int i = 0; i < list.length; i++) {
@@ -116,7 +116,7 @@ public class Beans {
         return bull;
     }
 
-    public static String qParamGroup(String query) {
+    public String qParamGroup(String query) {
         String[] list = query.split(" ");
         ArrayList<String> array = new ArrayList<>();
         for (int i = 0; i < list.length; i++) {
@@ -152,7 +152,7 @@ public class Beans {
         return result;
     }
 
-    public static String addQueryPart(String queryFull, String queryParam, String parameter) {
+    public String addQueryPart(String queryFull, String queryParam, String parameter) {
         if (parameter != null) {
             if (qParam(queryFull, queryParam)) {
                 if (qParam(queryFull, "WHERE")) {
@@ -171,7 +171,7 @@ public class Beans {
         return queryFull;
     }
 
-    public static String addQueryPartText(String queryFull, String queryParam, String parameter) {
+    public String addQueryPartText(String queryFull, String queryParam, String parameter) {
         if (parameter != null) {
             if (!parameter.equals("")) {
                 if (qParam(queryFull, queryParam)) {
@@ -191,6 +191,179 @@ public class Beans {
         }
 
         return queryFull;
+    }
+
+
+    /**
+     * Working with specialities in control panel and calling pages
+     */
+    public void createNewSpec(String newSpecName) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("studDB");
+            Statement statement = conn.createStatement();
+            String query = "INSERT INTO specialities (spec_name) VALUES (\"" + newSpecName + "\")";
+            if (!newSpecName.equals("")) {
+                statement.executeUpdate(query);
+                System.out.println("Query create speciality: " + query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    public ArrayList<Speciality> getSpecList() {
+        ArrayList<Speciality> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog("studDB");
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString(meta.getColumnName(1));
+                String speciality = resultSet.getString(meta.getColumnName(2));
+                storage.add(new Speciality(id, speciality));
+            }
+
+            System.out.println("List of speciality:" + storage);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public ArrayList<Speciality> getOneSpec(String nameSpec){
+        ArrayList<Speciality> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog("studDB");
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities WHERE spec_name = \""+ nameSpec + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString(meta.getColumnName(1));
+                String speciality = resultSet.getString(meta.getColumnName(2));
+                storage.add(new Speciality(id, speciality));
+            }
+
+            System.out.println("List of editspec:" + storage);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public void editSpec(String specId, String newName) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("studDB");
+            Statement statement = conn.createStatement();
+            String query = "UPDATE specialities SET spec_name = \"" + newName + "\" WHERE id_spec = \"" + specId + "\"";
+            if (!newName.equals("")) {
+                statement.executeUpdate(query);
+                System.out.println("Query create speciality: " + query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    public void deleteSpec(String nameSpec){
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("studDB");
+            Statement statement = conn.createStatement();
+//            String query = "DELETE FROM specialities WHERE spec_name = \"" + nameSpec + "\")";
+            String query = "DELETE FROM specialities WHERE spec_name = \"" + nameSpec + "\"";
+            System.out.println("Query create speciality: " + query);
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    /**
+     * Working with groups in control panel and calling pages
+     */
+
+    public void createNewGroup(String speciality, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("studDB");
+            Statement statement = conn.createStatement();
+
+            String specId = null;
+            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \""+ speciality + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+            while (resultSet.next()) {
+                specId = resultSet.getString(meta.getColumnName(1));
+            }
+
+            String query = "INSERT INTO groups (spec_id, group_num, group_educ_form, group_qual, group_course) " +
+                    "VALUES (\"" + specId + "\" , \"" + groupNum + "\" , \"" + groupEducForm + "\" , \"" + groupEducQual + "\" , \"" + groupCourse + "\")";
+            if ((!specId.equals(""))&&(!groupNum.equals(""))&&(!groupCourse.equals(""))) {
+                statement.executeUpdate(query);
+                System.out.println("Query create speciality: " + query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    public ArrayList<Group> getGroupList() {
+        ArrayList<Group> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog("studDB");
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String groupId = resultSet.getString(meta.getColumnName(1));
+                String specId = resultSet.getString(meta.getColumnName(2));
+                String groupNum = resultSet.getString(meta.getColumnName(3));
+                String groupEducForm = resultSet.getString(meta.getColumnName(4));
+                String groupQual = resultSet.getString(meta.getColumnName(5));
+                String groupCourse = resultSet.getString(meta.getColumnName(6));
+                storage.add(new Group(groupId, specId, groupNum, groupEducForm, groupQual, groupCourse));
+            }
+
+            System.out.println("List of groups:" + storage);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
     }
 
 }

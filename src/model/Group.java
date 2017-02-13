@@ -4,6 +4,7 @@ package model;
  * Created by Dimitry on 12.02.17.
  */
 public class Group {
+    private String groupId;
     private String speciality;
     private String qualificationLevel;
     private String educationForm;
@@ -13,12 +14,21 @@ public class Group {
     public Group() {
     }
 
-    public Group(String speciality, String qualificationLevel, String educationForm, String number, String course) {
+    public Group(String groupId, String speciality, String qualificationLevel, String educationForm, String number, String course) {
+        this.groupId = groupId;
         this.speciality = speciality;
         this.qualificationLevel = qualificationLevel;
         this.educationForm = educationForm;
         this.number = number;
         this.course = course;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getSpeciality() {
@@ -68,6 +78,7 @@ public class Group {
 
         Group group = (Group) o;
 
+        if (groupId != null ? !groupId.equals(group.groupId) : group.groupId != null) return false;
         if (speciality != null ? !speciality.equals(group.speciality) : group.speciality != null) return false;
         if (qualificationLevel != null ? !qualificationLevel.equals(group.qualificationLevel) : group.qualificationLevel != null)
             return false;
@@ -79,7 +90,8 @@ public class Group {
 
     @Override
     public int hashCode() {
-        int result = speciality != null ? speciality.hashCode() : 0;
+        int result = groupId != null ? groupId.hashCode() : 0;
+        result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
         result = 31 * result + (qualificationLevel != null ? qualificationLevel.hashCode() : 0);
         result = 31 * result + (educationForm != null ? educationForm.hashCode() : 0);
         result = 31 * result + (number != null ? number.hashCode() : 0);
@@ -90,7 +102,8 @@ public class Group {
     @Override
     public String toString() {
         return "Group{" +
-                "speciality='" + speciality + '\'' +
+                "groupId='" + groupId + '\'' +
+                ", speciality='" + speciality + '\'' +
                 ", qualificationLevel='" + qualificationLevel + '\'' +
                 ", educationForm='" + educationForm + '\'' +
                 ", number='" + number + '\'' +

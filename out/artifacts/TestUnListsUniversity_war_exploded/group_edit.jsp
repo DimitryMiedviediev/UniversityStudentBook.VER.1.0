@@ -121,9 +121,8 @@
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Submit" class="btn btn-default btn-md btn-block"/>
-                                <button formaction="control_panel" class="btn btn-default btn-md btn-block">Cancel
-                                </button>
+                                <input type="submit" value="Submit" name="edit_group_submit" class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Cancel" name="cancel" class="btn btn-default btn-md btn-block"/>
                             </td>
                         </form>
                         </c:forEach>
