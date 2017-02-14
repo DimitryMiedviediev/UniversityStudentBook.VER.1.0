@@ -41,25 +41,25 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $( function() {
-            $( "#datepicker1" ).datepicker();
-        } );
+        $(function () {
+            $("#datepicker1").datepicker();
+        });
     </script>
     <script>
-        $( function() {
-            $( "#datepicker2" ).datepicker();
-        } );
+        $(function () {
+            $("#datepicker2").datepicker();
+        });
     </script>
     <script>
-        $( function() {
-            $( "#datepicker3" ).datepicker();
-        } );
+        $(function () {
+            $("#datepicker3").datepicker();
+        });
     </script>
 
     <!-- jQuery mask for input types -->
     <script type="text/javascript" src="../js/jquery.mask.js"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $('.date').mask('00/00/0000');
             $('.time').mask('00:00:00');
             $('.date_time').mask('00/00/0000 00:00:00');
@@ -84,23 +84,26 @@
 
             $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
 
-            $('.cep_with_callback').mask('00000-000', {onComplete: function(cep) {
-                console.log('Mask is done!:', cep);
-            },
-                onKeyPress: function(cep, event, currentField, options){
+            $('.cep_with_callback').mask('00000-000', {
+                onComplete: function (cep) {
+                    console.log('Mask is done!:', cep);
+                },
+                onKeyPress: function (cep, event, currentField, options) {
                     console.log('An key was pressed!:', cep, ' event: ', event, 'currentField: ', currentField.attr('class'), ' options: ', options);
                 },
-                onInvalid: function(val, e, field, invalid, options){
+                onInvalid: function (val, e, field, invalid, options) {
                     var error = invalid[0];
-                    console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
+                    console.log("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
                 }
             });
 
-            $('.crazy_cep').mask('00000-000', {onKeyPress: function(cep, e, field, options){
-                var masks = ['00000-000', '0-00-00-00'];
-                mask = (cep.length>7) ? masks[1] : masks[0];
-                $('.crazy_cep').mask(mask, options);
-            }});
+            $('.crazy_cep').mask('00000-000', {
+                onKeyPress: function (cep, e, field, options) {
+                    var masks = ['00000-000', '0-00-00-00'];
+                    mask = (cep.length > 7) ? masks[1] : masks[0];
+                    $('.crazy_cep').mask(mask, options);
+                }
+            });
 
             $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
             $('.cpf').mask('000.000.000-00', {reverse: true});
@@ -110,22 +113,23 @@
                     return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
                 },
                 spOptions = {
-                    onKeyPress: function(val, e, field, options) {
+                    onKeyPress: function (val, e, field, options) {
                         field.mask(SPMaskBehavior.apply({}, arguments), options);
                     }
                 };
 
             $('.sp_celphones').mask(SPMaskBehavior, spOptions);
 
-            $(".bt-mask-it").click(function(){
+            $(".bt-mask-it").click(function () {
                 $(".mask-on-div").mask("000.000.000-00");
                 $(".mask-on-div").fadeOut(500).fadeIn(500)
             })
 
-            $('pre').each(function(i, e) {hljs.highlightBlock(e)});
+            $('pre').each(function (i, e) {
+                hljs.highlightBlock(e)
+            });
         });
     </script>
-
 
 
 </head>
@@ -133,355 +137,361 @@
 <body>
 
 <jsp:include page="included_pages/fixedTopNavbar.jsp"/>
-<jsp:include page="included_pages/headerJumbotronProfileAdd.jsp"/>
+
+<!-- Header Jumbotron -->
+<div class="jumbotron text-center">
+    <h2>Додати студента</h2>
+    <p>Тут ви можете ввести дані нового студента!</p>
+</div>
 
 <!-- Body -->
 <div class="container">
     <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-2">
-            <!-- Profile photo -->
-            <div class="center-block">
-                <input type="file" name="pic" accept="image/*">
-            </div>
+        <form action="student_add" method="post">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2">
+                <!-- Profile photo -->
+                <div class="center-block">
+                    <input type="file" name="pic" accept="image/*">
+                </div>
 
-            <div style="padding: 10px"></div>
+                <div style="padding: 10px"></div>
 
-            <!-- Buttons area -->
-            <input type="submit" value="Save" class="btn btn-default btn-sm btn-block"/>
-        </div>
-        <div class="col-sm-8">
-            <!-- Information -->
-            <div class="container">
-
-                <table class="table table-condensed font-table">
-                    <!-- University information -->
-                    <thead>
-                    <tr>
-                        <th class="col-sm-2"><h4><b>Parameter</b></h4></th>
-                        <th class="col-sm-6"><h4><b>University Information</b></h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Full name:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Name"
-                                       name="name_student">
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Surname"
-                                       name="surname_student">
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Lastname"
-                                       name="lastname_student">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Entry date:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" class="date form-control" placeholder="Entry date" name="date_entry"
-                                       id="datepicker1">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Status:</td>
-                        <td class="col-sm-6">
-                            <select name="status" required>
-                                <option selected>Educate</option>
-                                <option>Expelled</option>
-                                <option>Academic vacation</option>
-                                <option>Graduate</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Group/Subgroup:</td>
-                        <td class="col-sm-2">
-                            <select name="group" required>
-                                <option selected disabled>Group</option>
-                                <option>M16.23</option>
-                                <option>M16.22</option>
-                                <option>M16.21</option>
-                                <option>M16.20</option>
-                                <option>A16.12</option>
-                                <option>A16.11</option>
-                                <option>A16.10</option>
-                            </select>
-                            <select name="subgroup">
-                                <option selected disabled>Subgroup</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Financing:</td>
-                        <td class="col-sm-6"><select name="financing" required>
-                            <option selected disabled>Financing</option>
-                            <option>Government</option>
-                            <option>Commercial</option>
-                        </select></td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Stud book:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="8" class="form-control" placeholder="Stud book"
-                                       name="stud_book">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                    <!-- Spase cap -->
-                    <tbody>
-                    <tr></tr>
-                    </tbody>
-
-                    <!-- Student information -->
-                    <thead>
-                    <tr>
-                        <th class="col-sm-2"><h4><b>Parameter</b></h4></th>
-                        <th class="col-sm-6"><h4><b>Student Information</b></h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Birth date:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" class="date form-control" placeholder="Birth date" name="date_birth"
-                                       id="datepicker2">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <td class="col-sm-2">Passport:</td>
-                    <td class="col-sm-6">
-                        <div class="col-sm-4 col-un-padding">
-                            <input type="text" maxlength="8" class="form-control" placeholder="Serial number"
-                                   name="passp_serial">
-                        </div>
-                    </td>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Passport office:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-12 col-un-padding">
-                                <input type="text" class="form-control" placeholder="Passport office"
-                                       name="passp_office">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Passport date-release:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" class="date form-control" placeholder="Date release"
-                                       name="date_release"
-                                       id="datepicker3">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Identity code:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="10" class="form-control" placeholder="Identification code"
-                                       name="identify_code">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Address:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-12 col-un-padding">
-                                <input id="autocomplete1" class="form-control" placeholder="Enter address"
-                                       type="text"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="street_number1" class="form-control" placeholder="House"
-                                       name="student_house" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="route1" class="form-control" placeholder="Street"
-                                       name="student_street" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="locality1" class="form-control" placeholder="City"
-                                       name="student_city" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="administrative_area_level_11" class="form-control" placeholder="State"
-                                       name="student_state" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="postal_code1" class="form-control" placeholder="ZIP code"
-                                       name="student_zip" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="country1" class="form-control" placeholder="Country"
-                                       name="student_country" disabled="true"></input>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <td class="col-sm-2">Phone number:</td>
-                    <td class="col-sm-6">
-                        <div class="col-sm-6 col-un-padding">
-                            <input type="text" class="phone_us form-control" placeholder="First phone"
-                                   name="student_phone_1">
-                        </div>
-                        <div class="col-sm-6 col-un-padding">
-                            <input type="text" class="phone_us form-control" placeholder="Second phone"
-                                   name="student_phone_2">
-                        </div>
-                    </td>
-                    </tbody>
-
-                    <!-- Spase cap -->
-                    <tbody>
-                    <tr></tr>
-                    </tbody>
-
-                    <!-- Parents information -->
-                    <thead>
-                    <tr>
-                        <th class="col-sm-2"><h4><b>Parameter</b></h4></th>
-                        <th class="col-sm-6"><h4><b>Parents Information</b></h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Father full name:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Name"
-                                       name="name_father">
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Surname"
-                                       name="surname_father">
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Lastname"
-                                       name="lastname_father">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <td class="col-sm-2">Phone number:</td>
-                    <td class="col-sm-6">
-                        <div class="col-sm-6 col-un-padding">
-                            <input type="text" class="phone_us form-control" placeholder="First phone"
-                                   name="father_phone_1">
-                        </div>
-                        <div class="col-sm-6 col-un-padding">
-                            <input type="text" class="phone_us form-control" placeholder="Second phone"
-                                   name="father_phone_2">
-                        </div>
-                    </td>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Mother full name:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Name"
-                                       name="name_mother">
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Surname"
-                                       name="surname_mother">
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Lastname"
-                                       name="lastname_mother">
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <td class="col-sm-2">Phone number:</td>
-                    <td class="col-sm-6">
-                        <div class="col-sm-6 col-un-padding">
-                            <input type="text" class="phone_us form-control" placeholder="First phone"
-                                   name="mother_phone_1">
-                        </div>
-                        <div class="col-sm-6 col-un-padding">
-                            <input type="text" class="phone_us form-control" placeholder="Second phone"
-                                   name="mother_phone_2">
-                        </div>
-                    </td>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td class="col-sm-2">Address:</td>
-                        <td class="col-sm-6">
-                            <div class="col-sm-12 col-un-padding">
-                                <input id="autocomplete2" class="form-control" placeholder="Enter address"
-                                       type="text"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="street_number2" class="form-control" placeholder="House"
-                                       name="parent_house" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="route2" class="form-control" placeholder="Street"
-                                       name="parent_street" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="locality2" class="form-control" placeholder="City"
-                                       name="parent_city" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="administrative_area_level_12" class="form-control" placeholder="State"
-                                       name="parent_state" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="postal_code2" class="form-control" placeholder="ZIP code"
-                                       name="parent_zip" disabled="true"></input>
-                            </div>
-                            <div class="col-sm-4 col-un-padding">
-                                <input id="country2" class="form-control" placeholder="Country"
-                                       name="parent_country" disabled="true"></input>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <!-- Buttons area -->
+                <input type="submit" name="save_btn" value="Зберегти" class="btn btn-default btn-sm btn-block" formmethod="post"/>
+                <input type="submit" name="clear_btn" value="Очистити" class="btn btn-default btn-sm btn-block" formmethod="post"/>
 
             </div>
+            <div class="col-sm-8">
+                <!-- Information -->
+                <div class="container">
 
-        </div>
-        <div class="col-sm-1"></div>
+                    <table class="table table-condensed font-table">
+                        <!-- University information -->
+                        <thead>
+                        <tr>
+                            <th class="col-sm-2"><h4><b>Параметр</b></h4></th>
+                            <th class="col-sm-6"><h4><b>Університетська інформація</b></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">ФІО:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Фамілія"
+                                           name="surname_student">
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Ім'я"
+                                           name="name_student">
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="По-батькові"
+                                           name="lastname_student">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Дата вступу:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" class="date form-control" placeholder="Дата вступу"
+                                           name="date_entry"
+                                           id="datepicker1">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Статус:</td>
+                            <td class="col-sm-6">
+                                <select name="status" required>
+                                    <option selected>Навчається</option>
+                                    <option>Відрахований</option>
+                                    <option>Академічна відпустка</option>
+                                    <option>Закінчив навчання</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Група/Підгрупа:</td>
+                            <td class="col-sm-2">
+                                <select name="group" required>
+                                    <c:forEach var="groupList" items="${groupList}">
+                                        <option>${groupList.number}</option>
+                                    </c:forEach>
+                                </select>
+                                <select name="subgroup">
+                                    <option selected disabled>Підгрупа</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Фінансування:</td>
+                            <td class="col-sm-6"><select name="financing" required>
+                                <option selected>Державне</option>
+                                <option>Комерційне</option>
+                            </select></td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Номер заліковки:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="8" class="form-control" placeholder="Номер заліковки"
+                                           name="stud_book">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        <!-- Spase cap -->
+                        <tbody>
+                        <tr></tr>
+                        </tbody>
+
+                        <!-- Student information -->
+                        <thead>
+                        <tr>
+                            <th class="col-sm-2"><h4><b>Параметр</b></h4></th>
+                            <th class="col-sm-6"><h4><b>Особиста інформація</b></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Дата народження:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" class="date form-control" placeholder="Дата народження"
+                                           name="date_birth"
+                                           id="datepicker2">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <td class="col-sm-2">Номер паспорту:</td>
+                        <td class="col-sm-6">
+                            <div class="col-sm-4 col-un-padding">
+                                <input type="text" maxlength="8" class="form-control" placeholder="Номер паспорту"
+                                       name="passp_serial">
+                            </div>
+                        </td>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Паспорт виданий:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-12 col-un-padding">
+                                    <input type="text" class="form-control" placeholder="Ким виданий"
+                                           name="passp_office">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Дата видачі паспорту:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" class="date form-control" placeholder="Коли виданий"
+                                           name="date_release"
+                                           id="datepicker3">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Ідентифікаційний код:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="10" class="form-control"
+                                           placeholder="Ідентифікаційний код"
+                                           name="identity_code">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Адреса:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-12 col-un-padding">
+                                    <input id="autocomplete1" class="form-control" placeholder="Введіть адресу"
+                                           type="text"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="street_number1" class="form-control" placeholder="Будинок"
+                                           name="student_house" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="route1" class="form-control" placeholder="Вулиця"
+                                           name="student_street" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="locality1" class="form-control" placeholder="Місто"
+                                           name="student_city" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="administrative_area_level_11" class="form-control" placeholder="Область"
+                                           name="student_state" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="postal_code1" class="form-control" placeholder="Індекс"
+                                           name="student_zip" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="country1" class="form-control" placeholder="Країна"
+                                           name="student_country" disabled="true"></input>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <td class="col-sm-2">Номер телефону:</td>
+                        <td class="col-sm-6">
+                            <div class="col-sm-6 col-un-padding">
+                                <input type="text" class="phone_us form-control" placeholder="Перший номер"
+                                       name="student_phone_1">
+                            </div>
+                            <div class="col-sm-6 col-un-padding">
+                                <input type="text" class="phone_us form-control" placeholder="Другий номер"
+                                       name="student_phone_2">
+                            </div>
+                        </td>
+                        </tbody>
+
+                        <!-- Spase cap -->
+                        <tbody>
+                        <tr></tr>
+                        </tbody>
+
+                        <!-- Parents information -->
+                        <thead>
+                        <tr>
+                            <th class="col-sm-2"><h4><b>Параметр</b></h4></th>
+                            <th class="col-sm-6"><h4><b>Інформація про батьків</b></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">ФІО батька:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Фамілія"
+                                           name="surname_father">
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Ім'я"
+                                           name="name_father">
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="По-батькові"
+                                           name="lastname_father">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <td class="col-sm-2">Номер телефону:</td>
+                        <td class="col-sm-6">
+                            <div class="col-sm-6 col-un-padding">
+                                <input type="text" class="phone_us form-control" placeholder="Перший номер"
+                                       name="father_phone_1">
+                            </div>
+                            <div class="col-sm-6 col-un-padding">
+                                <input type="text" class="phone_us form-control" placeholder="Другий номер"
+                                       name="father_phone_2">
+                            </div>
+                        </td>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">ФІО матері:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Фамілія"
+                                           name="surname_mother">
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Ім'я"
+                                           name="name_mother">
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="По-батькові"
+                                           name="lastname_mother">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <td class="col-sm-2">Номер телефону:</td>
+                        <td class="col-sm-6">
+                            <div class="col-sm-6 col-un-padding">
+                                <input type="text" class="phone_us form-control" placeholder="Перший номер"
+                                       name="mother_phone_1">
+                            </div>
+                            <div class="col-sm-6 col-un-padding">
+                                <input type="text" class="phone_us form-control" placeholder="Другий номер"
+                                       name="mother_phone_2">
+                            </div>
+                        </td>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Адреса:</td>
+                            <td class="col-sm-6">
+                                <div class="col-sm-12 col-un-padding">
+                                    <input id="autocomplete2" class="form-control" placeholder="Введіть адресу"
+                                           type="text"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="street_number2" class="form-control" placeholder="Будинок"
+                                           name="parent_house" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="route2" class="form-control" placeholder="Вулиця"
+                                           name="parent_street" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="locality2" class="form-control" placeholder="Місто"
+                                           name="parent_city" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="administrative_area_level_12" class="form-control" placeholder="Область"
+                                           name="parent_state" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="postal_code2" class="form-control" placeholder="Індекс"
+                                           name="parent_zip" disabled="true"></input>
+                                </div>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input id="country2" class="form-control" placeholder="Країна"
+                                           name="parent_country" disabled="true"></input>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <div class="col-sm-1"></div>
+        </form>
     </div>
 </div>
 

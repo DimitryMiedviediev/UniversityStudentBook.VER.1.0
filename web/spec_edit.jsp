@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Control panel</title>
+    <title>Адміністративна панель</title>
 
     <!-- Bootstrap CSS-->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,12 @@
 <body>
 
 <jsp:include page="included_pages/fixedTopNavbar.jsp"/>
-<jsp:include page="included_pages/headerJumbotronControlPanel.jsp"/>
+
+<!-- Header Jumbotron -->
+<div class="jumbotron text-center">
+    <h2>Адміністративна панель</h2>
+    <p>Тут ви можете створювати і редагувати списки груп і спеціальностей!</p>
+</div>
 
 <!-- Body -->
 <div class="container">
@@ -49,8 +54,8 @@
                     <!-- University information -->
                     <thead>
                     <tr>
-                        <th class="col-sm-6"><h4><b>Speciality objects</b></h4></th>
-                        <th class="col-sm-2"><h4><b>Actions</b></h4></th>
+                        <th class="col-sm-6 text-center"><h4><b>Об'єкти спеціальностей</b></h4></th>
+                        <th class="col-sm-2 text-center"><h4><b>Дії</b></h4></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -59,14 +64,14 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-12 col-un-padding">
                                     <c:forEach var="oneSpec" items="${oneSpec}">
-                                        <input type="text" maxlength="30" class="form-control normal-area-input" placeholder="Name of new speciality" name="spec_name" value="${oneSpec.speciality}">
-                                        <input type="hidden" maxlength="30" class="form-control normal-area-input" placeholder="Name of new speciality" name="spec_id" value="${oneSpec.id}">
+                                        <input type="text" maxlength="30" class="form-control normal-area-input" placeholder="Нове ім'я спеціальності" name="spec_name" value="${oneSpec.speciality}">
+                                        <input type="hidden" maxlength="30" class="form-control normal-area-input" name="spec_id" value="${oneSpec.id}">
                                     </c:forEach>
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Submit" name="edit_spec_submit" class="btn btn-default btn-md btn-block"/>
-                                <button formaction="control_panel" class="btn btn-default btn-md btn-block">Cancel
+                                <input type="submit" value="Зберегти" name="edit_spec_submit" class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                <button formaction="control_panel" class="btn btn-default btn-md btn-block" formmethod="post">Відмінити
                                 </button>
                             </td>
                         </form>

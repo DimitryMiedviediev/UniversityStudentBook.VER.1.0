@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Control panel</title>
+    <title>Контрольна панель</title>
 
     <!-- Bootstrap CSS-->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,12 @@
 <body>
 
 <jsp:include page="included_pages/fixedTopNavbar.jsp"/>
-<jsp:include page="included_pages/headerJumbotronControlPanel.jsp"/>
+
+<!-- Header Jumbotron -->
+<div class="jumbotron text-center">
+    <h2>Адміністративна панель</h2>
+    <p>Тут ви можете створювати і редагувати списки груп і спеціальностей!</p>
+</div>
 
 <!-- Body -->
 <div class="container">
@@ -49,74 +54,74 @@
                     <!-- University information -->
                     <thead>
                     <tr>
-                        <th class="col-sm-6"><h4><b>Speciality objects</b></h4></th>
-                        <th class="col-sm-2"><h4><b>Actions</b></h4></th>
+                        <th class="col-sm-6 text-center"><h4><b>Об'єкти спеціальностей</b></h4></th>
+                        <th class="col-sm-2 text-center"><h4><b>Дії</b></h4></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <form action="control_panel">
+                        <form action="control_panel" method="post">
                             <td class="col-sm-6">
                                 <div class="col-sm-12 col-un-padding">
                                     <input type="text" maxlength="30" class="form-control normal-area-input"
-                                           placeholder="Name of new speciality"
+                                           placeholder="Назва нової спеціальності"
                                            name="create_speciality">
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Create" name="cr_new_spec"
-                                       class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Створити" name="cr_new_spec"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
                             </td>
                         </form>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
-                        <form action="control_panel">
+                        <form action="control_panel" method="post">
                             <td class="col-sm-6">
                                 <select name="edit_speciality" class="center-block option-style">
-                                    <option selected disabled>Check something value</option>
+                                    <option selected disabled>Введіть значення</option>
                                     <c:forEach var="specList" items="${specList}">
                                         <option>${specList.speciality}</option>
                                     </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Edit" name="edit_spec"
-                                       class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Редагувати" name="edit_spec"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
                             </td>
                         </form>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
-                        <form action="control_panel">
+                        <form action="control_panel" method="post">
                             <td class="col-sm-6">
                                 <select name="delete_speciality" class="center-block option-style">
-                                    <option selected disabled>Check something value</option>
+                                    <option selected disabled>Введіть значення</option>
                                     <c:forEach var="specList" items="${specList}">
                                         <option>${specList.speciality}</option>
                                     </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Delete" name="del_spec"
-                                       class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Видалити" name="del_spec"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
                             </td>
                         </form>
                     </tr>
                     </tbody>
                     <thead>
                     <tr>
-                        <th class="col-sm-6"><h4><b>Group objects</b></h4></th>
-                        <th class="col-sm-2"><h4><b>Actions</b></h4></th>
+                        <th class="col-sm-6 text-center"><h4><b>Об'єкти груп</b></h4></th>
+                        <th class="col-sm-2 text-center"><h4><b>Дії</b></h4></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <form action="control_panel">
+                        <form action="control_panel" method="post">
                             <td class="col-sm-6">
-                                <div class="col-sm-4 col-un-padding">
+                                <div class="col-sm-5 col-un-padding">
                                     <select name="cr_gr_spec" class="center-block option-style" required>
                                         <c:forEach var="specList" items="${specList}">
                                             <option>${specList.speciality}</option>
@@ -125,67 +130,67 @@
                                 </div>
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="cr_gr_qual" class="center-block option-style" required>
-                                        <option selected>Bachelor</option>
-                                        <option>Specialist</option>
-                                        <option>Master</option>
+                                        <option selected>Бакалавр</option>
+                                        <option>Спеціаліст</option>
+                                        <option>Магістр</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-4 col-un-padding">
+                                <div class="col-sm-3 col-un-padding">
                                     <select name="cr_gr_form" class="center-block option-style" required>
-                                        <option selected>Full time</option>
-                                        <option>Distance</option>
+                                        <option selected>Денна</option>
+                                        <option>Заочна</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6 col-un-padding">
                                     <input type="text" maxlength="10" class="form-control normal-area-input"
-                                           placeholder="Group num"
+                                           placeholder="Номер групи"
                                            name="cr_gr_num">
                                 </div>
                                 <div class="col-sm-6 col-un-padding">
                                     <input type="text" maxlength="1" class="form-control normal-area-input"
-                                           placeholder="Course"
+                                           placeholder="Курс"
                                            name="cr_gr_cource">
                                 </div>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Create" name="btn_gr_create"
-                                       class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Створити" name="btn_gr_create"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
                             </td>
                         </form>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
-                        <form action="control_panel">
+                        <form action="control_panel" method="post">
                             <td class="col-sm-6">
                                 <select name="group_edit" class="center-block option-style" required>
-                                    <option selected disabled>Check something value</option>
+                                    <option selected disabled>Введіть значення</option>
                                     <c:forEach var="groupList" items="${groupList}">
                                         <option>${groupList.number}</option>
                                     </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Edit" name="edit_group"
-                                       class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Редагувати" name="edit_group"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
                             </td>
                         </form>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
-                        <form action="control_panel">
+                        <form action="control_panel" method="post">
                             <td class="col-sm-6">
                                 <select name="group_delete" class="center-block option-style">
-                                    <option selected disabled>Check something value</option>
+                                    <option selected disabled>Введіть значення</option>
                                     <c:forEach var="groupList" items="${groupList}">
                                         <option>${groupList.number}</option>
                                     </c:forEach>
                                 </select>
                             </td>
                             <td class="col-sm-2">
-                                <input type="submit" value="Delete" name="del_group"
-                                       class="btn btn-default btn-md btn-block"/>
+                                <input type="submit" value="Видалити" name="del_group"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
                             </td>
                         </form>
                     </tr>

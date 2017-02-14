@@ -1,8 +1,7 @@
 package controller;
 
 import model.Beans;
-import model.Group;
-import model.Speciality;
+import model.filters.FormEncodingSetterFilter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
 /**
  * Created by Dimitry on 12.02.17.
@@ -18,63 +17,20 @@ import java.util.ArrayList;
 public class Control_panel extends HttpServlet {
 
     Beans beans = new Beans();
+    FormEncodingSetterFilter filter = new FormEncodingSetterFilter();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
 
-//        //Create variables with request parameters
-//        String createSpeciality = req.getParameter("create_speciality");
-//        String editSpeciality = req.getParameter("edit_speciality");
-//        String deleteSpeciality = req.getParameter("delete_speciality");
-//
-//        String createGroupSpeciality = req.getParameter("cr_gr_spec");
-//        String createGroupQualifications = req.getParameter("cr_gr_qual");
-//        String createGroupEducForm = req.getParameter("cr_gr_form");
-//        String createGroupNumber = req.getParameter("cr_gr_num");
-//        String createGroupCourse = req.getParameter("cr_gr_cource");
-//
-//        String editGroup = req.getParameter("group_edit");
-//        String deleteGroup = req.getParameter("group_delete");
-//
-//        System.out.println("If create cpec: " + createSpeciality);
-//        System.out.println("If edit cpec: " + editSpeciality);
-//        System.out.println("If delete cpec: " + deleteSpeciality);
-//
-//        System.out.println("If create group - speciality: " + createGroupSpeciality);
-//        System.out.println("If create group - qualifications: " + createGroupQualifications);
-//        System.out.println("If create group - education form: " + createGroupEducForm);
-//        System.out.println("If create group - number: " + createGroupNumber);
-//        System.out.println("If create group - course: " + createGroupCourse);
-//
-//        System.out.println("If edit group: " + editGroup);
-//        System.out.println("If delete group: " + deleteGroup);
-//
-//        String btnCreateSpec = (req.getParameter("cr_new_spec"));
-//        System.out.println("Button create speciality active: " + btnCreateSpec);
-//        String btnEditSpec = (req.getParameter("edit_spec"));
-//        System.out.println("Button edit speciality active: " + btnEditSpec);
-//        String btnDelSpec = (req.getParameter("del_spec"));
-//        System.out.println("Button delete speciality active: " + btnDelSpec);
-//
-//        String btnCreateGroup = (req.getParameter("btn_gr_create"));
-//        System.out.println("Button group create active: " + btnCreateGroup);
-//        String btnEditGroup = (req.getParameter("edit_group"));
-//        System.out.println("Button group edit active: " + btnEditGroup);
-//        String btnDelGroup = (req.getParameter("del_group"));
-//        System.out.println("Button group delete active: " + btnDelGroup);
-//
-//        String btnEditGroupSubmit = (req.getParameter("edit_group_submit"));
-//        System.out.println("Button group submit from editing active: " + btnEditGroupSubmit);
-//        String btnEditSpecSubmit = (req.getParameter("edit_spec_submit"));
-//
-//        String specUpdate = (req.getParameter("spec_update"));
-//        System.out.println("Speciality update : " + specUpdate);
-//        System.out.println("Button speciality submit from editing active: " + btnEditSpecSubmit);
-//        String btnCancel = (req.getParameter("cancel"));
-//        System.out.println("Button cancel active: " + btnCancel);
-//        System.out.println("///////////////////////////");
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-            //Create new specialities
+        resp.setContentType("text/html;charset=utf-8");
+        PrintWriter out = resp.getWriter();
+
+        //Create new specialities
         if(req.getParameter("cr_new_spec") != null){
             beans.createNewSpec(req.getParameter("create_speciality"));
             req.setAttribute("specList", beans.getSpecList());
@@ -151,6 +107,5 @@ public class Control_panel extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("control_panel.jsp");
             dispatcher.forward(req, resp);
         }
-
     }
 }

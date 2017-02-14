@@ -1,12 +1,12 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-    <servlet>
-        <servlet-name>ControlJSP</servlet-name>
-        <servlet-class>controller.ControlJSP</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ControlJSP</servlet-name>
-        <url-pattern>/control</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>ControlJSP</servlet-name>-->
+        <!--<servlet-class>controller.Mainservlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>ControlJSP</servlet-name>-->
+        <!--<url-pattern>/mainservlet</url-pattern>-->
+    <!--</servlet-mapping>-->
     <servlet>
         <servlet-name>Control_panel</servlet-name>
         <servlet-class>controller.Control_panel</servlet-class>
@@ -15,4 +15,39 @@
         <servlet-name>Control_panel</servlet-name>
         <url-pattern>/control_panel</url-pattern>
     </servlet-mapping>
+    <servlet>
+    <servlet-name>Student_add</servlet-name>
+    <servlet-class>controller.Student_add</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>Student_add</servlet-name>
+        <url-pattern>/student_add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Students_list</servlet-name>
+        <servlet-class>controller.Students_list</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Students_list</servlet-name>
+        <url-pattern>/students_list</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Student_info</servlet-name>
+        <servlet-class>controller.Student_info</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Student_info</servlet-name>
+        <url-pattern>/student_info</url-pattern>
+    </servlet-mapping>
+
+
+    <filter>
+        <filter-name>Charset Filter</filter-name>
+        <filter-class>model.filters.FormEncodingSetterFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Charset Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

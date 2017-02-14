@@ -18,7 +18,12 @@
 <body>
 
 <jsp:include page="included_pages/fixedTopNavbar.jsp"/>
-<jsp:include page="included_pages/headerJumbotronProfile.jsp"/>
+
+<!-- Header Jumbotron -->
+<div class="jumbotron text-center">
+    <h2>Профіль студента</h2>
+    <p>Сторінка інформації про студента!</p>
+</div>
 
 <!-- Body -->
 <div class="container">
@@ -37,7 +42,7 @@
             <div style="padding: 10px"></div>
 
             <!-- Buttons area -->
-            <button type = "button" class = "btn btn-default btn-sm btn-block">
+            <button type = "button" class = "btn btn-default btn-sm btn-block" formmethod="post">
                 Edit
             </button>
         </div>

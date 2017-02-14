@@ -35,7 +35,12 @@
 <body>
 
 <jsp:include page="included_pages/fixedTopNavbar.jsp"/>
-<jsp:include page="included_pages/headerJumbotronControlPanel.jsp"/>
+
+<!-- Header Jumbotron -->
+<div class="jumbotron text-center">
+    <h2>Адміністративна панель</h2>
+    <p>Тут ви можете створювати і редагувати списки груп і спеціальностей!</p>
+</div>
 
 <!-- Body -->
 <div class="container">
@@ -49,8 +54,8 @@
                     <!-- University information -->
                     <thead>
                     <tr>
-                        <th class="col-sm-6"><h4><b>Speciality objects</b></h4></th>
-                        <th class="col-sm-2"><h4><b>Actions</b></h4></th>
+                        <th class="col-sm-6 text-center"><h4><b>Об'єкти груп</b></h4></th>
+                        <th class="col-sm-2 text-center"><h4><b>Дії</b></h4></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -58,7 +63,7 @@
                         <c:forEach var="group" items="${group}">
                             <form action="control_panel">
                                 <td class="col-sm-6">
-                                    <div class="col-sm-4 col-un-padding">
+                                    <div class="col-sm-5 col-un-padding">
                                         <select name="cr_gr_spec" class="center-block option-style" required>
                                             <c:forEach var="specList" items="${specList}">
                                                 <c:choose>
@@ -75,46 +80,46 @@
                                     <div class="col-sm-4 col-un-padding">
                                         <select name="cr_gr_qual" class="center-block option-style" required>
                                             <c:choose>
-                                                <c:when test="${group.qualificationLevel == 'Bachelor'}">
-                                                    <option selected>Bachelor</option>
-                                                    <option>Specialist</option>
-                                                    <option>Master</option>
+                                                <c:when test="${group.qualificationLevel == 'Бакалавр'}">
+                                                    <option selected>Бакалавр</option>
+                                                    <option>Спеціаліст</option>
+                                                    <option>Магістр</option>
                                                 </c:when>
-                                                <c:when test="${group.qualificationLevel == 'Specialist'}">
-                                                    <option selected>Specialist</option>
-                                                    <option>Bachelor</option>
-                                                    <option>Master</option>
+                                                <c:when test="${group.qualificationLevel == 'Спеціаліст'}">
+                                                    <option selected>Спеціаліст</option>
+                                                    <option>Бакалавр</option>
+                                                    <option>Магістр</option>
                                                 </c:when>
-                                                <c:when test="${group.qualificationLevel == 'Master'}">
-                                                    <option selected>Master</option>
-                                                    <option>Bachelor</option>
-                                                    <option>Specialist</option>
+                                                <c:when test="${group.qualificationLevel == 'Магістр'}">
+                                                    <option selected>Магістр</option>
+                                                    <option>Бакалавр</option>
+                                                    <option>Спеціаліст</option>
                                                 </c:when>
                                             </c:choose>
                                         </select>
                                     </div>
-                                    <div class="col-sm-4 col-un-padding">
+                                    <div class="col-sm-3 col-un-padding">
                                         <select name="cr_gr_form" class="center-block option-style" required>
                                             <c:choose>
-                                                <c:when test="${group.educationForm == 'Full time'}">
-                                                    <option selected>Full time</option>
-                                                    <option>Distance</option>
+                                                <c:when test="${group.educationForm == 'Денна'}">
+                                                    <option selected>Денна</option>
+                                                    <option>Заочна</option>
                                                 </c:when>
-                                                <c:when test="${group.educationForm == 'Distance'}">
-                                                    <option selected>Distance</option>
-                                                    <option>Full time</option>
+                                                <c:when test="${group.educationForm == 'Заочна'}">
+                                                    <option selected>Заочна</option>
+                                                    <option>Денна</option>
                                                 </c:when>
                                             </c:choose>
                                         </select>
                                     </div>
                                     <div class="col-sm-6 col-un-padding">
                                         <input type="text" maxlength="10" class="form-control normal-area-input"
-                                               placeholder="Group num"
+                                               placeholder="Номер групи"
                                                name="cr_gr_num" value="${group.number}">
                                     </div>
                                     <div class="col-sm-6 col-un-padding">
                                         <input type="text" maxlength="1" class="form-control normal-area-input"
-                                               placeholder="Course"
+                                               placeholder="Курс"
                                                name="cr_gr_cource" value="${group.course}">
                                     </div>
                                     <div>
@@ -123,10 +128,10 @@
                                     </div>
                                 </td>
                                 <td class="col-sm-2">
-                                    <input type="submit" value="Submit" name="edit_group_submit"
-                                           class="btn btn-default btn-md btn-block"/>
-                                    <input type="submit" value="Cancel" name="cancel"
-                                           class="btn btn-default btn-md btn-block"/>
+                                    <input type="submit" value="Зберегти" name="edit_group_submit"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                    <input type="submit" value="Відмінити" name="cancel"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
                                 </td>
                             </form>
                         </c:forEach>

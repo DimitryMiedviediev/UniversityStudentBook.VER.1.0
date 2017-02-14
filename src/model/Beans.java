@@ -1,6 +1,9 @@
 package model;
 
-import java.lang.reflect.Parameter;
+import model.classes.Group;
+import model.classes.Speciality;
+import model.classes.Student;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -9,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Beans {
     GetTime time = new GetTime();
+    String catalog = "studDBfin";
 
     private Connection startConnection() {
         Connection connection = null;
@@ -19,7 +23,7 @@ public class Beans {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useSSL=false", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=yes&characterEncoding=UTF-8", "root", "");
             if (!connection.isClosed()) {
                 System.out.println(time.getTime() + " --Connection to DB is active...");
             } else {
@@ -50,33 +54,33 @@ public class Beans {
         }
     }
 
-    public ArrayList<Student> getStudList(String query) {
-
-        ArrayList<Student> storage = new ArrayList<>();
-
-        Connection con = startConnection();
-        try {
-            con.setCatalog("test");
-            Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            ResultSetMetaData meta = resultSet.getMetaData();
-
-            while (resultSet.next()) {
-                String name = resultSet.getString(meta.getColumnName(1));
-                String surname = resultSet.getString(meta.getColumnName(2));
-                String lastname = resultSet.getString(meta.getColumnName(3));
-                String status = resultSet.getString(meta.getColumnName(4));
-                storage.add(new Student(name, surname, lastname, status));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        stopConnection(con);
-
-
-        return storage;
-    }
+//    public ArrayList<Student> getStudList(String query) {
+//
+//        ArrayList<Student> storage = new ArrayList<>();
+//
+//        Connection con = startConnection();
+//        try {
+//            con.setCatalog("test");
+//            Statement statement = con.createStatement();
+//            ResultSet resultSet = statement.executeQuery(query);
+//            ResultSetMetaData meta = resultSet.getMetaData();
+//
+//            while (resultSet.next()) {
+//                String name = resultSet.getString(meta.getColumnName(1));
+//                String surname = resultSet.getString(meta.getColumnName(2));
+//                String lastname = resultSet.getString(meta.getColumnName(3));
+//                String status = resultSet.getString(meta.getColumnName(4));
+//                storage.add(new Student(name, surname, lastname, status));
+//            }
+//
+//        } catch (SQLException e) {
+//            System.out.println(e);
+//        }
+//        stopConnection(con);
+//
+//
+//        return storage;
+//    }
 
     public String qJoins(String query, ArrayList<SortParams> params) {
         SortParams sp = params.get(0);
@@ -201,7 +205,7 @@ public class Beans {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog("studDB");
+            conn.setCatalog(catalog);
             Statement statement = conn.createStatement();
             String query = "INSERT INTO specialities (spec_name) VALUES (\"" + newSpecName + "\")";
             if (!newSpecName.equals("")) {
@@ -220,7 +224,7 @@ public class Beans {
 
         Connection con = startConnection();
         try {
-            con.setCatalog("studDB");
+            con.setCatalog(catalog);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -242,14 +246,14 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Speciality> getOneSpec(String nameSpec){
+    public ArrayList<Speciality> getOneSpec(String nameSpec) {
         ArrayList<Speciality> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog("studDB");
+            con.setCatalog(catalog);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities WHERE spec_name = \""+ nameSpec + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities WHERE spec_name = \"" + nameSpec + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -273,7 +277,7 @@ public class Beans {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog("studDB");
+            conn.setCatalog(catalog);
             Statement statement = conn.createStatement();
             String query = "UPDATE specialities SET spec_name = \"" + newName + "\" WHERE id_spec = \"" + specId + "\"";
             if (!newName.equals("")) {
@@ -287,11 +291,11 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public void deleteSpec(String nameSpec){
+    public void deleteSpec(String nameSpec) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog("studDB");
+            conn.setCatalog(catalog);
             Statement statement = conn.createStatement();
 //            String query = "DELETE FROM specialities WHERE spec_name = \"" + nameSpec + "\")";
             String query = "DELETE FROM specialities WHERE spec_name = \"" + nameSpec + "\"";
@@ -311,11 +315,11 @@ public class Beans {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog("studDB");
+            conn.setCatalog(catalog);
             Statement statement = conn.createStatement();
 
             String specId = null;
-            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \""+ speciality + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \"" + speciality + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
             while (resultSet.next()) {
                 specId = resultSet.getString(meta.getColumnName(1));
@@ -323,7 +327,7 @@ public class Beans {
 
             String query = "INSERT INTO groups (spec_id, group_num, group_educ_form, group_qual, group_course) " +
                     "VALUES (\"" + specId + "\" , \"" + groupNum + "\" , \"" + groupEducForm + "\" , \"" + groupEducQual + "\" , \"" + groupCourse + "\")";
-            if ((!specId.equals(""))&&(!groupNum.equals(""))&&(!groupCourse.equals(""))) {
+            if ((!specId.equals("")) && (!groupNum.equals("")) && (!groupCourse.equals(""))) {
                 statement.executeUpdate(query);
                 System.out.println("Query create speciality: " + query);
             }
@@ -339,7 +343,7 @@ public class Beans {
 
         Connection con = startConnection();
         try {
-            con.setCatalog("studDB");
+            con.setCatalog(catalog);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM groups");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -365,14 +369,14 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Group> getOneGroup(String groupNum){
+    public ArrayList<Group> getOneGroup(String groupNum) {
         ArrayList<Group> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog("studDB");
+            con.setCatalog(catalog);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_num = \""+ groupNum + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_num = \"" + groupNum + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -400,17 +404,17 @@ public class Beans {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog("studDB");
+            conn.setCatalog(catalog);
             Statement statement = conn.createStatement();
             String specId = null;
-            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \""+ specName + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \"" + specName + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
             while (resultSet.next()) {
                 specId = resultSet.getString(meta.getColumnName(1));
             }
             String query = "UPDATE groups SET spec_id = \"" + specId + "\", group_num = \"" + groupNum + "\", group_educ_form = \""
                     + groupEducForm + "\", group_qual = \"" + groupEducQual + "\", group_course = \"" + groupCourse + "\" WHERE group_id = \"" + groupId + "\"";
-            if ((!groupNum.equals(""))&&(!groupCourse.equals(""))) {
+            if ((!groupNum.equals("")) && (!groupCourse.equals(""))) {
                 statement.executeUpdate(query);
                 System.out.println("Query edit group: " + query);
             }
@@ -421,11 +425,11 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public void deleteGroup(String groupNum){
+    public void deleteGroup(String groupNum) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog("studDB");
+            conn.setCatalog(catalog);
             Statement statement = conn.createStatement();
             String query = "DELETE FROM groups WHERE group_num = \"" + groupNum + "\"";
             System.out.println("Query delete group: " + query);
@@ -436,5 +440,95 @@ public class Beans {
 
         stopConnection(conn);
     }
+
+    /**
+     * Working with students
+     */
+    public void createNewStudent(String studentName, String studentSurname, String studentLastname, String entryDate,
+                                 String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
+                                 String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
+                                 String identityCode, String studentHouse, String studentStreet, String studentCity,
+                                 String studentState, String studentZip, String studentCountry, String studentPhone1,
+                                 String studentPhone2, String fatherName, String fatherSurname, String fatherLastname,
+                                 String fatherPhone1, String fatherPhone2, String motherName, String motherSurname, String motherLastname,
+                                 String motherPhone1, String motherPhone2, String parentHouse, String parentStreet, String parentCity,
+                                 String parentState, String parentZip, String parentCountry) {
+
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog(catalog);
+            Statement statement = conn.createStatement();
+            //Return groupID
+            String groupId = null;
+            ResultSet resultSet1 = statement.executeQuery("SELECT group_id FROM groups WHERE group_num = \"" + studentGroup + "\"");
+            ResultSetMetaData meta1 = resultSet1.getMetaData();
+            while (resultSet1.next()) {
+                groupId = resultSet1.getString(meta1.getColumnName(1));
+            }
+
+            //Create student
+            String queryStudent = "INSERT INTO students (stud_name, stud_surname, stud_lastname, entry_date, " +
+                    "status, group_id, subgroup, financing, stud_book, birth_date, passport, passp_office, passp_date, " +
+                    "identity_code, student_house, student_street, student_city, student_state, student_zip, " +
+                    "student_country, stud_phone_1, stud_phone_2, father_name, father_surname, father_lastname, father_phone_1, " +
+                    "father_phone_2, mother_name, mother_surname, mother_lastname, mother_phone_1, mother_phone_2, " +
+                    "parent_house, parent_street, parent_city, parent_state, parent_zip, parent_country) " +
+                    "VALUES (\"" + studentName + "\" , \"" + studentSurname + "\" , \"" + studentLastname +
+                    "\" , \"" + entryDate + "\" , \"" + studentStatus + "\" , \"" + groupId +
+                    "\" , \"" + studentSubgroup + "\" , \"" + studentFinancing + "\" , \"" + studentBook +
+                    "\" , \"" + dateBirth + "\" , \"" + passpSerial + "\" , \"" + passpOffice +
+                    "\" , \"" + passpDateRelease + "\" , \"" + identityCode + "\" , \"" + studentHouse +
+                    "\" , \"" + studentStreet + "\" , \"" + studentCity + "\" , \"" + studentState +
+                    "\" , \"" + studentZip + "\" , \"" + studentCountry + "\" , \"" + studentPhone1 +
+                    "\" , \"" + studentPhone2 + "\" , \"" + fatherName +
+                    "\" , \"" + fatherSurname + "\" , \"" + fatherLastname +
+                    "\" , \"" + fatherPhone1 + "\" , \"" + fatherPhone2 + "\" , \"" + motherName +
+                    "\" , \"" + motherSurname + "\" , \"" + motherLastname + "\" , \"" + motherPhone1 +
+                    "\" , \"" + motherPhone2 + "\" , \"" + parentHouse + "\" , \"" + parentStreet +
+                    "\" , \"" + parentCity + "\" , \"" + parentState + "\" , \"" + parentZip +
+                    "\" , \"" + parentCountry + "\")";
+            System.out.println(queryStudent);
+            if (studentName != null && studentSurname != null && studentLastname != null && studentStatus != null && studentGroup != null && studentFinancing != null && studentBook != null) {
+                statement.executeUpdate(queryStudent);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+
+    }
+
+    public ArrayList<Student> getStudList() {
+
+        ArrayList<Student> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT stud_id, stud_name, stud_surname, stud_lastname, status FROM students");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString(meta.getColumnName(1));
+                String name = resultSet.getString(meta.getColumnName(2));
+                String surname = resultSet.getString(meta.getColumnName(3));
+                String lastname = resultSet.getString(meta.getColumnName(4));
+                String status = resultSet.getString(meta.getColumnName(5));
+                storage.add(new Student(id, name, surname, lastname, status));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
 
 }
