@@ -45,8 +45,8 @@
 <!-- Body -->
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
             <!-- Information -->
             <div class="container">
 
@@ -79,12 +79,16 @@
                     <tr>
                         <form action="control_panel" method="post">
                             <td class="col-sm-6">
-                                <select name="edit_speciality" class="center-block option-style">
-                                    <option selected disabled>Введіть значення</option>
-                                    <c:forEach var="specList" items="${specList}">
-                                        <option>${specList.speciality}</option>
-                                    </c:forEach>
-                                </select>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-6">
+                                    <select name="edit_speciality" class="form-control input-sm center-block">
+                                        <option selected disabled>Введіть значення</option>
+                                        <c:forEach var="specList" items="${specList}">
+                                            <option>${specList.speciality}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3"></div>
                             </td>
                             <td class="col-sm-2">
                                 <input type="submit" value="Редагувати" name="edit_spec"
@@ -97,12 +101,16 @@
                     <tr>
                         <form action="control_panel" method="post">
                             <td class="col-sm-6">
-                                <select name="delete_speciality" class="center-block option-style">
-                                    <option selected disabled>Введіть значення</option>
-                                    <c:forEach var="specList" items="${specList}">
-                                        <option>${specList.speciality}</option>
-                                    </c:forEach>
-                                </select>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-6">
+                                    <select name="delete_speciality" class="form-control input-sm center-block">
+                                        <option selected disabled>Введіть значення</option>
+                                        <c:forEach var="specList" items="${specList}">
+                                            <option>${specList.speciality}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3"></div>
                             </td>
                             <td class="col-sm-2">
                                 <input type="submit" value="Видалити" name="del_spec"
@@ -121,22 +129,22 @@
                     <tr>
                         <form action="control_panel" method="post">
                             <td class="col-sm-6">
-                                <div class="col-sm-5 col-un-padding">
-                                    <select name="cr_gr_spec" class="center-block option-style" required>
+                                <div class="col-sm-6 col-un-padding">
+                                    <select name="cr_gr_spec" class="form-control input-sm center-block" required>
                                         <c:forEach var="specList" items="${specList}">
                                             <option>${specList.speciality}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col-sm-4 col-un-padding">
-                                    <select name="cr_gr_qual" class="center-block option-style" required>
+                                <div class="col-sm-3 col-un-padding">
+                                    <select name="cr_gr_qual" class="form-control input-sm center-block" required>
                                         <option selected>Бакалавр</option>
                                         <option>Спеціаліст</option>
                                         <option>Магістр</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-3 col-un-padding">
-                                    <select name="cr_gr_form" class="center-block option-style" required>
+                                    <select name="cr_gr_form" class="form-control input-sm center-block" required>
                                         <option selected>Денна</option>
                                         <option>Заочна</option>
                                     </select>
@@ -163,12 +171,16 @@
                     <tr>
                         <form action="control_panel" method="post">
                             <td class="col-sm-6">
-                                <select name="group_edit" class="center-block option-style" required>
-                                    <option selected disabled>Введіть значення</option>
-                                    <c:forEach var="groupList" items="${groupList}">
-                                        <option>${groupList.number}</option>
-                                    </c:forEach>
-                                </select>
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <select name="group_edit" class="form-control input-sm center-block" required>
+                                        <option selected disabled>Введіть значення</option>
+                                        <c:forEach var="groupList" items="${groupList}">
+                                            <option>${groupList.number}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4"></div>
                             </td>
                             <td class="col-sm-2">
                                 <input type="submit" value="Редагувати" name="edit_group"
@@ -181,12 +193,16 @@
                     <tr>
                         <form action="control_panel" method="post">
                             <td class="col-sm-6">
-                                <select name="group_delete" class="center-block option-style">
-                                    <option selected disabled>Введіть значення</option>
-                                    <c:forEach var="groupList" items="${groupList}">
-                                        <option>${groupList.number}</option>
-                                    </c:forEach>
-                                </select>
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <select name="group_delete" class="form-control input-sm center-block">
+                                        <option selected disabled>Введіть значення</option>
+                                        <c:forEach var="groupList" items="${groupList}">
+                                            <option>${groupList.number}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4"></div>
                             </td>
                             <td class="col-sm-2">
                                 <input type="submit" value="Видалити" name="del_group"
@@ -200,7 +216,7 @@
             </div>
 
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-2"></div>
     </div>
 </div>
 

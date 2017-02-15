@@ -6,6 +6,7 @@ import model.classes.Student;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Dimitry on 07.02.17.
@@ -53,34 +54,6 @@ public class Beans {
             e.printStackTrace();
         }
     }
-
-//    public ArrayList<Student> getStudList(String query) {
-//
-//        ArrayList<Student> storage = new ArrayList<>();
-//
-//        Connection con = startConnection();
-//        try {
-//            con.setCatalog("test");
-//            Statement statement = con.createStatement();
-//            ResultSet resultSet = statement.executeQuery(query);
-//            ResultSetMetaData meta = resultSet.getMetaData();
-//
-//            while (resultSet.next()) {
-//                String name = resultSet.getString(meta.getColumnName(1));
-//                String surname = resultSet.getString(meta.getColumnName(2));
-//                String lastname = resultSet.getString(meta.getColumnName(3));
-//                String status = resultSet.getString(meta.getColumnName(4));
-//                storage.add(new Student(name, surname, lastname, status));
-//            }
-//
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//        stopConnection(con);
-//
-//
-//        return storage;
-//    }
 
     public String qJoins(String query, ArrayList<SortParams> params) {
         SortParams sp = params.get(0);
@@ -530,5 +503,143 @@ public class Beans {
         return storage;
     }
 
+
+    /**
+     * Getting parameters for sidebar on student list
+     */
+
+    public HashMap<String, Boolean> getSpecListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT spec_name FROM specialities");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String status = resultSet.getString(meta.getColumnName(1));
+                storage.put(status, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getStatusListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT status FROM students");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String status = resultSet.getString(meta.getColumnName(1));
+                storage.put(status, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getQualificationListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_qual FROM groups");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String qualification = resultSet.getString(meta.getColumnName(1));
+                storage.put(qualification, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getCourseListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_course FROM groups");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String qualification = resultSet.getString(meta.getColumnName(1));
+                storage.put(qualification, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getEducFormListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_educ_form FROM groups");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String group = resultSet.getString(meta.getColumnName(1));
+                storage.put(group, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getFinanceListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(catalog);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT financing FROM students");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String group = resultSet.getString(meta.getColumnName(1));
+                storage.put(group, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
 
 }

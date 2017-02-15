@@ -45,8 +45,8 @@
 <!-- Body -->
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
             <!-- Information -->
             <div class="container">
 
@@ -64,7 +64,7 @@
                             <form action="control_panel">
                                 <td class="col-sm-6">
                                     <div class="col-sm-5 col-un-padding">
-                                        <select name="cr_gr_spec" class="center-block option-style" required>
+                                        <select name="cr_gr_spec" class="form-control input-sm center-block" required>
                                             <c:forEach var="specList" items="${specList}">
                                                 <c:choose>
                                                     <c:when test="${group.specId == specList.id}">
@@ -78,7 +78,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-4 col-un-padding">
-                                        <select name="cr_gr_qual" class="center-block option-style" required>
+                                        <select name="cr_gr_qual" class="form-control input-sm center-block" required>
                                             <c:choose>
                                                 <c:when test="${group.qualificationLevel == 'Бакалавр'}">
                                                     <option selected>Бакалавр</option>
@@ -99,7 +99,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-3 col-un-padding">
-                                        <select name="cr_gr_form" class="center-block option-style" required>
+                                        <select name="cr_gr_form" class="form-control input-sm center-block" required>
                                             <c:choose>
                                                 <c:when test="${group.educationForm == 'Денна'}">
                                                     <option selected>Денна</option>
@@ -142,7 +142,7 @@
             </div>
 
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-2"></div>
     </div>
 </div>
 

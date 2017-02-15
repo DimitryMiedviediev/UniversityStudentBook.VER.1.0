@@ -1,3 +1,5 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.classes.Speciality" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -15,9 +17,10 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Develops CSS -->
-    <link href="../css/users.css" rel="stylesheet">
+    <%--<link href="../css/users.css" rel="stylesheet">--%>
     <link href="../css/font_style.css" rel="stylesheet">
     <link href="../css/stupidtable.css" rel="stylesheet">
+    <link rel="stylesheet", href="css/users.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -60,250 +63,134 @@
             <!-- Sidebar -->
             <div class="list-group font-table">
                 <form action="students_list" method="post">
-                    <c:forEach var="params" items="${paramsList}">
-                        <h5>Specialization</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.mechanics == null)}">
-                                    <li><h6><input type="checkbox" name="mechanics" value="mechanics" checked> Mechanics
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="mechanics" value="mechanics"> Mechanics </h6>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.engineers == null)}">
-                                    <li><h6><input type="checkbox" name="engineers" value="engineers" checked> Engineers
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="engineers" value="engineers"> Engineers </h6>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        </ul>
-                        <h5>Type</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.educate == null)}">
-                                    <li><h6><input type="checkbox" name="educate" value="educate" checked> Educate </h6>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="educate" value="educate"> Educate </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.archive == null)}">
-                                    <li><h6><input type="checkbox" name="archive" value="archive" checked> Archive </h6>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="archive" value="archive"> Archive </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Qualification</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.bachelor == null)}">
-                                    <li><h6><input type="checkbox" name="bachelor" value="bachelor" checked> Bachelor
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="bachelor" value="bachelor"> Bachelor </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.specialist == null)}">
-                                    <li><h6><input type="checkbox" name="specialist" value="specialist" checked>
-                                        Specialist </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="specialist" value="specialist"> Specialist
-                                    </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.master == null)}">
-                                    <li><h6><input type="checkbox" name="master" value="master" checked> Master </h6>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="master" value="master"> Master </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Courses</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.course1 == null)}">
-                                    <li><h6><input type="checkbox" name="1 course" value="1" checked> 1 course
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="1 course" value="1"> 1 course </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.course2 == null)}">
-                                    <li><h6><input type="checkbox" name="2 course" value="2" checked> 2 course
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="2 course" value="2"> 2 course </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.course3 == null)}">
-                                    <li><h6><input type="checkbox" name="3 course" value="3" checked> 3 course
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="3 course" value="3"> 3 course </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.course4 == null)}">
-                                    <li><h6><input type="checkbox" name="4 course" value="4" checked> 4 course
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="4 course" value="4"> 4 course </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.course5 == null)}">
-                                    <li><h6><input type="checkbox" name="5 course" value="5" checked> 5 course
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="5 course" value="5"> 5 course </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.course6 == null)}">
-                                    <li><h6><input type="checkbox" name="6 course" value="6" checked> 6 course
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="6 course" value="6"> 6 course </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Group</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.group == null)}">
-                                    <li><input type="text" placeholder="Group" name="group" value="${params.group}">
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><input type="text" placeholder="Group" name="group"></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.subgroup == null)}">
-                                    <li><input type="text" placeholder="Subgroup" name="subgroup"
-                                               value="${params.subgroup}">
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><input type="text" placeholder="Subgroup" name="subgroup"></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Financing</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.government == null)}">
-                                    <li><h6><input type="checkbox" name="government" value="government" checked>
-                                        Government </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="government" value="government"> Government
-                                    </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.commercial == null)}">
-                                    <li><h6><input type="checkbox" name="commercial" value="commercial" checked>
-                                        Commercial </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="commercial" value="commercial"> Commercial
-                                    </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Education form</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.full_time == null)}">
-                                    <li><h6><input type="checkbox" name="full_time" value="full time" checked> Full-time
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="full_time" value="full time"> Full-time </h6>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.distance == null)}">
-                                    <li><h6><input type="checkbox" name="distance" value="distance" checked> Distance
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="distance" value="distance"> Distance </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Birthplace</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.state == null)}">
-                                    <li><input type="text" placeholder="State" name="state" value="${params.state}">
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><input type="text" placeholder="State" name="state"></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.department == null)}">
-                                    <li><input type="text" placeholder="Department" name="department"
-                                               value="${params.department}"></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><input type="text" placeholder="Department" name="department"></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                        <h5>Exemptions</h5>
-                        <ul>
-                            <c:choose>
-                                <c:when test="${!(params.orphan == null)}">
-                                    <li><h6><input type="checkbox" name="orphan" value="orphan" checked> Orphan </h6>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="orphan" value="orphan"> Orphan </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${!(params.disabled == null)}">
-                                    <li><h6><input type="checkbox" name="disabled" value="disabled" checked> Disabled
-                                    </h6></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><h6><input type="checkbox" name="disabled" value="disabled"> Disabled </h6></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                    </c:forEach>
+                    <h5>Спеціалізація</h5>
+                    <ul>
+                        <c:forEach var="specList" items="${specList}">
+                            <c:if test="${specList.value eq true}">
+                                <li><h6><input type="checkbox" name="${specList.key}" value="${specList.key}"
+                                               checked> ${specList.key} </h6></li>
+                            </c:if>
+                            <c:if test="${specList.value eq false}">
+                                <li><h6><input type="checkbox" name="${specList.key}"
+                                               value="${specList.key}"> ${specList.key} </h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Статус</h5>
+                    <ul>
+                        <c:forEach var="statusList" items="${statusList}">
+                            <c:if test="${statusList.value eq true}">
+                                <li><h6><input type="checkbox" name="${statusList.key}" value="${statusList.key}"
+                                               checked> ${statusList.key} </h6></li>
+                            </c:if>
+                            <c:if test="${statusList.value eq false}">
+                                <li><h6><input type="checkbox" name="${statusList.key}"
+                                               value="${statusList.key}"> ${statusList.key} </h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Кваліфікаційний рівень</h5>
+                    <ul>
+                        <c:forEach var="qualList" items="${qualList}">
+                            <c:if test="${qualList.value eq true}">
+                                <li><h6><input type="checkbox" name="${qualList.key}" value="${qualList.key}"
+                                               checked> ${qualList.key} </h6></li>
+                            </c:if>
+                            <c:if test="${qualList.value eq false}">
+                                <li><h6><input type="checkbox" name="${qualList.key}"
+                                               value="${qualList.key}"> ${qualList.key} </h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Курси</h5>
+                    <ul>
+                        <c:forEach var="courseList" items="${courseList}">
+                            <c:if test="${courseList.value eq true}">
+                                <li><h6><input type="checkbox" name="${courseList.key}" value="${courseList.key}"
+                                               checked> ${courseList.key} курс</h6></li>
+                            </c:if>
+                            <c:if test="${courseList.value eq false}">
+                                <li><h6><input type="checkbox" name="${courseList.key}"
+                                               value="${courseList.key}"> ${courseList.key} курс</h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Група/Підгрупа</h5>
+                    <ul>
+                        <c:forEach var="groupParam" items="${groupParam}">
+                            <c:if test="${groupParam.value != null}">
+                                <li><input type="text" placeholder="Група" name="group" class="form-control" value="${groupParam.value}">
+                                </li>
+                            </c:if>
+                            <c:if test="${groupParam.value == null}">
+                                <li><input type="text" placeholder="Група" name="group" class="form-control"></li>
+                            </c:if>
+                        </c:forEach>
+                        <c:forEach var="subgroupParam" items="${subgroupParam}">
+                            <c:if test="${subgroupParam.value != null}">
+                                <li><input type="text" placeholder="Підгрупа" name="subgroup"
+                                           value="${subgroupParam.value}" class="form-control"></li>
+                            </c:if>
+                            <c:if test="${subgroupParam.value == null}">
+                                <li><input type="text" placeholder="Підгрупа" name="subgroup" class="form-control"></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Фінансування</h5>
+                    <ul>
+                        <c:forEach var="financeList" items="${financeList}">
+                            <c:if test="${financeList.value eq true}">
+                                <li><h6><input type="checkbox" name="${financeList.key}" value="${financeList.key}"
+                                               checked> ${financeList.key} </h6></li>
+                            </c:if>
+                            <c:if test="${financeList.value eq false}">
+                                <li><h6><input type="checkbox" name="${financeList.key}"
+                                               value="${financeList.key}"> ${financeList.key} </h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Форма навчання</h5>
+                    <ul>
+                        <c:forEach var="educFormList" items="${educFormList}">
+                            <c:if test="${educFormList.value eq true}">
+                                <li><h6><input type="checkbox" name="${educFormList.key}" value="${educFormList.key}"
+                                               checked> ${educFormList.key} </h6></li>
+                            </c:if>
+                            <c:if test="${educFormList.value eq false}">
+                                <li><h6><input type="checkbox" name="${educFormList.key}"
+                                               value="${educFormList.key}"> ${educFormList.key} </h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Місце народження</h5>
+                    <ul>
+                        <c:forEach var="cityParam" items="${cityParam}">
+                            <c:if test="${cityParam.value != null}">
+                                <li><input type="text" placeholder="Місто" name="city" class="form-control"
+                                           value="${cityParam.value}"></li>
+                            </c:if>
+                            <c:if test="${cityParam.value == null}">
+                                <li><input type="text" placeholder="Місто" name="city" class="form-control"></li>
+                            </c:if>
+                        </c:forEach>
+                        <c:forEach var="stateParam" items="${stateParam}">
+                            <c:if test="${stateParam.value != null}">
+                                <li><input type="text" placeholder="Область" name="state" class="form-control"
+                                           value="${stateParam.value}"></li>
+                            </c:if>
+                            <c:if test="${stateParam.value == null}">
+                                <li><input type="text" placeholder="Область" name="state" class="form-control"></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
                     <input type="submit" value="Sort" class="btn btn-default btn-block" formmethod="post">
                 </form>
             </div>
