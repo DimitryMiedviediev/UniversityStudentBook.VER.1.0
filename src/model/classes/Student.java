@@ -28,6 +28,7 @@ public class Student implements Serializable {
     private String studZip;
     private String studCountry;
     private String studPhone1;
+    private String studPhone2;
     private String fatherName;
     private String fatherSurname;
     private String fatherLastname;
@@ -58,11 +59,11 @@ public class Student implements Serializable {
     }
 
     public Student(String id, String name, String surname, String lastname, String entryDate,
-                   String status, String groupId, String subGroup, String financing,
-                   String studBook, String birthDate, String passport, String passpOffice,
-                   String passpDate, String identityCode, String studHouse, String studStreet,
-                   String studCity, String studState, String studZip, String studCountry,
-                   String studPhone1, String fatherName, String fatherSurname, String fatherLastname,
+                   String status, String groupId, String subGroup, String financing, String studBook,
+                   String birthDate, String passport, String passpOffice, String passpDate,
+                   String identityCode, String studHouse, String studStreet, String studCity,
+                   String studState, String studZip, String studCountry, String studPhone1,
+                   String studPhone2, String fatherName, String fatherSurname, String fatherLastname,
                    String fatherPhone1, String fatherPhone2, String motherName, String motherSurname,
                    String motherLastname, String motherPhone1, String motherPhone2, String parentsHouse,
                    String parentsStreet, String parentsCity, String parentsState,
@@ -89,6 +90,7 @@ public class Student implements Serializable {
         this.studZip = studZip;
         this.studCountry = studCountry;
         this.studPhone1 = studPhone1;
+        this.studPhone2 = studPhone2;
         this.fatherName = fatherName;
         this.fatherSurname = fatherSurname;
         this.fatherLastname = fatherLastname;
@@ -283,6 +285,14 @@ public class Student implements Serializable {
         this.studPhone1 = studPhone1;
     }
 
+    public String getStudPhone2() {
+        return studPhone2;
+    }
+
+    public void setStudPhone2(String studPhone2) {
+        this.studPhone2 = studPhone2;
+    }
+
     public String getFatherName() {
         return fatherName;
     }
@@ -441,6 +451,7 @@ public class Student implements Serializable {
         if (studZip != null ? !studZip.equals(student.studZip) : student.studZip != null) return false;
         if (studCountry != null ? !studCountry.equals(student.studCountry) : student.studCountry != null) return false;
         if (studPhone1 != null ? !studPhone1.equals(student.studPhone1) : student.studPhone1 != null) return false;
+        if (studPhone2 != null ? !studPhone2.equals(student.studPhone2) : student.studPhone2 != null) return false;
         if (fatherName != null ? !fatherName.equals(student.fatherName) : student.fatherName != null) return false;
         if (fatherSurname != null ? !fatherSurname.equals(student.fatherSurname) : student.fatherSurname != null)
             return false;
@@ -494,6 +505,7 @@ public class Student implements Serializable {
         result = 31 * result + (studZip != null ? studZip.hashCode() : 0);
         result = 31 * result + (studCountry != null ? studCountry.hashCode() : 0);
         result = 31 * result + (studPhone1 != null ? studPhone1.hashCode() : 0);
+        result = 31 * result + (studPhone2 != null ? studPhone2.hashCode() : 0);
         result = 31 * result + (fatherName != null ? fatherName.hashCode() : 0);
         result = 31 * result + (fatherSurname != null ? fatherSurname.hashCode() : 0);
         result = 31 * result + (fatherLastname != null ? fatherLastname.hashCode() : 0);
@@ -538,6 +550,7 @@ public class Student implements Serializable {
                 ", studZip='" + studZip + '\'' +
                 ", studCountry='" + studCountry + '\'' +
                 ", studPhone1='" + studPhone1 + '\'' +
+                ", studPhone2='" + studPhone2 + '\'' +
                 ", fatherName='" + fatherName + '\'' +
                 ", fatherSurname='" + fatherSurname + '\'' +
                 ", fatherLastname='" + fatherLastname + '\'' +

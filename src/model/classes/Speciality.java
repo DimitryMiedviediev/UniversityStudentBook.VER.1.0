@@ -7,7 +7,6 @@ public class Speciality {
 
     String id;
     String speciality;
-    boolean checked;
 
     public Speciality() {
     }
@@ -15,12 +14,6 @@ public class Speciality {
     public Speciality(String id, String speciality) {
         this.id = id;
         this.speciality = speciality;
-    }
-
-    public Speciality(String id, String speciality, boolean checked) {
-        this.id = id;
-        this.speciality = speciality;
-        this.checked = checked;
     }
 
     public String getId() {
@@ -39,14 +32,6 @@ public class Speciality {
         this.speciality = speciality;
     }
 
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,7 +39,6 @@ public class Speciality {
 
         Speciality that = (Speciality) o;
 
-        if (checked != that.checked) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         return speciality != null ? speciality.equals(that.speciality) : that.speciality == null;
     }
@@ -63,7 +47,6 @@ public class Speciality {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
-        result = 31 * result + (checked ? 1 : 0);
         return result;
     }
 
@@ -72,7 +55,6 @@ public class Speciality {
         return "Speciality{" +
                 "id='" + id + '\'' +
                 ", speciality='" + speciality + '\'' +
-                ", checked=" + checked +
                 '}';
     }
 }

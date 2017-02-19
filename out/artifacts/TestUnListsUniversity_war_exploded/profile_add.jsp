@@ -151,15 +151,15 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-2">
                 <!-- Profile photo -->
-                <div class="center-block">
-                    <input type="file" name="pic" accept="image/*">
-                </div>
+                <%--<div class="center-block">--%>
+                    <%--<input type="file" name="pic" accept="image/*">--%>
+                <%--</div>--%>
 
                 <div style="padding: 10px"></div>
 
                 <!-- Buttons area -->
-                <input type="submit" name="save_btn" value="Зберегти" class="btn btn-default btn-sm btn-block" formmethod="post"/>
-                <input type="submit" name="clear_btn" value="Очистити" class="btn btn-default btn-sm btn-block" formmethod="post"/>
+                <input type="submit" name="save_btn" value="Зберегти" class="btn btn-default btn-md btn-block" formmethod="post"/>
+                <input type="submit" name="clear_btn" value="Очистити" class="btn btn-default btn-md btn-block" formmethod="post"/>
 
             </div>
             <div class="col-sm-8">

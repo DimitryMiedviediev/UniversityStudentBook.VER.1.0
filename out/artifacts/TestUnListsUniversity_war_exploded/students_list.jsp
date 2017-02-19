@@ -20,7 +20,7 @@
     <%--<link href="../css/users.css" rel="stylesheet">--%>
     <link href="../css/font_style.css" rel="stylesheet">
     <link href="../css/stupidtable.css" rel="stylesheet">
-    <link rel="stylesheet", href="css/users.css">
+    <link rel="stylesheet" , href="css/users.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,12 +67,12 @@
                     <ul>
                         <c:forEach var="specList" items="${specList}">
                             <c:if test="${specList.value eq true}">
-                                <li><h6><input type="checkbox" name="${specList.key}" value="${specList.key}"
+                                <li><h6><input type="checkbox" name="spec=${specList.key}" value="spec=${specList.key}"
                                                checked> ${specList.key} </h6></li>
                             </c:if>
                             <c:if test="${specList.value eq false}">
-                                <li><h6><input type="checkbox" name="${specList.key}"
-                                               value="${specList.key}"> ${specList.key} </h6></li>
+                                <li><h6><input type="checkbox" name="spec=${specList.key}"
+                                               value="spec=${specList.key}"> ${specList.key} </h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -81,12 +81,13 @@
                     <ul>
                         <c:forEach var="statusList" items="${statusList}">
                             <c:if test="${statusList.value eq true}">
-                                <li><h6><input type="checkbox" name="${statusList.key}" value="${statusList.key}"
+                                <li><h6><input type="checkbox" name="stat=${statusList.key}"
+                                               value="stat=${statusList.key}"
                                                checked> ${statusList.key} </h6></li>
                             </c:if>
                             <c:if test="${statusList.value eq false}">
-                                <li><h6><input type="checkbox" name="${statusList.key}"
-                                               value="${statusList.key}"> ${statusList.key} </h6></li>
+                                <li><h6><input type="checkbox" name="stat=${statusList.key}"
+                                               value="stat=${statusList.key}"> ${statusList.key} </h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -95,12 +96,12 @@
                     <ul>
                         <c:forEach var="qualList" items="${qualList}">
                             <c:if test="${qualList.value eq true}">
-                                <li><h6><input type="checkbox" name="${qualList.key}" value="${qualList.key}"
+                                <li><h6><input type="checkbox" name="qual=${qualList.key}" value="qual=${qualList.key}"
                                                checked> ${qualList.key} </h6></li>
                             </c:if>
                             <c:if test="${qualList.value eq false}">
-                                <li><h6><input type="checkbox" name="${qualList.key}"
-                                               value="${qualList.key}"> ${qualList.key} </h6></li>
+                                <li><h6><input type="checkbox" name="qual=${qualList.key}"
+                                               value="qual=${qualList.key}"> ${qualList.key} </h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -109,12 +110,13 @@
                     <ul>
                         <c:forEach var="courseList" items="${courseList}">
                             <c:if test="${courseList.value eq true}">
-                                <li><h6><input type="checkbox" name="${courseList.key}" value="${courseList.key}"
+                                <li><h6><input type="checkbox" name="course=${courseList.key}"
+                                               value="course=${courseList.key}"
                                                checked> ${courseList.key} курс</h6></li>
                             </c:if>
                             <c:if test="${courseList.value eq false}">
-                                <li><h6><input type="checkbox" name="${courseList.key}"
-                                               value="${courseList.key}"> ${courseList.key} курс</h6></li>
+                                <li><h6><input type="checkbox" name="course=${courseList.key}"
+                                               value="course=${courseList.key}"> ${courseList.key} курс</h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -123,7 +125,8 @@
                     <ul>
                         <c:forEach var="groupParam" items="${groupParam}">
                             <c:if test="${groupParam.value != null}">
-                                <li><input type="text" placeholder="Група" name="group" class="form-control" value="${groupParam.value}">
+                                <li><input type="text" placeholder="Група" name="group" class="form-control"
+                                           value="${groupParam.value}">
                                 </li>
                             </c:if>
                             <c:if test="${groupParam.value == null}">
@@ -145,12 +148,12 @@
                     <ul>
                         <c:forEach var="financeList" items="${financeList}">
                             <c:if test="${financeList.value eq true}">
-                                <li><h6><input type="checkbox" name="${financeList.key}" value="${financeList.key}"
+                                <li><h6><input type="checkbox" name="fin=${financeList.key}" value="fin=${financeList.key}"
                                                checked> ${financeList.key} </h6></li>
                             </c:if>
                             <c:if test="${financeList.value eq false}">
-                                <li><h6><input type="checkbox" name="${financeList.key}"
-                                               value="${financeList.key}"> ${financeList.key} </h6></li>
+                                <li><h6><input type="checkbox" name="fin=${financeList.key}"
+                                               value="fin=${financeList.key}"> ${financeList.key} </h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -159,12 +162,12 @@
                     <ul>
                         <c:forEach var="educFormList" items="${educFormList}">
                             <c:if test="${educFormList.value eq true}">
-                                <li><h6><input type="checkbox" name="${educFormList.key}" value="${educFormList.key}"
+                                <li><h6><input type="checkbox" name="edform=${educFormList.key}" value="edform=${educFormList.key}"
                                                checked> ${educFormList.key} </h6></li>
                             </c:if>
                             <c:if test="${educFormList.value eq false}">
-                                <li><h6><input type="checkbox" name="${educFormList.key}"
-                                               value="${educFormList.key}"> ${educFormList.key} </h6></li>
+                                <li><h6><input type="checkbox" name="edform=${educFormList.key}"
+                                               value="edform=${educFormList.key}"> ${educFormList.key} </h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -212,10 +215,10 @@
 
                     <c:forEach var="tempStudList" items="${studList}">
                         <tr>
-                            <td><a href="student_info?id=${tempStudList.id}">${tempStudList.surname}</a></td>
-                            <td><a href="student_info?id=${tempStudList.id}">${tempStudList.name}</a></td>
-                            <td><a href="student_info?id=${tempStudList.id}">${tempStudList.lastname}</a></td>
-                            <td><a href="student_info?id=${tempStudList.id}">${tempStudList.status}</a></td>
+                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.surname}</a></td>
+                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.name}</a></td>
+                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.lastname}</a></td>
+                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.status}</a></td>
                         </tr>
                     </c:forEach>
 
