@@ -39,6 +39,14 @@
         <servlet-name>Student_info</servlet-name>
         <url-pattern>/student_info</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Authorization</servlet-name>
+        <servlet-class>controller.Authorization</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Authorization</servlet-name>
+        <url-pattern>/autorization</url-pattern>
+    </servlet-mapping>
 
 
     <filter>

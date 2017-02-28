@@ -307,24 +307,28 @@
                                     <c:forEach var="studentInfo" items="${studentInfo}">
                                         <c:if test="${studentInfo.subGroup eq null}">
                                             <option selected disabled>Підгрупа</option>
+                                            <option>Відсутня</option>
                                             <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
                                         </c:if>
                                         <c:if test="${studentInfo.subGroup == '1'}">
                                             <option disabled>Підгрупа</option>
+                                            <option>Відсутня</option>
                                             <option selected>1</option>
                                             <option>2</option>
                                             <option>3</option>
                                         </c:if>
                                         <c:if test="${studentInfo.subGroup == '2'}">
                                             <option disabled>Підгрупа</option>
+                                            <option>Відсутня</option>
                                             <option>1</option>
                                             <option selected>2</option>
                                             <option>3</option>
                                         </c:if>
                                         <c:if test="${studentInfo.subGroup == '3'}">
                                             <option disabled>Підгрупа</option>
+                                            <option>Відсутня</option>
                                             <option>1</option>
                                             <option>2</option>
                                             <option selected>3</option>

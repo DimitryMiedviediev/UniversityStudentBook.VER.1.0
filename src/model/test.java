@@ -1,5 +1,9 @@
 package model;
 
+import javafx.beans.binding.BooleanBinding;
+
+import java.util.ArrayList;
+
 /**
  * Created by Dimitry on 18.02.17.
  */
@@ -7,12 +11,15 @@ public class test {
     public static void main(String[] args) {
         Beans beans = new Beans();
 
-        String ddmmyyyy = "01/01/1995";
 
-        String dateNum = beans.dateFormatNum(ddmmyyyy);
-        System.out.println(dateNum);
+        Boolean bool = false;
+        String password = "fs";
 
-        String lnText = beans.dateFormatLongText(ddmmyyyy);
-        System.out.println(lnText);
+        char[] charList = password.toCharArray();
+        if(charList.length >= 6){
+            bool = true;
+        }
+
+        System.out.println(bool);
     }
 }

@@ -41,18 +41,18 @@
         <div class="col-sm-4">
 
             <form class="form-signin" action="autorization" method="post">
-                <h2 class="form-signin-heading text-center">Авторизація</h2>
+                <h2 class="form-signin-heading text-center">Реєстрація</h2>
                 <div class="form-group">
                     <input type="email" class="form-control" placeholder="Пошта" required=""
                            autofocus="" name="email">
                     <input type="password" class="form-control" placeholder="Пароль" required="" name="password">
                 </div>
-                <button class="btn btn-lg btn-default btn-block" type="submit" formmethod="post" name="signIn"
-                        value="signIn">Увійти
+                <button class="btn btn-lg btn-default btn-block" type="submit" formmethod="post" name="signUp"
+                        value="signUp">Зареєструватись
                 </button>
             </form>
 
-            <a href="sign_up.jsp">Зареєструватись</a>
+            <a href="sign_in.jsp">Авторизуватись</a>
         </div>
         <div class="col-sm-4"></div>
     </div>
@@ -60,4 +60,3 @@
 
 </body>
 </html>
-

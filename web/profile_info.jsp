@@ -125,27 +125,19 @@
                         </tbody>
                         <tbody>
                         <tr>
-                            <td class="col-sm-2">Група:</td>
-                            <td class="col-sm-6">
-                                <c:forEach var="groupInfo" items="${groupInfo}">
-                                    <c:if test="${groupInfo.number ne null}">
-                                        ${groupInfo.number}
-                                    </c:if>
-                                </c:forEach>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tbody>
-                        <tr>
-                            <td class="col-sm-2">Підгрупа:</td>
+                            <td class="col-sm-2">Група/Підгрупа:</td>
                             <td class="col-sm-6">
                                 <c:forEach var="studentInfo" items="${studentInfo}">
-                                    <c:if test="${studentInfo.subGroup ne null}">
-                                        ${studentInfo.subGroup}
-                                    </c:if>
+                                    <c:forEach var="groupInfo" items="${groupInfo}">
+                                        <c:if test="${groupInfo.number ne null}">
+                                            ${groupInfo.number}
+                                        </c:if>
+                                        <c:if test="${studentInfo.subGroup ne null}">
+                                            / ${studentInfo.subGroup}
+                                        </c:if>
+                                    </c:forEach>
                                 </c:forEach>
                             </td>
-                        </tr>
                         </tbody>
                         <tbody>
                         <tr>

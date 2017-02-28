@@ -9,7 +9,7 @@
                     <div class="navbar-right">
                         <button type="submit" class="btn btn-default" formaction="students_list" formmethod="post">Список студентів</button>
                         <button type="submit" class="btn btn-default" formaction="groups_list" formmethod="post">Список груп</button>
-                        <button type="submit" class="btn btn-default" formaction="sign_in.jsp" formmethod="post">Вийти</button>
+                        <button type="submit" class="btn btn-default" formaction="autorization" formmethod="post" name="exit" value="exit">Вийти</button>
                     </div>
                     <div class="navbar-left">
                         <button type="submit" class="btn btn-default" formaction="control_panel" formmethod="post">Адміністративна панель</button>
