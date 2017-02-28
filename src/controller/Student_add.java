@@ -1,6 +1,7 @@
 package controller;
 
 import model.Beans;
+import model.classes.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 //import static controller.Mainservlet.beans;
 
@@ -34,12 +36,15 @@ public class Student_add extends HttpServlet {
             resp.sendRedirect("sign_in.jsp");
         } else {
 
+            ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+            String userSchema = thisUser.get(0).getUser_database();
+
             if (req.getParameter("clear_btn") != null) {
-                req.setAttribute("groupList", beans.getGroupList());
+                req.setAttribute("groupList", beans.getGroupList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_add.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("save_btn") != null) {
-                beans.createNewStudent(req.getParameter("name_student"), req.getParameter("surname_student"),
+                beans.createNewStudent(userSchema, req.getParameter("name_student"), req.getParameter("surname_student"),
                         req.getParameter("lastname_student"), req.getParameter("date_entry"),
                         req.getParameter("status"), req.getParameter("group"), req.getParameter("subgroup"),
                         req.getParameter("financing"), req.getParameter("stud_book"), req.getParameter("date_birth"),
@@ -53,11 +58,11 @@ public class Student_add extends HttpServlet {
                         req.getParameter("mother_phone_2"), req.getParameter("parent_house"), req.getParameter("parent_street"),
                         req.getParameter("parent_city"), req.getParameter("parent_state"), req.getParameter("parent_zip"),
                         req.getParameter("parent_country"));
-                req.setAttribute("groupList", beans.getGroupList());
+                req.setAttribute("groupList", beans.getGroupList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_add.jsp");
                 dispatcher.forward(req, resp);
             } else {
-                req.setAttribute("groupList", beans.getGroupList());
+                req.setAttribute("groupList", beans.getGroupList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_add.jsp");
                 dispatcher.forward(req, resp);
             }

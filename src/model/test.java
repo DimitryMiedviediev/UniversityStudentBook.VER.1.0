@@ -9,17 +9,9 @@ import java.util.ArrayList;
  */
 public class test {
     public static void main(String[] args) {
+
         Beans beans = new Beans();
 
-
-        Boolean bool = false;
-        String password = "fs";
-
-        char[] charList = password.toCharArray();
-        if(charList.length >= 6){
-            bool = true;
-        }
-
-        System.out.println(bool);
+        beans.createUserSchema();
     }
 }

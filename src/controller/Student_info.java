@@ -4,6 +4,7 @@ import model.Beans;
 import model.classes.Group;
 import model.classes.Speciality;
 import model.classes.Student;
+import model.classes.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,18 +37,21 @@ public class Student_info extends HttpServlet {
             resp.sendRedirect("sign_in.jsp");
         } else {
 
+            ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+            String userSchema = thisUser.get(0).getUser_database();
+
             if (req.getParameter("edit_btn") != null) {
 
-                ArrayList<Student> studentInfo = beans.getOneStudent(req.getParameter("stud_id"), true);
+                ArrayList<Student> studentInfo = beans.getOneStudent(userSchema, req.getParameter("stud_id"), true);
                 req.setAttribute("studentInfo", studentInfo);
 
-                ArrayList<Group> groupInfo = beans.getOneStudentGroup(req.getParameter("stud_id"));
+                ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("groupInfo", groupInfo);
 
-                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(req.getParameter("stud_id"));
+                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("specInfo", specInfo);
 
-                req.setAttribute("groupList", beans.getGroupList());
+                req.setAttribute("groupList", beans.getGroupList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_edit.jsp");
                 dispatcher.forward(req, resp);
 
@@ -55,14 +59,14 @@ public class Student_info extends HttpServlet {
 
                 String id = req.getParameter("stud_id");
                 System.out.println("Delete student with iD = " + id);
-                beans.deleteStudent(id);
+                beans.deleteStudent(userSchema, id);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("students_list");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("save_btn") != null) {
 
-                beans.editStudent(req.getParameter("stud_id"), req.getParameter("name_student"), req.getParameter("surname_student"),
+                beans.editStudent(userSchema, req.getParameter("stud_id"), req.getParameter("name_student"), req.getParameter("surname_student"),
                         req.getParameter("lastname_student"), req.getParameter("date_entry"), req.getParameter("status"),
                         req.getParameter("group"), req.getParameter("subgroup"), req.getParameter("financing"),
                         req.getParameter("stud_book"), req.getParameter("date_birth"), req.getParameter("passp_serial"),
@@ -77,13 +81,13 @@ public class Student_info extends HttpServlet {
                         req.getParameter("parent_state"), req.getParameter("parent_zip"), req.getParameter("parent_country"));
 
 
-                ArrayList<Student> studentInfo = beans.getOneStudent(req.getParameter("stud_id"), false);
+                ArrayList<Student> studentInfo = beans.getOneStudent(userSchema, req.getParameter("stud_id"), false);
                 req.setAttribute("studentInfo", studentInfo);
 
-                ArrayList<Group> groupInfo = beans.getOneStudentGroup(req.getParameter("stud_id"));
+                ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("groupInfo", groupInfo);
 
-                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(req.getParameter("stud_id"));
+                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("specInfo", specInfo);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_info.jsp");
@@ -91,13 +95,13 @@ public class Student_info extends HttpServlet {
 
             } else {
 
-                ArrayList<Student> studentInfo = beans.getOneStudent(req.getParameter("stud_id"), false);
+                ArrayList<Student> studentInfo = beans.getOneStudent(userSchema, req.getParameter("stud_id"), false);
                 req.setAttribute("studentInfo", studentInfo);
 
-                ArrayList<Group> groupInfo = beans.getOneStudentGroup(req.getParameter("stud_id"));
+                ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("groupInfo", groupInfo);
 
-                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(req.getParameter("stud_id"));
+                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("specInfo", specInfo);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_info.jsp");

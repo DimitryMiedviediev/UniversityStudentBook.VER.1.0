@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Beans {
     GetTime time = new GetTime();
-    String schema = "studDBfin";
+//    String userSchema = "studDBfin";
 
     private Connection startConnection() {
         Connection connection = null;
@@ -58,11 +58,11 @@ public class Beans {
     /**
      * Working with specialities in control panel and calling pages
      */
-    public void createNewSpec(String newSpecName) {
+    public void createNewSpec(String userSchema, String newSpecName) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             String query = "INSERT INTO specialities (spec_name) VALUES (\"" + newSpecName + "\")";
             if (!newSpecName.equals("")) {
@@ -76,12 +76,12 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public ArrayList<Speciality> getSpecList() {
+    public ArrayList<Speciality> getSpecList(String userSchema) {
         ArrayList<Speciality> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -103,12 +103,12 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Speciality> getOneSpec(String nameSpec) {
+    public ArrayList<Speciality> getOneSpec(String userSchema, String nameSpec) {
         ArrayList<Speciality> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities WHERE spec_name = \"" + nameSpec + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -130,11 +130,11 @@ public class Beans {
         return storage;
     }
 
-    public void editSpec(String specId, String newName) {
+    public void editSpec(String userSchema, String specId, String newName) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             String query = "UPDATE specialities SET spec_name = \"" + newName + "\" WHERE id_spec = \"" + specId + "\"";
             if (!newName.equals("")) {
@@ -148,11 +148,11 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public void deleteSpec(String nameSpec) {
+    public void deleteSpec(String userSchema, String nameSpec) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
 //            String query = "DELETE FROM specialities WHERE spec_name = \"" + nameSpec + "\")";
             String query = "DELETE FROM specialities WHERE spec_name = \"" + nameSpec + "\"";
@@ -168,11 +168,11 @@ public class Beans {
     /**
      * Working with groups in control panel and calling pages
      */
-    public void createNewGroup(String speciality, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
+    public void createNewGroup(String userSchema, String speciality, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
 
             String specId = null;
@@ -195,12 +195,12 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public ArrayList<Group> getGroupList() {
+    public ArrayList<Group> getGroupList(String userSchema) {
         ArrayList<Group> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM groups");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -226,12 +226,12 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Group> getOneGroup(String groupNum) {
+    public ArrayList<Group> getOneGroup(String userSchema, String groupNum) {
         ArrayList<Group> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_num = \"" + groupNum + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -257,11 +257,11 @@ public class Beans {
         return storage;
     }
 
-    public void editGroup(String groupId, String specName, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
+    public void editGroup(String userSchema, String groupId, String specName, String groupNum, String groupEducForm, String groupEducQual, String groupCourse) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             String specId = null;
             ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \"" + specName + "\"");
@@ -282,11 +282,11 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public void deleteGroup(String groupNum) {
+    public void deleteGroup(String userSchema, String groupNum) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             String query = "DELETE FROM groups WHERE group_num = \"" + groupNum + "\"";
             System.out.println("Query delete group: " + query);
@@ -301,7 +301,7 @@ public class Beans {
     /**
      * Working with students
      */
-    public void createNewStudent(String studentName, String studentSurname, String studentLastname, String entryDate,
+    public void createNewStudent(String userSchema, String studentName, String studentSurname, String studentLastname, String entryDate,
                                  String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                                  String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                                  String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -314,10 +314,10 @@ public class Beans {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
 
-            String queryStudent = createNewStudentQuery(studentName, studentSurname, studentLastname, entryDate,
+            String queryStudent = createNewStudentQuery(userSchema, studentName, studentSurname, studentLastname, entryDate,
                     studentStatus, studentGroup, studentSubgroup, studentFinancing, studentBook, dateBirth, passpSerial,
                     passpOffice, passpDateRelease, identityCode, studentHouse, studentStreet, studentCity, studentState,
                     studentZip, studentCountry, studentPhone1, studentPhone2, fatherName, fatherSurname, fatherLastname,
@@ -336,7 +336,7 @@ public class Beans {
 
     }
 
-    public String createNewStudentQuery(String studentName, String studentSurname, String studentLastname, String entryDate,
+    public String createNewStudentQuery(String userSchema, String studentName, String studentSurname, String studentLastname, String entryDate,
                                         String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                                         String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                                         String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -349,7 +349,7 @@ public class Beans {
         Connection conn = startConnection();
         String groupId = null;
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             //Return groupID
             ResultSet resultSet1 = statement.executeQuery("SELECT group_id FROM groups WHERE group_num = \"" + studentGroup + "\"");
@@ -493,7 +493,7 @@ public class Beans {
         return query;
     }
 
-    public void editStudent(String studId, String studentName, String studentSurname, String studentLastname, String entryDate,
+    public void editStudent(String userSchema, String studId, String studentName, String studentSurname, String studentLastname, String entryDate,
                             String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                             String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                             String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -505,10 +505,10 @@ public class Beans {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
 
-            String queryStudent = createEditStudentQuery(studId, studentName, studentSurname, studentLastname, entryDate,
+            String queryStudent = createEditStudentQuery(userSchema, studId, studentName, studentSurname, studentLastname, entryDate,
                     studentStatus, studentGroup, studentSubgroup, studentFinancing, studentBook, dateBirth, passpSerial,
                     passpOffice, passpDateRelease, identityCode, studentHouse, studentStreet, studentCity, studentState,
                     studentZip, studentCountry, studentPhone1, studentPhone2, fatherName, fatherSurname, fatherLastname,
@@ -524,7 +524,7 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public String createEditStudentQuery(String studId, String studentName, String studentSurname, String studentLastname, String entryDate,
+    public String createEditStudentQuery(String userSchema, String studId, String studentName, String studentSurname, String studentLastname, String entryDate,
                                          String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                                          String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                                          String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -537,7 +537,7 @@ public class Beans {
         Connection conn = startConnection();
         String groupId = null;
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             //Return groupID
             ResultSet resultSet1 = statement.executeQuery("SELECT group_id FROM groups WHERE group_num = \"" + studentGroup + "\"");
@@ -737,13 +737,13 @@ public class Beans {
         return query;
     }
 
-    public ArrayList<Student> getStudList(String query) {
+    public ArrayList<Student> getStudList(String userSchema, String query) {
 
         ArrayList<Student> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
 //            ResultSet resultSet = statement.executeQuery("SELECT stud_id, stud_name, stud_surname, stud_lastname, status FROM students");
             ResultSet resultSet = statement.executeQuery(query);
@@ -767,11 +767,11 @@ public class Beans {
         return storage;
     }
 
-    public void deleteStudent(String studId) {
+    public void deleteStudent(String userSchema, String studId) {
         Connection conn = startConnection();
 
         try {
-            conn.setCatalog(schema);
+            conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             String query = "DELETE FROM students WHERE stud_id = \"" + studId + "\"";
             System.out.println("Query delete student: " + query);
@@ -788,12 +788,12 @@ public class Beans {
      * Getting parameters for sidebar on student list
      */
 
-    public HashMap<String, Boolean> getSpecListForTitle() {
+    public HashMap<String, Boolean> getSpecListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT DISTINCT spec_name FROM specialities");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -811,12 +811,12 @@ public class Beans {
         return storage;
     }
 
-    public HashMap<String, Boolean> getStatusListForTitle() {
+    public HashMap<String, Boolean> getStatusListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT DISTINCT status FROM students");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -834,12 +834,12 @@ public class Beans {
         return storage;
     }
 
-    public HashMap<String, Boolean> getQualificationListForTitle() {
+    public HashMap<String, Boolean> getQualificationListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_qual FROM groups");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -856,12 +856,12 @@ public class Beans {
         return storage;
     }
 
-    public HashMap<String, Boolean> getCourseListForTitle() {
+    public HashMap<String, Boolean> getCourseListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_course FROM groups");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -878,12 +878,12 @@ public class Beans {
         return storage;
     }
 
-    public HashMap<String, Boolean> getEducFormListForTitle() {
+    public HashMap<String, Boolean> getEducFormListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_educ_form FROM groups");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -900,12 +900,12 @@ public class Beans {
         return storage;
     }
 
-    public HashMap<String, Boolean> getFinanceListForTitle() {
+    public HashMap<String, Boolean> getFinanceListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT DISTINCT financing FROM students");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -1105,12 +1105,12 @@ public class Beans {
      * Return profile info from DB
      */
 
-    public ArrayList<Student> getOneStudent(String studId, Boolean bool) {
+    public ArrayList<Student> getOneStudent(String userSchema, String studId, Boolean bool) {
         ArrayList<Student> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM students st WHERE st.stud_id = \"" + studId + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -1194,12 +1194,12 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Group> getOneStudentGroup(String studId) {
+    public ArrayList<Group> getOneStudentGroup(String userSchema, String studId) {
         ArrayList<Group> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM groups gr INNER JOIN students st ON gr.group_id = st.group_id WHERE st.stud_id = \"" + studId + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -1224,12 +1224,12 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Speciality> getOneStudentSpec(String studId) {
+    public ArrayList<Speciality> getOneStudentSpec(String userSchema, String studId) {
         ArrayList<Speciality> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
-            con.setCatalog(schema);
+            con.setCatalog(userSchema);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities sp INNER JOIN groups gr ON gr.spec_id = sp.id_spec INNER JOIN students st ON gr.group_id = st.group_id WHERE st.stud_id = \"" + studId + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
@@ -1365,6 +1365,14 @@ public class Beans {
 
         Connection con = startConnection();
         try {
+            try {
+                con.setCatalog("Users");
+            } catch (SQLException e) {
+                String str = "" + e;
+                if (str.equals("java.sql.SQLSyntaxErrorException: Unknown database 'users'")) {
+                    createUserSchema();
+                }
+            }
             con.setCatalog("Users");
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE user_email = \"" + email + "\" AND user_password = \"" + password + "\"");
@@ -1376,7 +1384,7 @@ public class Beans {
                 String user_password = resultSet.getString(meta.getColumnName(3));
                 String user_database = resultSet.getString(meta.getColumnName(4));
 
-                if(user_email.equals(email)&&user_password.equals(password)) {
+                if (user_email.equals(email) && user_password.equals(password)) {
                     bool = true;
                 }
 
@@ -1389,11 +1397,12 @@ public class Beans {
         return bool;
     }
 
-    public ArrayList<User> getOneUser(String email, String password){
+    public ArrayList<User> getOneUser(String email, String password) {
         ArrayList<User> oneUser = new ArrayList<>();
 
         Connection con = startConnection();
         try {
+
             con.setCatalog("Users");
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE user_email = \"" + email + "\" AND user_password = \"" + password + "\"");
@@ -1416,6 +1425,15 @@ public class Beans {
 
     public void createNewUser(String email, String password) {
         Connection conn = startConnection();
+
+        try {
+            conn.setCatalog("Users");
+        } catch (SQLException e) {
+            String str = "" + e;
+            if (str.equals("java.sql.SQLSyntaxErrorException: Unknown database 'users'")) {
+                createUserSchema();
+            }
+        }
 
         try {
             conn.setCatalog("Users");
@@ -1449,7 +1467,7 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public void createNewDB(String dataBase){
+    public void createNewDB(String dataBase) {
         Connection conn = startConnection();
 
         try {
@@ -1457,6 +1475,9 @@ public class Beans {
             Statement statement = conn.createStatement();
 
             statement.executeUpdate("CREATE SCHEMA `" + dataBase + "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
+            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`specialities` (`id_spec` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`id_spec`), UNIQUE KEY `id_spec_UNIQUE` (`id_spec`)) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1");
+            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`groups` (`group_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_id` int(10) unsigned DEFAULT NULL, `group_num` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`group_id`), UNIQUE KEY `group_id_UNIQUE` (`group_id`), KEY `spec_id_idx` (`spec_id`), CONSTRAINT `spec_id_1` FOREIGN KEY (`spec_id`) REFERENCES `specialities` (`id_spec`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1");
+            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`students` (`stud_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `stud_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_id` int(10) unsigned DEFAULT NULL, `subgroup` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `financing` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_book` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `birth_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passport` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_office` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `identity_code` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`stud_id`), UNIQUE KEY `stud_id_UNIQUE` (`stud_id`), KEY `group_id_1_idx` (`group_id`), KEY `parent_id_1_idx` (`father_name`), CONSTRAINT `group_id_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1465,13 +1486,13 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public Boolean testEmail(String email){
+    public Boolean testEmail(String email) {
 
         Boolean bool = false;
 
         char[] charList = email.toCharArray();
-        for(int i = 0; i<charList.length; i++){
-            if(String.valueOf(charList[i]).equals("@")){
+        for (int i = 0; i < charList.length; i++) {
+            if (String.valueOf(charList[i]).equals("@")) {
                 bool = true;
             }
         }
@@ -1479,16 +1500,32 @@ public class Beans {
         return bool;
     }
 
-    public Boolean testPassword(String password){
+    public Boolean testPassword(String password) {
 
         Boolean bool = false;
 
         char[] charList = password.toCharArray();
-        if(charList.length >= 6){
+        if (charList.length >= 6) {
             bool = true;
         }
 
         return bool;
+    }
+
+    public void createUserSchema() {
+        Connection conn = startConnection();
+
+        try {
+            Statement statement = conn.createStatement();
+
+            statement.executeUpdate("CREATE SCHEMA `Users` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
+            statement.executeUpdate("CREATE TABLE `Users`.`users` (`user_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `user_email` varchar(100) DEFAULT NULL, `user_password` varchar(100) DEFAULT NULL, `user_database` varchar(100) DEFAULT NULL, PRIMARY KEY (`user_id`), UNIQUE KEY `user_id_UNIQUE` (`user_id`)) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
     }
 
 //    public String getDataBase(String email, String password) {

@@ -42,7 +42,7 @@ public class Students_list extends HttpServlet {
             ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
             String userSchema = thisUser.get(0).getUser_database();
 
-            HashMap<String, Boolean> specList = beans.getSpecListForTitle();
+            HashMap<String, Boolean> specList = beans.getSpecListForTitle(userSchema);
             for (String key : specList.keySet()) {
                 if (req.getParameter("spec=" + key) != null) {
                     specList.put(key, true);
@@ -50,7 +50,7 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("specList", specList);
 
-            HashMap<String, Boolean> statusList = beans.getStatusListForTitle();
+            HashMap<String, Boolean> statusList = beans.getStatusListForTitle(userSchema);
             for (String key : statusList.keySet()) {
                 if (req.getParameter("stat=" + key) != null) {
                     statusList.put(key, true);
@@ -58,7 +58,7 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("statusList", statusList);
 
-            HashMap<String, Boolean> qualList = beans.getQualificationListForTitle();
+            HashMap<String, Boolean> qualList = beans.getQualificationListForTitle(userSchema);
             for (String key : qualList.keySet()) {
                 if (req.getParameter("qual=" + key) != null) {
                     qualList.put(key, true);
@@ -66,7 +66,7 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("qualList", qualList);
 
-            HashMap<String, Boolean> courseList = beans.getCourseListForTitle();
+            HashMap<String, Boolean> courseList = beans.getCourseListForTitle(userSchema);
             for (String key : courseList.keySet()) {
                 if (req.getParameter("course=" + key) != null) {
                     courseList.put(key, true);
@@ -74,7 +74,7 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("courseList", courseList);
 
-            HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle();
+            HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle(userSchema);
             for (String key : educFormList.keySet()) {
                 if (req.getParameter("edform=" + key) != null) {
                     educFormList.put(key, true);
@@ -82,7 +82,7 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("educFormList", educFormList);
 
-            HashMap<String, Boolean> financeList = beans.getFinanceListForTitle();
+            HashMap<String, Boolean> financeList = beans.getFinanceListForTitle(userSchema);
             for (String key : financeList.keySet()) {
                 if (req.getParameter("fin=" + key) != null) {
                     financeList.put(key, true);
@@ -112,7 +112,7 @@ public class Students_list extends HttpServlet {
                     educFormList, financeList, groupParam, subgroupParam, cityParam, stateParam);
             System.out.println(modQuery);
 
-            req.setAttribute("studList", beans.getStudList(modQuery));
+            req.setAttribute("studList", beans.getStudList(userSchema, modQuery));
             RequestDispatcher dispatcher = req.getRequestDispatcher("students_list.jsp");
 
             dispatcher.forward(req, resp);
