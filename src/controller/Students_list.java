@@ -74,6 +74,22 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("courseList", courseList);
 
+            HashMap<String, Boolean> groupList = beans.getGroupListForTitle(userSchema);
+            for (String key : groupList.keySet()) {
+                if (req.getParameter("gr=" + key) != null) {
+                    groupList.put(key, true);
+                }
+            }
+            req.setAttribute("groupList", groupList);
+
+            HashMap<String, Boolean> subgroupList = beans.getSubgroupListForTitle(userSchema);
+            for (String key : subgroupList.keySet()) {
+                if (req.getParameter("sub=" + key) != null) {
+                    subgroupList.put(key, true);
+                }
+            }
+            req.setAttribute("subgroupList", subgroupList);
+
             HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle(userSchema);
             for (String key : educFormList.keySet()) {
                 if (req.getParameter("edform=" + key) != null) {
@@ -90,13 +106,21 @@ public class Students_list extends HttpServlet {
             }
             req.setAttribute("financeList", financeList);
 
-            HashMap<String, String> groupParam = new HashMap<>();
-            groupParam.put("group", req.getParameter("group"));
-            req.setAttribute("groupParam", groupParam);
+            HashMap<String, Boolean> cityList = beans.getCityListForTitle(userSchema);
+            for (String key : cityList.keySet()) {
+                if (req.getParameter("city=" + key) != null) {
+                    cityList.put(key, true);
+                }
+            }
+            req.setAttribute("cityList", cityList);
 
-            HashMap<String, String> subgroupParam = new HashMap<>();
-            subgroupParam.put("subgroup", req.getParameter("subgroup"));
-            req.setAttribute("subgroupParam", subgroupParam);
+            HashMap<String, Boolean> stateList = beans.getStateListForTitle(userSchema);
+            for (String key : stateList.keySet()) {
+                if (req.getParameter("state=" + key) != null) {
+                    stateList.put(key, true);
+                }
+            }
+            req.setAttribute("stateList", stateList);
 
             HashMap<String, String> cityParam = new HashMap<>();
             cityParam.put("city", req.getParameter("city"));
@@ -109,7 +133,7 @@ public class Students_list extends HttpServlet {
 
             String query = "SELECT stud_id, stud_name, stud_surname, stud_lastname, status FROM students st";
             String modQuery = beans.retSortedQuery(query, specList, statusList, qualList, courseList,
-                    educFormList, financeList, groupParam, subgroupParam, cityParam, stateParam);
+                    educFormList, financeList, groupList, subgroupList, cityParam, stateParam);
             System.out.println(modQuery);
 
             req.setAttribute("studList", beans.getStudList(userSchema, modQuery));

@@ -202,7 +202,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups");
+            ResultSet resultSet = statement.executeQuery("SELECT gr.group_id, sp.spec_name, gr.group_num, gr.group_educ_form, gr.group_qual, gr.group_course FROM groups gr INNER JOIN specialities sp ON gr.spec_id = sp.id_spec");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -226,14 +226,14 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Group> getOneGroup(String userSchema, String groupNum) {
+    public ArrayList<Group> getOneGroup(String userSchema, String group_Id) {
         ArrayList<Group> storage = new ArrayList<>();
 
         Connection con = startConnection();
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_num = \"" + groupNum + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_id = \"" + group_Id + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -282,13 +282,13 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public void deleteGroup(String userSchema, String groupNum) {
+    public void deleteGroup(String userSchema, String groupId) {
         Connection conn = startConnection();
 
         try {
             conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
-            String query = "DELETE FROM groups WHERE group_num = \"" + groupNum + "\"";
+            String query = "DELETE FROM groups WHERE group_id = \"" + groupId + "\"";
             System.out.println("Query delete group: " + query);
             statement.execute(query);
         } catch (SQLException e) {
@@ -346,26 +346,9 @@ public class Beans {
                                         String motherPhone1, String motherPhone2, String parentHouse, String parentStreet, String parentCity,
                                         String parentState, String parentZip, String parentCountry) {
 
-        Connection conn = startConnection();
-        String groupId = null;
-        try {
-            conn.setCatalog(userSchema);
-            Statement statement = conn.createStatement();
-            //Return groupID
-            ResultSet resultSet1 = statement.executeQuery("SELECT group_id FROM groups WHERE group_num = \"" + studentGroup + "\"");
-            ResultSetMetaData meta1 = resultSet1.getMetaData();
-            while (resultSet1.next()) {
-                groupId = resultSet1.getString(meta1.getColumnName(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        stopConnection(conn);
-
-
         String queryParam = "stud_name, stud_surname, stud_lastname, entry_date, status, group_id, financing, stud_book";
         String queryValues = "\"" + studentName + "\" , \"" + studentSurname + "\" , \"" + studentLastname +
-                "\" , \"" + entryDate + "\" , \"" + studentStatus + "\" , \"" + groupId +
+                "\" , \"" + entryDate + "\" , \"" + studentStatus + "\" , \"" + studentGroup +
                 "\" , \"" + studentFinancing + "\" , \"" + studentBook +
                 "\"";
         if (studentSubgroup != null && !studentSubgroup.equals("")) {
@@ -534,25 +517,9 @@ public class Beans {
                                          String motherPhone1, String motherPhone2, String parentHouse, String parentStreet, String parentCity,
                                          String parentState, String parentZip, String parentCountry) {
 
-        Connection conn = startConnection();
-        String groupId = null;
-        try {
-            conn.setCatalog(userSchema);
-            Statement statement = conn.createStatement();
-            //Return groupID
-            ResultSet resultSet1 = statement.executeQuery("SELECT group_id FROM groups WHERE group_num = \"" + studentGroup + "\"");
-            ResultSetMetaData meta1 = resultSet1.getMetaData();
-            while (resultSet1.next()) {
-                groupId = resultSet1.getString(meta1.getColumnName(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        stopConnection(conn);
-
         String queryConfig = " stud_name = \"" + studentName + "\", stud_surname = \"" + studentSurname + "\", stud_lastname = \"" +
                 studentLastname + "\", entry_date = \"" + entryDate + "\", status = \"" + studentStatus + "\", group_id = \"" +
-                groupId + "\", financing = \"" + studentFinancing + "\", stud_book = \"" + studentBook + "\"";
+                studentGroup + "\", financing = \"" + studentFinancing + "\", stud_book = \"" + studentBook + "\"";
 
         if (studentSubgroup != null && !studentSubgroup.equals("") && !studentSubgroup.equals("Відсутня")) {
             queryConfig = queryConfig + ", subgroup = \"" + studentSubgroup + "\"";
@@ -878,6 +845,50 @@ public class Beans {
         return storage;
     }
 
+    public HashMap<String, Boolean> getGroupListForTitle(String userSchema) {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_num FROM groups");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String qualification = resultSet.getString(meta.getColumnName(1));
+                storage.put(qualification, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getSubgroupListForTitle(String userSchema) {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT subgroup FROM students");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String qualification = resultSet.getString(meta.getColumnName(1));
+                storage.put(qualification, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
     public HashMap<String, Boolean> getEducFormListForTitle(String userSchema) {
         HashMap<String, Boolean> storage = new HashMap<>();
 
@@ -922,6 +933,50 @@ public class Beans {
         return storage;
     }
 
+    public HashMap<String, Boolean> getCityListForTitle(String userSchema) {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT parent_city FROM students");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String group = resultSet.getString(meta.getColumnName(1));
+                storage.put(group, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getStateListForTitle(String userSchema) {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT parent_state FROM students");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String group = resultSet.getString(meta.getColumnName(1));
+                storage.put(group, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
     /**
      * Modify standart MySQL SELECT query to SELECT query with WHERE parameters
      */
@@ -929,13 +984,13 @@ public class Beans {
     public String retSortedQuery(String query, HashMap<String, Boolean> specList, HashMap<String, Boolean> statusList,
                                  HashMap<String, Boolean> qualList, HashMap<String, Boolean> courseList,
                                  HashMap<String, Boolean> educFormList, HashMap<String, Boolean> finList,
-                                 HashMap<String, String> groupParam, HashMap<String, String> subgroupParam,
+                                 HashMap<String, Boolean> groupList, HashMap<String, Boolean> subgroupList,
                                  HashMap<String, String> cityParam, HashMap<String, String> stateParam) {
 
         if (retIfMapBoolTrue(specList)) {
             query = query + " INNER JOIN groups gr ON st.group_id = gr.group_id INNER JOIN specialities sp ON sp.id_spec = gr.spec_id";
         } else if (retIfMapBoolTrue(qualList) || retIfMapBoolTrue(courseList) || retIfMapBoolTrue(educFormList) ||
-                retIfMapStrTrue(groupParam)) {
+                retIfMapBoolTrue(groupList)) {
             query = query + " INNER JOIN groups gr ON st.group_id = gr.group_id";
         }
 
@@ -975,19 +1030,15 @@ public class Beans {
             }
         }
 
-        for (Map.Entry<String, String> entry : groupParam.entrySet()) {
-            if (entry.getValue() != null) {
-                if (!entry.getValue().equals("")) {
-                    query = addQueryPart(query, "gr.group_num", entry.getValue());
-                }
+        for (Map.Entry<String, Boolean> entry : groupList.entrySet()) {
+            if (entry.getValue()) {
+                query = addQueryPart(query, "gr.group_num", entry.getKey());
             }
         }
 
-        for (Map.Entry<String, String> entry : subgroupParam.entrySet()) {
-            if (entry.getValue() != null) {
-                if (!entry.getValue().equals("")) {
-                    query = addQueryPart(query, "st.subgroup", entry.getValue());
-                }
+        for (Map.Entry<String, Boolean> entry : subgroupList.entrySet()) {
+            if (entry.getValue()) {
+                query = addQueryPart(query, "st.subgroup", entry.getKey());
             }
         }
 
@@ -1022,31 +1073,31 @@ public class Beans {
         return bool;
     }
 
-    public Boolean retIfMapStrTrue(HashMap<String, String> hashMap) {
-        Boolean bool = false;
-        for (String value : hashMap.values()) {
-            if (value != null) {
-                if (!value.equals("")) {
-                    bool = true;
-                }
-            }
-        }
-        return bool;
-    }
+//    public Boolean retIfMapStrTrue(HashMap<String, String> hashMap) {
+//        Boolean bool = false;
+//        for (String value : hashMap.values()) {
+//            if (value != null) {
+//                if (!value.equals("")) {
+//                    bool = true;
+//                }
+//            }
+//        }
+//        return bool;
+//    }
 
     public String addQueryPart(String queryFull, String queryParam, String parameter) {
         if (parameter != null) {
             if (qParam(queryFull, queryParam)) {
                 if (qParam(queryFull, "WHERE")) {
-                    queryFull = queryFull + " OR " + queryParam + " = '" + parameter + "'";
+                    queryFull = queryFull + " OR " + queryParam + " = \"" + parameter + "\"";
                 } else {
-                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                    queryFull = queryFull + " WHERE " + queryParam + " = \"" + parameter + "\"";
                 }
             } else {
                 if (qParam(queryFull, "WHERE")) {
-                    queryFull = queryFull + " AND " + queryParam + " = '" + parameter + "'";
+                    queryFull = queryFull + " AND " + queryParam + " = \"" + parameter + "\"";
                 } else {
-                    queryFull = queryFull + " WHERE " + queryParam + " = '" + parameter + "'";
+                    queryFull = queryFull + " WHERE " + queryParam + " = \"" + parameter + "\"";
                 }
             }
         }

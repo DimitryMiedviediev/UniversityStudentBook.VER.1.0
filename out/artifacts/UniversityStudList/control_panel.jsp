@@ -176,7 +176,7 @@
                                     <select name="group_edit" class="form-control input-sm center-block" required>
                                         <option selected disabled>Введіть значення</option>
                                         <c:forEach var="groupList" items="${groupList}">
-                                            <option>${groupList.number}</option>
+                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -198,7 +198,7 @@
                                     <select name="group_delete" class="form-control input-sm center-block">
                                         <option selected disabled>Введіть значення</option>
                                         <c:forEach var="groupList" items="${groupList}">
-                                            <option>${groupList.number}</option>
+                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

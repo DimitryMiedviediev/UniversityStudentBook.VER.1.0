@@ -224,7 +224,7 @@
                             <td class="col-sm-2">
                                 <select name="group" required>
                                     <c:forEach var="groupList" items="${groupList}">
-                                        <option>${groupList.number}</option>
+                                        <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
                                     </c:forEach>
                                 </select>
                                 <select name="subgroup">

@@ -294,10 +294,10 @@
                                         <c:forEach var="groupList" items="${groupList}">
                                             <c:choose>
                                                 <c:when test="${studentInfo.groupId == groupList.groupId}">
-                                                    <option selected>${groupList.number}</option>
+                                                    <option value="${groupList.groupId}" selected>Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
                                                 </c:when>
                                                 <c:when test="${studentInfo.groupId != groupList.groupId}">
-                                                    <option>${groupList.number}</option>
+                                                    <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
                                                 </c:when>
                                             </c:choose>
                                         </c:forEach>

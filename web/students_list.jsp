@@ -121,25 +121,31 @@
                         </c:forEach>
                     </ul>
                     <hr>
-                    <h5>Група/Підгрупа</h5>
+                    <h5>Група</h5>
                     <ul>
-                        <c:forEach var="groupParam" items="${groupParam}">
-                            <c:if test="${groupParam.value != null}">
-                                <li><input type="text" placeholder="Група" name="group" class="form-control"
-                                           value="${groupParam.value}">
-                                </li>
+                        <c:forEach var="groupList" items="${groupList}">
+                            <c:if test="${groupList.value eq true}">
+                                <li><h6><input type="checkbox" name="gr=${groupList.key}" value="gr=${groupList.key}"
+                                               checked> ${groupList.key} </h6></li>
                             </c:if>
-                            <c:if test="${groupParam.value == null}">
-                                <li><input type="text" placeholder="Група" name="group" class="form-control"></li>
+                            <c:if test="${groupList.value eq false}">
+                                <li><h6><input type="checkbox" name="gr=${groupList.key}"
+                                               value="gr=${groupList.key}"> ${groupList.key} </h6></li>
                             </c:if>
                         </c:forEach>
-                        <c:forEach var="subgroupParam" items="${subgroupParam}">
-                            <c:if test="${subgroupParam.value != null}">
-                                <li><input type="text" placeholder="Підгрупа" name="subgroup"
-                                           value="${subgroupParam.value}" class="form-control"></li>
+                    </ul>
+                    <hr>
+                    <h5>Підгрупа</h5>
+                    <ul>
+                        <c:forEach var="subgroupList" items="${subgroupList}">
+                            <c:if test="${subgroupList.value eq true}">
+                                <li><h6><input type="checkbox" name="sub=${subgroupList.key}"
+                                               value="sub=${subgroupList.key}"
+                                               checked> ${subgroupList.key} </h6></li>
                             </c:if>
-                            <c:if test="${subgroupParam.value == null}">
-                                <li><input type="text" placeholder="Підгрупа" name="subgroup" class="form-control"></li>
+                            <c:if test="${subgroupList.value eq false}">
+                                <li><h6><input type="checkbox" name="sub=${subgroupList.key}"
+                                               value="sub=${subgroupList.key}"> ${subgroupList.key} </h6></li>
                             </c:if>
                         </c:forEach>
                     </ul>
@@ -148,7 +154,8 @@
                     <ul>
                         <c:forEach var="financeList" items="${financeList}">
                             <c:if test="${financeList.value eq true}">
-                                <li><h6><input type="checkbox" name="fin=${financeList.key}" value="fin=${financeList.key}"
+                                <li><h6><input type="checkbox" name="fin=${financeList.key}"
+                                               value="fin=${financeList.key}"
                                                checked> ${financeList.key} </h6></li>
                             </c:if>
                             <c:if test="${financeList.value eq false}">
@@ -162,7 +169,8 @@
                     <ul>
                         <c:forEach var="educFormList" items="${educFormList}">
                             <c:if test="${educFormList.value eq true}">
-                                <li><h6><input type="checkbox" name="edform=${educFormList.key}" value="edform=${educFormList.key}"
+                                <li><h6><input type="checkbox" name="edform=${educFormList.key}"
+                                               value="edform=${educFormList.key}"
                                                checked> ${educFormList.key} </h6></li>
                             </c:if>
                             <c:if test="${educFormList.value eq false}">
@@ -176,22 +184,35 @@
                     <ul>
                         <c:forEach var="cityParam" items="${cityParam}">
                             <c:if test="${cityParam.value != null}">
-                                <li><input type="text" placeholder="Місто" name="city" class="form-control"
-                                           value="${cityParam.value}"></li>
+                                <input type="text" placeholder="Місто" name="city" class="form-control" list="cities"
+                                       value="${cityParam.value}">
                             </c:if>
                             <c:if test="${cityParam.value == null}">
-                                <li><input type="text" placeholder="Місто" name="city" class="form-control"></li>
+                                <input type="text" placeholder="Місто" name="city" class="form-control" list="cities">
                             </c:if>
                         </c:forEach>
+                        <%--<input type="text" placeholder="Місто" name="city" class="form-control" list="cities">--%>
+                        <datalist id="cities">
+                            <c:forEach var="cityList" items="${cityList}">
+                                <option value="${cityList.key}"></option>
+                            </c:forEach>
+                        </datalist>
+
                         <c:forEach var="stateParam" items="${stateParam}">
                             <c:if test="${stateParam.value != null}">
-                                <li><input type="text" placeholder="Область" name="state" class="form-control"
-                                           value="${stateParam.value}"></li>
+                                <input type="text" placeholder="Область" name="state" class="form-control" list="states"
+                                       value="${stateParam.value}">
                             </c:if>
                             <c:if test="${stateParam.value == null}">
-                                <li><input type="text" placeholder="Область" name="state" class="form-control"></li>
+                                <input type="text" placeholder="Область" name="state" class="form-control"
+                                       list="states">
                             </c:if>
                         </c:forEach>
+                        <datalist id="states">
+                            <c:forEach var="stateList" items="${stateList}">
+                                <option value="${stateList.key}"></option>
+                            </c:forEach>
+                        </datalist>
                     </ul>
                     <hr>
                     <input type="submit" value="Sort" class="btn btn-default btn-block" formmethod="post">
