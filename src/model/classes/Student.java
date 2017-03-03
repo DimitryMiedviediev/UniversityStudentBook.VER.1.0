@@ -11,8 +11,15 @@ public class Student implements Serializable {
     private String surname;
     private String lastname;
     private String entryDate;
+    private String entryOrder;
+    private String graduateDate;
+    private String graduateOrder;
     private String status;
     private String groupId;
+    private String speciality;
+    private String educationForm;
+    private String qualificationLevel;
+    private String course;
     private String subGroup;
     private String financing;
     private String studBook;
@@ -109,6 +116,117 @@ public class Student implements Serializable {
         this.parentsCountry = parentsCountry;
     }
 
+    public Student(String id, String name, String surname, String lastname, String entryDate, String entryOrder,
+                   String graduateDate, String graduateOrder, String status, String groupId, String speciality,
+                   String educationForm, String qualificationLevel, String course, String subGroup, String financing,
+                   String studBook, String birthDate, String passport, String passpOffice, String passpDate,
+                   String identityCode, String studHouse, String studStreet, String studCity, String studState,
+                   String studZip, String studCountry, String studPhone1, String studPhone2, String fatherName,
+                   String fatherSurname, String fatherLastname, String fatherPhone1, String fatherPhone2,
+                   String motherName, String motherSurname, String motherLastname, String motherPhone1,
+                   String motherPhone2, String parentsHouse, String parentsStreet, String parentsCity,
+                   String parentsState, String parentsZip, String parentsCountry) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.lastname = lastname;
+        this.entryDate = entryDate;
+        this.entryOrder = entryOrder;
+        this.graduateDate = graduateDate;
+        this.graduateOrder = graduateOrder;
+        this.status = status;
+        this.groupId = groupId;
+        this.speciality = speciality;
+        this.educationForm = educationForm;
+        this.qualificationLevel = qualificationLevel;
+        this.course = course;
+        this.subGroup = subGroup;
+        this.financing = financing;
+        this.studBook = studBook;
+        this.birthDate = birthDate;
+        this.passport = passport;
+        this.passpOffice = passpOffice;
+        this.passpDate = passpDate;
+        this.identityCode = identityCode;
+        this.studHouse = studHouse;
+        this.studStreet = studStreet;
+        this.studCity = studCity;
+        this.studState = studState;
+        this.studZip = studZip;
+        this.studCountry = studCountry;
+        this.studPhone1 = studPhone1;
+        this.studPhone2 = studPhone2;
+        this.fatherName = fatherName;
+        this.fatherSurname = fatherSurname;
+        this.fatherLastname = fatherLastname;
+        this.fatherPhone1 = fatherPhone1;
+        this.fatherPhone2 = fatherPhone2;
+        this.motherName = motherName;
+        this.motherSurname = motherSurname;
+        this.motherLastname = motherLastname;
+        this.motherPhone1 = motherPhone1;
+        this.motherPhone2 = motherPhone2;
+        this.parentsHouse = parentsHouse;
+        this.parentsStreet = parentsStreet;
+        this.parentsCity = parentsCity;
+        this.parentsState = parentsState;
+        this.parentsZip = parentsZip;
+        this.parentsCountry = parentsCountry;
+    }
+
+    public Student(String id, String name, String surname, String lastname, String entryDate, String entryOrder,
+                   String graduateDate, String graduateOrder, String status, String groupId, String subGroup,
+                   String financing, String studBook, String birthDate, String passport, String passpOffice,
+                   String passpDate, String identityCode, String studHouse, String studStreet, String studCity,
+                   String studState, String studZip, String studCountry, String studPhone1, String studPhone2,
+                   String fatherName, String fatherSurname, String fatherLastname, String fatherPhone1,
+                   String fatherPhone2, String motherName, String motherSurname, String motherLastname,
+                   String motherPhone1, String motherPhone2, String parentsHouse, String parentsStreet,
+                   String parentsCity, String parentsState, String parentsZip, String parentsCountry) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.lastname = lastname;
+        this.entryDate = entryDate;
+        this.entryOrder = entryOrder;
+        this.graduateDate = graduateDate;
+        this.graduateOrder = graduateOrder;
+        this.status = status;
+        this.groupId = groupId;
+        this.subGroup = subGroup;
+        this.financing = financing;
+        this.studBook = studBook;
+        this.birthDate = birthDate;
+        this.passport = passport;
+        this.passpOffice = passpOffice;
+        this.passpDate = passpDate;
+        this.identityCode = identityCode;
+        this.studHouse = studHouse;
+        this.studStreet = studStreet;
+        this.studCity = studCity;
+        this.studState = studState;
+        this.studZip = studZip;
+        this.studCountry = studCountry;
+        this.studPhone1 = studPhone1;
+        this.studPhone2 = studPhone2;
+        this.fatherName = fatherName;
+        this.fatherSurname = fatherSurname;
+        this.fatherLastname = fatherLastname;
+        this.fatherPhone1 = fatherPhone1;
+        this.fatherPhone2 = fatherPhone2;
+        this.motherName = motherName;
+        this.motherSurname = motherSurname;
+        this.motherLastname = motherLastname;
+        this.motherPhone1 = motherPhone1;
+        this.motherPhone2 = motherPhone2;
+        this.parentsHouse = parentsHouse;
+        this.parentsStreet = parentsStreet;
+        this.parentsCity = parentsCity;
+        this.parentsState = parentsState;
+        this.parentsZip = parentsZip;
+        this.parentsCountry = parentsCountry;
+    }
+
     public String getId() {
         return id;
     }
@@ -149,6 +267,30 @@ public class Student implements Serializable {
         this.entryDate = entryDate;
     }
 
+    public String getEntryOrder() {
+        return entryOrder;
+    }
+
+    public void setEntryOrder(String entryOrder) {
+        this.entryOrder = entryOrder;
+    }
+
+    public String getGraduateDate() {
+        return graduateDate;
+    }
+
+    public void setGraduateDate(String graduateDate) {
+        this.graduateDate = graduateDate;
+    }
+
+    public String getGraduateOrder() {
+        return graduateOrder;
+    }
+
+    public void setGraduateOrder(String graduateOrder) {
+        this.graduateOrder = graduateOrder;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -163,6 +305,38 @@ public class Student implements Serializable {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public String getEducationForm() {
+        return educationForm;
+    }
+
+    public void setEducationForm(String educationForm) {
+        this.educationForm = educationForm;
+    }
+
+    public String getQualificationLevel() {
+        return qualificationLevel;
+    }
+
+    public void setQualificationLevel(String qualificationLevel) {
+        this.qualificationLevel = qualificationLevel;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 
     public String getSubGroup() {
@@ -433,8 +607,19 @@ public class Student implements Serializable {
         if (surname != null ? !surname.equals(student.surname) : student.surname != null) return false;
         if (lastname != null ? !lastname.equals(student.lastname) : student.lastname != null) return false;
         if (entryDate != null ? !entryDate.equals(student.entryDate) : student.entryDate != null) return false;
+        if (entryOrder != null ? !entryOrder.equals(student.entryOrder) : student.entryOrder != null) return false;
+        if (graduateDate != null ? !graduateDate.equals(student.graduateDate) : student.graduateDate != null)
+            return false;
+        if (graduateOrder != null ? !graduateOrder.equals(student.graduateOrder) : student.graduateOrder != null)
+            return false;
         if (status != null ? !status.equals(student.status) : student.status != null) return false;
         if (groupId != null ? !groupId.equals(student.groupId) : student.groupId != null) return false;
+        if (speciality != null ? !speciality.equals(student.speciality) : student.speciality != null) return false;
+        if (educationForm != null ? !educationForm.equals(student.educationForm) : student.educationForm != null)
+            return false;
+        if (qualificationLevel != null ? !qualificationLevel.equals(student.qualificationLevel) : student.qualificationLevel != null)
+            return false;
+        if (course != null ? !course.equals(student.course) : student.course != null) return false;
         if (subGroup != null ? !subGroup.equals(student.subGroup) : student.subGroup != null) return false;
         if (financing != null ? !financing.equals(student.financing) : student.financing != null) return false;
         if (studBook != null ? !studBook.equals(student.studBook) : student.studBook != null) return false;
@@ -488,8 +673,15 @@ public class Student implements Serializable {
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         result = 31 * result + (entryDate != null ? entryDate.hashCode() : 0);
+        result = 31 * result + (entryOrder != null ? entryOrder.hashCode() : 0);
+        result = 31 * result + (graduateDate != null ? graduateDate.hashCode() : 0);
+        result = 31 * result + (graduateOrder != null ? graduateOrder.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (groupId != null ? groupId.hashCode() : 0);
+        result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
+        result = 31 * result + (educationForm != null ? educationForm.hashCode() : 0);
+        result = 31 * result + (qualificationLevel != null ? qualificationLevel.hashCode() : 0);
+        result = 31 * result + (course != null ? course.hashCode() : 0);
         result = 31 * result + (subGroup != null ? subGroup.hashCode() : 0);
         result = 31 * result + (financing != null ? financing.hashCode() : 0);
         result = 31 * result + (studBook != null ? studBook.hashCode() : 0);
@@ -533,8 +725,15 @@ public class Student implements Serializable {
                 ", surname='" + surname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", entryDate='" + entryDate + '\'' +
+                ", entryOrder='" + entryOrder + '\'' +
+                ", graduateDate='" + graduateDate + '\'' +
+                ", graduateOrder='" + graduateOrder + '\'' +
                 ", status='" + status + '\'' +
                 ", groupId='" + groupId + '\'' +
+                ", speciality='" + speciality + '\'' +
+                ", educationForm='" + educationForm + '\'' +
+                ", qualificationLevel='" + qualificationLevel + '\'' +
+                ", course='" + course + '\'' +
                 ", subGroup='" + subGroup + '\'' +
                 ", financing='" + financing + '\'' +
                 ", studBook='" + studBook + '\'' +

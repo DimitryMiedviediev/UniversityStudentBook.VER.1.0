@@ -55,6 +55,11 @@
             $("#datepicker3").datepicker();
         });
     </script>
+    <script>
+        $(function () {
+            $("#datepicker4").datepicker();
+        });
+    </script>
 
     <!-- jQuery mask for input types -->
     <script type="text/javascript" src="../js/jquery.mask.js"></script>
@@ -154,10 +159,6 @@
             </c:forEach>
             <div class="col-sm-1"></div>
             <div class="col-sm-2">
-                <!-- Profile photo -->
-                <%--<div class="center-block">--%>
-                <%--<input type="file" name="pic" accept="image/*">--%>
-                <%--</div>--%>
 
                 <div style="padding: 10px"></div>
 
@@ -252,36 +253,66 @@
                         </tbody>
                         <tbody>
                         <tr>
-                            <td class="col-sm-2">Статус:</td>
+                            <td class="col-sm-2">Наказ на вступ:</td>
                             <td class="col-sm-6">
-                                <select name="status" required>
-                                    <c:forEach var="studentInfo" items="${studentInfo}">
-                                        <c:if test="${studentInfo.status == 'Навчається'}">
-                                            <option selected>Навчається</option>
-                                            <option>Відрахований</option>
-                                            <option>Академічна відпустка</option>
-                                            <option>Закінчив навчання</option>
-                                        </c:if>
-                                        <c:if test="${studentInfo.status == 'Відрахований'}">
-                                            <option>Навчається</option>
-                                            <option selected>Відрахований</option>
-                                            <option>Академічна відпустка</option>
-                                            <option>Закінчив навчання</option>
-                                        </c:if>
-                                        <c:if test="${studentInfo.status == 'Академічна відпустка'}">
-                                            <option>Навчається</option>
-                                            <option>Відрахований</option>
-                                            <option selected>Академічна відпустка</option>
-                                            <option>Закінчив навчання</option>
-                                        </c:if>
-                                        <c:if test="${studentInfo.status == 'Закінчив навчання'}">
-                                            <option>Навчається</option>
-                                            <option>Відрахований</option>
-                                            <option>Академічна відпустка</option>
-                                            <option selected>Закінчив навчання</option>
-                                        </c:if>
-                                    </c:forEach>
-                                </select>
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.entryOrder eq null}">
+                                        <div class="col-sm-4 col-un-padding">
+                                            <input type="text" class="form-control" placeholder="Наказ на вступ"
+                                                   name="order_entry">
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${studentInfo.entryOrder ne null}">
+                                        <div class="col-sm-4 col-un-padding">
+                                            <input type="text" class="form-control" placeholder="Наказ на вступ"
+                                                   name="order_entry" value="${studentInfo.entryOrder}">
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Дата випуску:</td>
+                            <td class="col-sm-6">
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.graduateDate eq null}">
+                                        <div class="col-sm-4 col-un-padding">
+                                            <input type="text" class="date form-control" placeholder="Дата випуску"
+                                                   name="date_graduate"
+                                                   id="datepicker4">
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${studentInfo.graduateDate ne null}">
+                                        <div class="col-sm-4 col-un-padding">
+                                            <input type="text" class="date form-control" placeholder="Дата випуску"
+                                                   name="date_graduate"
+                                                   id="datepicker4" value="${studentInfo.graduateDate}">
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Наказ на випуск:</td>
+                            <td class="col-sm-6">
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.graduateOrder eq null}">
+                                        <div class="col-sm-4 col-un-padding">
+                                            <input type="text" class="form-control" placeholder="Наказ на випуск"
+                                                   name="order_graduate">
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${studentInfo.graduateOrder ne null}">
+                                        <div class="col-sm-4 col-un-padding">
+                                            <input type="text" class="form-control" placeholder="Наказ на випуск"
+                                                   name="order_graduate" value="${studentInfo.graduateOrder}">
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
                             </td>
                         </tr>
                         </tbody>
@@ -306,29 +337,25 @@
                                 <select name="subgroup">
                                     <c:forEach var="studentInfo" items="${studentInfo}">
                                         <c:if test="${studentInfo.subGroup eq null}">
-                                            <option selected disabled>Підгрупа</option>
-                                            <option>Відсутня</option>
-                                            <option>1</option>
+                                            <option disabled>Підгрупа</option>
+                                            <option selected>1</option>
                                             <option>2</option>
                                             <option>3</option>
                                         </c:if>
                                         <c:if test="${studentInfo.subGroup == '1'}">
                                             <option disabled>Підгрупа</option>
-                                            <option>Відсутня</option>
                                             <option selected>1</option>
                                             <option>2</option>
                                             <option>3</option>
                                         </c:if>
                                         <c:if test="${studentInfo.subGroup == '2'}">
                                             <option disabled>Підгрупа</option>
-                                            <option>Відсутня</option>
                                             <option>1</option>
                                             <option selected>2</option>
                                             <option>3</option>
                                         </c:if>
                                         <c:if test="${studentInfo.subGroup == '3'}">
                                             <option disabled>Підгрупа</option>
-                                            <option>Відсутня</option>
                                             <option>1</option>
                                             <option>2</option>
                                             <option selected>3</option>

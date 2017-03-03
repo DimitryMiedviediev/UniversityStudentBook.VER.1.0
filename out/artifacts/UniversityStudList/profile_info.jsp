@@ -47,12 +47,11 @@
                 <div style="padding: 10px"></div>
 
                 <!-- Buttons area -->
-                <%--<button type="button" class="btn btn-default btn-sm btn-block" formmethod="post">--%>
-                <%--Edit--%>
-                <%--</button>--%>
                 <input type="submit" name="edit_btn" value="Редагувати" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
-                <input type="submit" name="delete_btn" value="Видалити" class="btn btn-default btn-md btn-block"
+                <input type="submit" name="academ_btn" value="Академічна відпустка" class="btn btn-default btn-md btn-block"
+                       formmethod="post"/>
+                <input type="submit" name="expell_btn" value="Відрахувати" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
 
             </div>
@@ -101,6 +100,43 @@
                         </tbody>
                         <tbody>
                         <tr>
+                            <td class="col-sm-2">Наказ на вступ:</td>
+                            <td class="col-sm-6">
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.entryOrder ne null}">
+                                        ${studentInfo.entryOrder}
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Дата випуску:</td>
+                            <td class="col-sm-6">
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.graduateDate ne null}">
+                                        ${studentInfo.graduateDate}
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Наказ на випуск:</td>
+                            <td class="col-sm-6">
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.graduateOrder ne null}">
+                                        ${studentInfo.graduateOrder}
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        <tbody>
+                        <tr>
                             <td class="col-sm-2">Статус:</td>
                             <td class="col-sm-6">
                                 <c:forEach var="studentInfo" items="${studentInfo}">
@@ -115,9 +151,9 @@
                         <tr>
                             <td class="col-sm-2">Спеціальність:</td>
                             <td class="col-sm-6">
-                                <c:forEach var="specInfo" items="${specInfo}">
-                                    <c:if test="${specInfo.speciality ne null}">
-                                        ${specInfo.speciality}
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.speciality ne null}">
+                                        ${studentInfo.speciality}
                                     </c:if>
                                 </c:forEach>
                             </td>
@@ -143,9 +179,9 @@
                         <tr>
                             <td class="col-sm-2">Кваліфікаційний рівень:</td>
                             <td class="col-sm-6">
-                                <c:forEach var="groupInfo" items="${groupInfo}">
-                                    <c:if test="${groupInfo.qualificationLevel ne null}">
-                                        ${groupInfo.qualificationLevel}
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.qualificationLevel ne null}">
+                                        ${studentInfo.qualificationLevel}
                                     </c:if>
                                 </c:forEach>
                             </td>
@@ -155,9 +191,9 @@
                         <tr>
                             <td class="col-sm-2">Курс:</td>
                             <td class="col-sm-6">
-                                <c:forEach var="groupInfo" items="${groupInfo}">
-                                    <c:if test="${groupInfo.course ne null}">
-                                        ${groupInfo.course}
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.course ne null}">
+                                        ${studentInfo.course}
                                     </c:if>
                                 </c:forEach>
                             </td>
@@ -167,9 +203,9 @@
                         <tr>
                             <td class="col-sm-2">Форма навчання:</td>
                             <td class="col-sm-6">
-                                <c:forEach var="groupInfo" items="${groupInfo}">
-                                    <c:if test="${groupInfo.educationForm ne null}">
-                                        ${groupInfo.educationForm}
+                                <c:forEach var="studentInfo" items="${studentInfo}">
+                                    <c:if test="${studentInfo.educationForm ne null}">
+                                        ${studentInfo.educationForm}
                                     </c:if>
                                 </c:forEach>
                             </td>

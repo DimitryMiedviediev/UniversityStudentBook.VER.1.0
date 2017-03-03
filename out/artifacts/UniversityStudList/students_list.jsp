@@ -109,12 +109,12 @@
                     <h5>Курси</h5>
                     <ul>
                         <c:forEach var="courseList" items="${courseList}">
-                            <c:if test="${courseList.value eq true}">
+                            <c:if test="${courseList.value eq true and courseList.key ne null}">
                                 <li><h6><input type="checkbox" name="course=${courseList.key}"
                                                value="course=${courseList.key}"
                                                checked> ${courseList.key} курс</h6></li>
                             </c:if>
-                            <c:if test="${courseList.value eq false}">
+                            <c:if test="${courseList.value eq false and courseList.key ne null}">
                                 <li><h6><input type="checkbox" name="course=${courseList.key}"
                                                value="course=${courseList.key}"> ${courseList.key} курс</h6></li>
                             </c:if>
@@ -124,11 +124,11 @@
                     <h5>Група</h5>
                     <ul>
                         <c:forEach var="groupList" items="${groupList}">
-                            <c:if test="${groupList.value eq true}">
+                            <c:if test="${groupList.value eq true and groupList.key ne null}">
                                 <li><h6><input type="checkbox" name="gr=${groupList.key}" value="gr=${groupList.key}"
                                                checked> ${groupList.key} </h6></li>
                             </c:if>
-                            <c:if test="${groupList.value eq false}">
+                            <c:if test="${groupList.value eq false and groupList.key ne null}">
                                 <li><h6><input type="checkbox" name="gr=${groupList.key}"
                                                value="gr=${groupList.key}"> ${groupList.key} </h6></li>
                             </c:if>
@@ -138,12 +138,12 @@
                     <h5>Підгрупа</h5>
                     <ul>
                         <c:forEach var="subgroupList" items="${subgroupList}">
-                            <c:if test="${subgroupList.value eq true}">
+                            <c:if test="${subgroupList.value eq true and subgroupList.key ne null}">
                                 <li><h6><input type="checkbox" name="sub=${subgroupList.key}"
                                                value="sub=${subgroupList.key}"
                                                checked> ${subgroupList.key} </h6></li>
                             </c:if>
-                            <c:if test="${subgroupList.value eq false}">
+                            <c:if test="${subgroupList.value eq false and subgroupList.key ne null}">
                                 <li><h6><input type="checkbox" name="sub=${subgroupList.key}"
                                                value="sub=${subgroupList.key}"> ${subgroupList.key} </h6></li>
                             </c:if>

@@ -211,7 +211,45 @@
                         </form>
                     </tr>
                     </tbody>
+                    <tbody>
+                    <tr>
+                        <form action="control_panel" method="post">
+                            <td class="col-sm-6">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <select name="group_graduate" class="form-control input-sm center-block">
+                                        <option selected disabled>Введіть значення</option>
+                                        <c:forEach var="groupList" items="${groupList}">
+                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4"></div>
+                            </td>
+                            <td class="col-sm-2">
+                                <input type="submit" value="Випустити" name="graduate_group"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <form action="control_panel" method="post">
+                            <td class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <p class="text-center">Перевести усі групи на один курс вище</p>
+                                </div>
+                            </td>
+                            <td class="col-sm-2">
+                                <input type="submit" value="Перевести" name="course_transfer"
+                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
                 </table>
+
 
             </div>
 

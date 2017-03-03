@@ -105,8 +105,31 @@ public class Control_panel extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("control_panel.jsp");
                 dispatcher.forward(req, resp);
 
+                //Forvard with graduate button
+            } else if (req.getParameter("graduate_group") != null) {
+//                beans.graduateGroup(userSchema, req.getParameter("group_graduate"));
+                req.setAttribute("group", beans.getOneGroup(userSchema, req.getParameter("group_graduate")));
+                RequestDispatcher dispatcher = req.getRequestDispatcher("group_graduate.jsp");
+                dispatcher.forward(req, resp);
+
+                //Forvard with submit group graduate
+            } else if (req.getParameter("graduate_group_submit") != null) {
+                beans.graduateGroup(userSchema, req.getParameter("group_graduate"), req.getParameter("order_graduate"), req.getParameter("date_graduate"));
+                req.setAttribute("specList", beans.getSpecList(userSchema));
+                req.setAttribute("groupList", beans.getGroupList(userSchema));
+                RequestDispatcher dispatcher = req.getRequestDispatcher("control_panel.jsp");
+                dispatcher.forward(req, resp);
+
                 //Forvard with cancel button
             } else if (req.getParameter("cancel") != null) {
+                req.setAttribute("specList", beans.getSpecList(userSchema));
+                req.setAttribute("groupList", beans.getGroupList(userSchema));
+                RequestDispatcher dispatcher = req.getRequestDispatcher("control_panel.jsp");
+                dispatcher.forward(req, resp);
+
+                //Defolt forvard to control panel
+            } else if (req.getParameter("course_transfer") != null) {
+                beans.courseTransfer(userSchema);
                 req.setAttribute("specList", beans.getSpecList(userSchema));
                 req.setAttribute("groupList", beans.getGroupList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("control_panel.jsp");

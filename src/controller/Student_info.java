@@ -48,8 +48,8 @@ public class Student_info extends HttpServlet {
                 ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("groupInfo", groupInfo);
 
-                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
-                req.setAttribute("specInfo", specInfo);
+//                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
+//                req.setAttribute("specInfo", specInfo);
 
                 req.setAttribute("groupList", beans.getGroupList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_edit.jsp");
@@ -64,10 +64,41 @@ public class Student_info extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("students_list");
                 dispatcher.forward(req, resp);
 
+            } else if (req.getParameter("academ_btn") != null) {
+
+                String id = req.getParameter("stud_id");
+                System.out.println("Get vacation student with iD = " + id);
+                beans.giveAcademicVacation(userSchema, id);
+
+                ArrayList<Student> studentInfo = beans.getOneStudent(userSchema, req.getParameter("stud_id"), false);
+                req.setAttribute("studentInfo", studentInfo);
+
+                ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
+                req.setAttribute("groupInfo", groupInfo);
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("profile_info.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("expell_btn") != null) {
+
+                String id = req.getParameter("stud_id");
+                System.out.println("Expell student with iD = " + id);
+                beans.expellStudent(userSchema, id);
+
+                ArrayList<Student> studentInfo = beans.getOneStudent(userSchema, req.getParameter("stud_id"), false);
+                req.setAttribute("studentInfo", studentInfo);
+
+                ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
+                req.setAttribute("groupInfo", groupInfo);
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("profile_info.jsp");
+                dispatcher.forward(req, resp);
+
             } else if (req.getParameter("save_btn") != null) {
 
                 beans.editStudent(userSchema, req.getParameter("stud_id"), req.getParameter("name_student"), req.getParameter("surname_student"),
-                        req.getParameter("lastname_student"), req.getParameter("date_entry"), req.getParameter("status"),
+                        req.getParameter("lastname_student"), req.getParameter("date_entry"), req.getParameter("order_entry"),
+                        req.getParameter("date_graduate"), req.getParameter("order_graduate"), "Навчається",
                         req.getParameter("group"), req.getParameter("subgroup"), req.getParameter("financing"),
                         req.getParameter("stud_book"), req.getParameter("date_birth"), req.getParameter("passp_serial"),
                         req.getParameter("passp_office"), req.getParameter("date_release"), req.getParameter("identity_code"),
@@ -87,8 +118,8 @@ public class Student_info extends HttpServlet {
                 ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("groupInfo", groupInfo);
 
-                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
-                req.setAttribute("specInfo", specInfo);
+//                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
+//                req.setAttribute("specInfo", specInfo);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_info.jsp");
                 dispatcher.forward(req, resp);
@@ -101,8 +132,8 @@ public class Student_info extends HttpServlet {
                 ArrayList<Group> groupInfo = beans.getOneStudentGroup(userSchema, req.getParameter("stud_id"));
                 req.setAttribute("groupInfo", groupInfo);
 
-                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
-                req.setAttribute("specInfo", specInfo);
+//                ArrayList<Speciality> specInfo = beans.getOneStudentSpec(userSchema, req.getParameter("stud_id"));
+//                req.setAttribute("specInfo", specInfo);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("profile_info.jsp");
                 dispatcher.forward(req, resp);

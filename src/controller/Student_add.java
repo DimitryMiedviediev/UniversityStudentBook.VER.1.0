@@ -45,8 +45,8 @@ public class Student_add extends HttpServlet {
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("save_btn") != null) {
                 beans.createNewStudent(userSchema, req.getParameter("name_student"), req.getParameter("surname_student"),
-                        req.getParameter("lastname_student"), req.getParameter("date_entry"),
-                        req.getParameter("status"), req.getParameter("group"), req.getParameter("subgroup"),
+                        req.getParameter("lastname_student"), req.getParameter("date_entry"), req.getParameter("order_entry"),
+                        "Навчається", req.getParameter("group"), req.getParameter("subgroup"),
                         req.getParameter("financing"), req.getParameter("stud_book"), req.getParameter("date_birth"),
                         req.getParameter("passp_serial"), req.getParameter("passp_office"), req.getParameter("date_release"),
                         req.getParameter("identity_code"), req.getParameter("student_house"), req.getParameter("student_street"),

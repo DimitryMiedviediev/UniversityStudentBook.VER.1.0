@@ -24,7 +24,7 @@ public class Beans {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useUnicode=yes&characterEncoding=UTF-8", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?useSSL=false&useUnicode=yes&characterEncoding=UTF-8", "root", "");
             if (!connection.isClosed()) {
                 System.out.println(time.getTime() + " --Connection to DB is active...");
             } else {
@@ -132,20 +132,57 @@ public class Beans {
 
     public void editSpec(String userSchema, String specId, String newName) {
         Connection conn = startConnection();
-
         try {
             conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
-            String query = "UPDATE specialities SET spec_name = \"" + newName + "\" WHERE id_spec = \"" + specId + "\"";
+            String querySpec = "UPDATE specialities SET spec_name = \"" + newName + "\" WHERE id_spec = \"" + specId + "\"";
             if (!newName.equals("")) {
-                statement.executeUpdate(query);
-                System.out.println("Query create speciality: " + query);
+                statement.executeUpdate(querySpec);
+                System.out.println("Query create speciality: " + querySpec);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         stopConnection(conn);
+
+        ArrayList<String> groupsId = new ArrayList<>();
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT group_id FROM groups WHERE spec_id = \"" + specId + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString(meta.getColumnName(1));
+                groupsId.add(id);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        Connection conn3 = startConnection();
+        try {
+            conn3.setCatalog(userSchema);
+            Statement statement = conn3.createStatement();
+            String querySpec = "UPDATE students SET stud_spec = \"" + newName + "\" WHERE";
+
+            for (int i = 0; i < groupsId.size(); i++) {
+                querySpec = querySpec + " group_id = \"" + groupsId.get(i) + "\"";
+                if (i != (groupsId.size() - 1)) {
+                    querySpec = querySpec + " OR";
+                }
+            }
+
+            if (!newName.equals("")) {
+                statement.executeUpdate(querySpec);
+                System.out.println("Query update students when update speciality: " + querySpec);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stopConnection(conn3);
     }
 
     public void deleteSpec(String userSchema, String nameSpec) {
@@ -269,11 +306,15 @@ public class Beans {
             while (resultSet.next()) {
                 specId = resultSet.getString(meta.getColumnName(1));
             }
-            String query = "UPDATE groups SET spec_id = \"" + specId + "\", group_num = \"" + groupNum + "\", group_educ_form = \""
+            String queryGroup = "UPDATE groups SET spec_id = \"" + specId + "\", group_num = \"" + groupNum + "\", group_educ_form = \""
                     + groupEducForm + "\", group_qual = \"" + groupEducQual + "\", group_course = \"" + groupCourse + "\" WHERE group_id = \"" + groupId + "\"";
+
+            String queryStudent = "UPDATE students SET stud_spec = \"" + specName + "\", stud_educ_form = \"" + groupEducForm + "\", stud_qual = \""
+                    + groupEducQual + "\", stud_course = \"" + groupCourse + "\" WHERE group_id = \"" + groupId + "\"";
+
             if ((!groupNum.equals("")) && (!groupCourse.equals(""))) {
-                statement.executeUpdate(query);
-                System.out.println("Query edit group: " + query);
+                statement.executeUpdate(queryGroup);
+                statement.executeUpdate(queryStudent);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -298,10 +339,81 @@ public class Beans {
         stopConnection(conn);
     }
 
+    public void graduateGroup(String userSchema, String groupId, String orderGraduate, String dateGraduate) {
+
+        Connection conn1 = startConnection();
+        try {
+            conn1.setCatalog(userSchema);
+            Statement statement = conn1.createStatement();
+
+            statement.executeUpdate("UPDATE students SET status=\"Закінчив навчання\", graduate_date=\"" + dateGraduate + "\", graduate_order=\"" + orderGraduate + "\", group_id=NULL, subgroup=NULL, stud_course=NULL WHERE group_id=\"" + groupId + "\"");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stopConnection(conn1);
+
+        Connection conn2 = startConnection();
+
+        try {
+            conn2.setCatalog(userSchema);
+            Statement statement = conn2.createStatement();
+            String query = "DELETE FROM groups WHERE group_id = \"" + groupId + "\"";
+            System.out.println("Query delete group: " + query);
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn2);
+    }
+
+    public void courseTransfer(String userSchema) {
+
+        ArrayList<String> courses = new ArrayList<>();
+        Connection conn1 = startConnection();
+        try {
+            conn1.setCatalog(userSchema);
+            Statement statement = conn1.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_course FROM groups ORDER BY group_course DESC");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString(meta.getColumnName(1));
+                courses.add(id);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(conn1);
+        System.out.println(courses);
+
+
+        Connection conn2 = startConnection();
+        try {
+            conn2.setCatalog(userSchema);
+            Statement statement = conn2.createStatement();
+            for (int i = 0; i < courses.size(); i++) {
+                statement.executeUpdate("UPDATE groups SET group_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE group_course = \"" + courses.get(i) + "\"");
+//                String str = "UPDATE groups SET group_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE group_course = \"" + courses.get(i) + "\"";
+//                System.out.println(str);
+            }
+            for (int i = 0; i < courses.size(); i++) {
+                statement.executeUpdate("UPDATE students SET stud_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE stud_course = \"" + courses.get(i) + "\" AND status = \"Навчається\"");
+//                String str = "UPDATE students SET stud_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE stud_course = \"" + courses.get(i) + "\" AND status = \"Навчається\"";
+//                System.out.println(str);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stopConnection(conn2);
+    }
+
     /**
      * Working with students
      */
     public void createNewStudent(String userSchema, String studentName, String studentSurname, String studentLastname, String entryDate,
+                                 String entryOrder,
                                  String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                                  String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                                  String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -318,6 +430,7 @@ public class Beans {
             Statement statement = conn.createStatement();
 
             String queryStudent = createNewStudentQuery(userSchema, studentName, studentSurname, studentLastname, entryDate,
+                    entryOrder,
                     studentStatus, studentGroup, studentSubgroup, studentFinancing, studentBook, dateBirth, passpSerial,
                     passpOffice, passpDateRelease, identityCode, studentHouse, studentStreet, studentCity, studentState,
                     studentZip, studentCountry, studentPhone1, studentPhone2, fatherName, fatherSurname, fatherLastname,
@@ -337,6 +450,7 @@ public class Beans {
     }
 
     public String createNewStudentQuery(String userSchema, String studentName, String studentSurname, String studentLastname, String entryDate,
+                                        String entryOrder,
                                         String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                                         String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                                         String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -346,11 +460,71 @@ public class Beans {
                                         String motherPhone1, String motherPhone2, String parentHouse, String parentStreet, String parentCity,
                                         String parentState, String parentZip, String parentCountry) {
 
-        String queryParam = "stud_name, stud_surname, stud_lastname, entry_date, status, group_id, financing, stud_book";
+        String queryParam = "stud_name, stud_surname, stud_lastname, entry_date, entry_order, status, group_id, financing, stud_book";
         String queryValues = "\"" + studentName + "\" , \"" + studentSurname + "\" , \"" + studentLastname +
-                "\" , \"" + entryDate + "\" , \"" + studentStatus + "\" , \"" + studentGroup +
+                "\" , \"" + entryDate + "\" , \"" + entryOrder + "\" , \"" + studentStatus + "\" , \"" + studentGroup +
                 "\" , \"" + studentFinancing + "\" , \"" + studentBook +
                 "\"";
+
+
+        String studSpec = "";
+        String studEducForm = "";
+        String studQual = "";
+        String studCourse = "";
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_id = \"" + studentGroup + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                studSpec = resultSet.getString(meta.getColumnName(2));
+                studEducForm = resultSet.getString(meta.getColumnName(4));
+                studQual = resultSet.getString(meta.getColumnName(5));
+                studCourse = resultSet.getString(meta.getColumnName(6));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        Connection conn = startConnection();
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities WHERE id_spec = \"" + studSpec + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                studSpec = resultSet.getString(meta.getColumnName(2));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(conn);
+
+        if (studSpec != null && !studSpec.equals("")) {
+            queryParam = queryParam + ", stud_spec";
+            queryValues = queryValues + " , \"" + studSpec + "\"";
+        }
+        if (studEducForm != null && !studEducForm.equals("")) {
+            queryParam = queryParam + ", stud_educ_form";
+            queryValues = queryValues + " , \"" + studEducForm + "\"";
+        }
+        if (studQual != null && !studQual.equals("")) {
+            queryParam = queryParam + ", stud_qual";
+            queryValues = queryValues + " , \"" + studQual + "\"";
+        }
+        if (studCourse != null && !studCourse.equals("")) {
+            queryParam = queryParam + ", stud_course";
+            queryValues = queryValues + " , \"" + studCourse + "\"";
+        }
+
+
         if (studentSubgroup != null && !studentSubgroup.equals("")) {
             queryParam = queryParam + ", subgroup";
             queryValues = queryValues + " , \"" + studentSubgroup + "\"";
@@ -476,7 +650,8 @@ public class Beans {
         return query;
     }
 
-    public void editStudent(String userSchema, String studId, String studentName, String studentSurname, String studentLastname, String entryDate,
+    public void editStudent(String userSchema, String studId, String studentName, String studentSurname, String studentLastname,
+                            String entryDate, String entryOrder, String graduateDate, String graduateOrder,
                             String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                             String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                             String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -491,7 +666,8 @@ public class Beans {
             conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
 
-            String queryStudent = createEditStudentQuery(userSchema, studId, studentName, studentSurname, studentLastname, entryDate,
+            String queryStudent = createEditStudentQuery(userSchema, studId, studentName, studentSurname, studentLastname,
+                    entryDate, entryOrder, graduateDate, graduateOrder,
                     studentStatus, studentGroup, studentSubgroup, studentFinancing, studentBook, dateBirth, passpSerial,
                     passpOffice, passpDateRelease, identityCode, studentHouse, studentStreet, studentCity, studentState,
                     studentZip, studentCountry, studentPhone1, studentPhone2, fatherName, fatherSurname, fatherLastname,
@@ -507,7 +683,8 @@ public class Beans {
         stopConnection(conn);
     }
 
-    public String createEditStudentQuery(String userSchema, String studId, String studentName, String studentSurname, String studentLastname, String entryDate,
+    public String createEditStudentQuery(String userSchema, String studId, String studentName, String studentSurname, String studentLastname,
+                                         String entryDate, String entryOrder, String graduateDate, String graduateOrder,
                                          String studentStatus, String studentGroup, String studentSubgroup, String studentFinancing,
                                          String studentBook, String dateBirth, String passpSerial, String passpOffice, String passpDateRelease,
                                          String identityCode, String studentHouse, String studentStreet, String studentCity,
@@ -518,13 +695,91 @@ public class Beans {
                                          String parentState, String parentZip, String parentCountry) {
 
         String queryConfig = " stud_name = \"" + studentName + "\", stud_surname = \"" + studentSurname + "\", stud_lastname = \"" +
-                studentLastname + "\", entry_date = \"" + entryDate + "\", status = \"" + studentStatus + "\", group_id = \"" +
+                studentLastname + "\", entry_date = \"" + entryDate + "\", entry_order = \"" + entryOrder + "\", status = \"" + studentStatus + "\", group_id = \"" +
                 studentGroup + "\", financing = \"" + studentFinancing + "\", stud_book = \"" + studentBook + "\"";
+
+        String speciality = "";
+        String educationForm = "";
+        String qualificationLevel = "";
+        String course = "";
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT group_id, spec_id, group_num, group_educ_form, group_qual, group_course FROM groups WHERE group_id = \"" + studentGroup + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                speciality = resultSet.getString(meta.getColumnName(2));
+                educationForm = resultSet.getString(meta.getColumnName(4));
+                qualificationLevel = resultSet.getString(meta.getColumnName(5));
+                course = resultSet.getString(meta.getColumnName(6));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        Connection conn = startConnection();
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM specialities WHERE id_spec = \"" + speciality + "\"");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                speciality = resultSet.getString(meta.getColumnName(2));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(conn);
+
+
+        if (speciality != null && !speciality.equals("")) {
+            queryConfig = queryConfig + ", stud_spec = \"" + speciality + "\"";
+        } else {
+            queryConfig = queryConfig + ", stud_spec = NULL";
+        }
+
+        if (educationForm != null && !educationForm.equals("")) {
+            queryConfig = queryConfig + ", stud_educ_form = \"" + educationForm + "\"";
+        } else {
+            queryConfig = queryConfig + ", stud_educ_form = NULL";
+        }
+
+        if (qualificationLevel != null && !qualificationLevel.equals("")) {
+            queryConfig = queryConfig + ", stud_qual = \"" + qualificationLevel + "\"";
+        } else {
+            queryConfig = queryConfig + ", stud_qual = NULL";
+        }
+
+        if (course != null && !course.equals("")) {
+            queryConfig = queryConfig + ", stud_course = \"" + course + "\"";
+        } else {
+            queryConfig = queryConfig + ", stud_course = NULL";
+        }
+
 
         if (studentSubgroup != null && !studentSubgroup.equals("") && !studentSubgroup.equals("Відсутня")) {
             queryConfig = queryConfig + ", subgroup = \"" + studentSubgroup + "\"";
         } else {
             queryConfig = queryConfig + ", subgroup = NULL";
+        }
+
+        if (graduateDate != null && !graduateDate.equals("")) {
+            queryConfig = queryConfig + ", graduate_date = \"" + graduateDate + "\"";
+        } else {
+            queryConfig = queryConfig + ", graduate_date = NULL";
+        }
+
+        if (graduateOrder != null && !graduateOrder.equals("")) {
+            queryConfig = queryConfig + ", graduate_order = \"" + graduateOrder + "\"";
+        } else {
+            queryConfig = queryConfig + ", graduate_order = NULL";
         }
 
         if (dateBirth != null && !dateBirth.equals("")) {
@@ -734,6 +989,34 @@ public class Beans {
         return storage;
     }
 
+    public void giveAcademicVacation(String userSchema, String studId) {
+        Connection conn = startConnection();
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+
+            statement.executeUpdate("UPDATE students SET status = \"Академічна відпустка\", group_id = NULL, subgroup = NULL WHERE stud_id = \"" + studId + "\"");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stopConnection(conn);
+    }
+
+    public void expellStudent(String userSchema, String studId) {
+        Connection conn = startConnection();
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+
+            statement.executeUpdate("UPDATE students SET status = \"Відрахований\", group_id = NULL, subgroup = NULL WHERE stud_id = \"" + studId + "\"");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stopConnection(conn);
+    }
+
     public void deleteStudent(String userSchema, String studId) {
         Connection conn = startConnection();
 
@@ -762,7 +1045,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT spec_name FROM specialities");
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT stud_spec FROM students");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -808,7 +1091,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_qual FROM groups");
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT stud_qual FROM students");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -830,7 +1113,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_course FROM groups");
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT stud_course FROM students");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -896,7 +1179,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT group_educ_form FROM groups");
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT stud_educ_form FROM students");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -987,16 +1270,14 @@ public class Beans {
                                  HashMap<String, Boolean> groupList, HashMap<String, Boolean> subgroupList,
                                  HashMap<String, String> cityParam, HashMap<String, String> stateParam) {
 
-        if (retIfMapBoolTrue(specList)) {
-            query = query + " INNER JOIN groups gr ON st.group_id = gr.group_id INNER JOIN specialities sp ON sp.id_spec = gr.spec_id";
-        } else if (retIfMapBoolTrue(qualList) || retIfMapBoolTrue(courseList) || retIfMapBoolTrue(educFormList) ||
+        if (retIfMapBoolTrue(qualList) || retIfMapBoolTrue(courseList) || retIfMapBoolTrue(educFormList) ||
                 retIfMapBoolTrue(groupList)) {
             query = query + " INNER JOIN groups gr ON st.group_id = gr.group_id";
         }
 
         for (Map.Entry<String, Boolean> entry : specList.entrySet()) {
             if (entry.getValue()) {
-                query = addQueryPart(query, "sp.spec_name", entry.getKey());
+                query = addQueryPart(query, "st.stud_spec", entry.getKey());
             }
         }
 
@@ -1008,19 +1289,19 @@ public class Beans {
 
         for (Map.Entry<String, Boolean> entry : qualList.entrySet()) {
             if (entry.getValue()) {
-                query = addQueryPart(query, "gr.group_qual", entry.getKey());
+                query = addQueryPart(query, "st.stud_qual", entry.getKey());
             }
         }
 
         for (Map.Entry<String, Boolean> entry : courseList.entrySet()) {
             if (entry.getValue()) {
-                query = addQueryPart(query, "gr.group_course", entry.getKey());
+                query = addQueryPart(query, "st.stud_course", entry.getKey());
             }
         }
 
         for (Map.Entry<String, Boolean> entry : educFormList.entrySet()) {
             if (entry.getValue()) {
-                query = addQueryPart(query, "gr.group_educ_form", entry.getKey());
+                query = addQueryPart(query, "st.stud_educ_form", entry.getKey());
             }
         }
 
@@ -1163,7 +1444,14 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM students st WHERE st.stud_id = \"" + studId + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT stud_id, stud_name, stud_surname, stud_lastname, " +
+                    "entry_date, entry_order, graduate_date, graduate_order, status, group_id, stud_spec, " +
+                    "stud_educ_form, stud_qual, stud_course, subgroup, financing, stud_book, birth_date, " +
+                    "passport, passp_office, passp_date, identity_code, student_house, student_street, " +
+                    "student_city, student_state, student_zip, student_country, stud_phone_1, stud_phone_2, " +
+                    "father_name, father_surname, father_lastname, father_phone_1, father_phone_2, mother_name, " +
+                    "mother_surname, mother_lastname, mother_phone_1, mother_phone_2, parent_house, parent_street, " +
+                    "parent_city, parent_state, parent_zip, parent_country FROM students st WHERE st.stud_id = \"" + studId + "\"");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -1171,63 +1459,70 @@ public class Beans {
                 String name = resultSet.getString(meta.getColumnName(2));
                 String surname = resultSet.getString(meta.getColumnName(3));
                 String lastname = resultSet.getString(meta.getColumnName(4));
-                String entryDate = null;
+                String entryDate = resultSet.getString(meta.getColumnName(5));
                 if (bool) {
                     entryDate = resultSet.getString(meta.getColumnName(5));
                 } else {
                     entryDate = dateFormatLongText(resultSet.getString(meta.getColumnName(5)));
                 }
-//                String entryDate = dateFormatLongText(resultSet.getString(meta.getColumnName(5)));
-//                String entryDate = resultSet.getString(meta.getColumnName(5));
-                String status = resultSet.getString(meta.getColumnName(6));
-                String groupId = resultSet.getString(meta.getColumnName(7));
-                String subGroup = resultSet.getString(meta.getColumnName(8));
-                String financing = resultSet.getString(meta.getColumnName(9));
-                String studBook = resultSet.getString(meta.getColumnName(10));
+                String entryOrder = resultSet.getString(meta.getColumnName(6));
+                String graduateDate = resultSet.getString(meta.getColumnName(7));
+                if (bool) {
+                    graduateDate = resultSet.getString(meta.getColumnName(7));
+                } else {
+                    graduateDate = dateFormatLongText(resultSet.getString(meta.getColumnName(7)));
+                }
+                String graduateOrder = resultSet.getString(meta.getColumnName(8));
+                String status = resultSet.getString(meta.getColumnName(9));
+                String groupId = resultSet.getString(meta.getColumnName(10));
+                String speciality = resultSet.getString(meta.getColumnName(11));
+                String educForm = resultSet.getString(meta.getColumnName(12));
+                String studQual = resultSet.getString(meta.getColumnName(13));
+                String studCourse = resultSet.getString(meta.getColumnName(14));
+                String subGroup = resultSet.getString(meta.getColumnName(15));
+                String financing = resultSet.getString(meta.getColumnName(16));
+                String studBook = resultSet.getString(meta.getColumnName(17));
                 String birthDate = null;
                 if (bool) {
-                    birthDate = resultSet.getString(meta.getColumnName(11));
+                    birthDate = resultSet.getString(meta.getColumnName(18));
                 } else {
-                    birthDate = dateFormatLongText(resultSet.getString(meta.getColumnName(11)));
+                    birthDate = dateFormatLongText(resultSet.getString(meta.getColumnName(18)));
                 }
-//                String birthDate = resultSet.getString(meta.getColumnName(11));
-//                String birthDate = dateFormatLongText(resultSet.getString(meta.getColumnName(11)));
-                String passport = resultSet.getString(meta.getColumnName(12));
-                String passpOffice = resultSet.getString(meta.getColumnName(13));
+                String passport = resultSet.getString(meta.getColumnName(19));
+                String passpOffice = resultSet.getString(meta.getColumnName(20));
                 String passpDate = null;
                 if (bool) {
-                    passpDate = resultSet.getString(meta.getColumnName(14));
+                    passpDate = resultSet.getString(meta.getColumnName(21));
                 } else {
-                    passpDate = dateFormatLongText(resultSet.getString(meta.getColumnName(14)));
+                    passpDate = dateFormatLongText(resultSet.getString(meta.getColumnName(21)));
                 }
-//                String passpDate = resultSet.getString(meta.getColumnName(14));
-//                String passpDate = dateFormatLongText(resultSet.getString(meta.getColumnName(14)));
-                String identityCode = resultSet.getString(meta.getColumnName(15));
-                String studHouse = resultSet.getString(meta.getColumnName(16));
-                String studStreet = resultSet.getString(meta.getColumnName(17));
-                String studCity = resultSet.getString(meta.getColumnName(18));
-                String studState = resultSet.getString(meta.getColumnName(19));
-                String studZip = resultSet.getString(meta.getColumnName(20));
-                String studCountry = resultSet.getString(meta.getColumnName(21));
-                String studPhone1 = resultSet.getString(meta.getColumnName(22));
-                String studPhone2 = resultSet.getString(meta.getColumnName(23));
-                String fatherName = resultSet.getString(meta.getColumnName(24));
-                String fatherSurname = resultSet.getString(meta.getColumnName(25));
-                String fatherLastname = resultSet.getString(meta.getColumnName(26));
-                String fatherPhone1 = resultSet.getString(meta.getColumnName(27));
-                String fatherPhone2 = resultSet.getString(meta.getColumnName(28));
-                String motherName = resultSet.getString(meta.getColumnName(29));
-                String motherSurname = resultSet.getString(meta.getColumnName(30));
-                String motherLastname = resultSet.getString(meta.getColumnName(31));
-                String motherPhone1 = resultSet.getString(meta.getColumnName(32));
-                String motherPhone2 = resultSet.getString(meta.getColumnName(33));
-                String parentsHouse = resultSet.getString(meta.getColumnName(34));
-                String parentsStreet = resultSet.getString(meta.getColumnName(35));
-                String parentsCity = resultSet.getString(meta.getColumnName(36));
-                String parentsState = resultSet.getString(meta.getColumnName(37));
-                String parentsZip = resultSet.getString(meta.getColumnName(38));
-                String parentsCountry = resultSet.getString(meta.getColumnName(39));
-                storage.add(new Student(id, name, surname, lastname, entryDate, status, groupId, subGroup,
+                String identityCode = resultSet.getString(meta.getColumnName(22));
+                String studHouse = resultSet.getString(meta.getColumnName(23));
+                String studStreet = resultSet.getString(meta.getColumnName(24));
+                String studCity = resultSet.getString(meta.getColumnName(25));
+                String studState = resultSet.getString(meta.getColumnName(26));
+                String studZip = resultSet.getString(meta.getColumnName(27));
+                String studCountry = resultSet.getString(meta.getColumnName(28));
+                String studPhone1 = resultSet.getString(meta.getColumnName(29));
+                String studPhone2 = resultSet.getString(meta.getColumnName(30));
+                String fatherName = resultSet.getString(meta.getColumnName(31));
+                String fatherSurname = resultSet.getString(meta.getColumnName(32));
+                String fatherLastname = resultSet.getString(meta.getColumnName(33));
+                String fatherPhone1 = resultSet.getString(meta.getColumnName(34));
+                String fatherPhone2 = resultSet.getString(meta.getColumnName(35));
+                String motherName = resultSet.getString(meta.getColumnName(36));
+                String motherSurname = resultSet.getString(meta.getColumnName(37));
+                String motherLastname = resultSet.getString(meta.getColumnName(38));
+                String motherPhone1 = resultSet.getString(meta.getColumnName(39));
+                String motherPhone2 = resultSet.getString(meta.getColumnName(40));
+                String parentsHouse = resultSet.getString(meta.getColumnName(41));
+                String parentsStreet = resultSet.getString(meta.getColumnName(42));
+                String parentsCity = resultSet.getString(meta.getColumnName(43));
+                String parentsState = resultSet.getString(meta.getColumnName(44));
+                String parentsZip = resultSet.getString(meta.getColumnName(45));
+                String parentsCountry = resultSet.getString(meta.getColumnName(46));
+                storage.add(new Student(id, name, surname, lastname, entryDate, entryOrder, graduateDate, graduateOrder,
+                        status, groupId, speciality, educForm, studQual, studCourse, subGroup,
                         financing, studBook, birthDate, passport, passpOffice, passpDate, identityCode,
                         studHouse, studStreet, studCity, studState, studZip, studCountry, studPhone1,
                         studPhone2, fatherName, fatherSurname, fatherLastname, fatherPhone1,
@@ -1528,7 +1823,7 @@ public class Beans {
             statement.executeUpdate("CREATE SCHEMA `" + dataBase + "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`specialities` (`id_spec` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`id_spec`), UNIQUE KEY `id_spec_UNIQUE` (`id_spec`)) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1");
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`groups` (`group_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_id` int(10) unsigned DEFAULT NULL, `group_num` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`group_id`), UNIQUE KEY `group_id_UNIQUE` (`group_id`), KEY `spec_id_idx` (`spec_id`), CONSTRAINT `spec_id_1` FOREIGN KEY (`spec_id`) REFERENCES `specialities` (`id_spec`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1");
-            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`students` (`stud_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `stud_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_id` int(10) unsigned DEFAULT NULL, `subgroup` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `financing` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_book` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `birth_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passport` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_office` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `identity_code` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`stud_id`), UNIQUE KEY `stud_id_UNIQUE` (`stud_id`), KEY `group_id_1_idx` (`group_id`), KEY `parent_id_1_idx` (`father_name`), CONSTRAINT `group_id_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1");
+            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`students` (`stud_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `stud_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_order` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `graduate_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `graduate_order` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_id` int(10) unsigned DEFAULT NULL, `stud_spec` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `subgroup` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `financing` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_book` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `birth_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passport` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_office` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `identity_code` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`stud_id`), UNIQUE KEY `stud_id_UNIQUE` (`stud_id`), KEY `group_id_1_idx` (`group_id`), KEY `parent_id_1_idx` (`father_name`), CONSTRAINT `group_id_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1565,40 +1860,14 @@ public class Beans {
 
     public void createUserSchema() {
         Connection conn = startConnection();
-
         try {
             Statement statement = conn.createStatement();
-
             statement.executeUpdate("CREATE SCHEMA `Users` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
             statement.executeUpdate("CREATE TABLE `Users`.`users` (`user_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `user_email` varchar(100) DEFAULT NULL, `user_password` varchar(100) DEFAULT NULL, `user_database` varchar(100) DEFAULT NULL, PRIMARY KEY (`user_id`), UNIQUE KEY `user_id_UNIQUE` (`user_id`)) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         stopConnection(conn);
     }
-
-//    public String getDataBase(String email, String password) {
-//        String user_database = "";
-//
-//        Connection con = startConnection();
-//        try {
-//            con.setCatalog("Users");
-//            Statement statement = con.createStatement();
-//            ResultSet resultSet = statement.executeQuery("SELECT user_database FROM users WHERE user_email = \"" + email + "\" AND user_password = \"" + password + "\"");
-//            ResultSetMetaData meta = resultSet.getMetaData();
-//
-//            while (resultSet.next()) {
-//                user_database = resultSet.getString(meta.getColumnName(1));
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//        stopConnection(con);
-//
-//        return user_database;
-//    }
-
-
 }

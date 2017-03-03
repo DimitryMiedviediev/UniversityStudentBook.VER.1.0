@@ -55,6 +55,11 @@
             $("#datepicker3").datepicker();
         });
     </script>
+    <script>
+        $(function () {
+            $("#datepicker4").datepicker();
+        });
+    </script>
 
     <!-- jQuery mask for input types -->
     <script type="text/javascript" src="../js/jquery.mask.js"></script>
@@ -207,14 +212,12 @@
                         </tbody>
                         <tbody>
                         <tr>
-                            <td class="col-sm-2">Статус:</td>
+                            <td class="col-sm-2">Наказ вступу:</td>
                             <td class="col-sm-6">
-                                <select name="status" required>
-                                    <option selected>Навчається</option>
-                                    <option>Відрахований</option>
-                                    <option>Академічна відпустка</option>
-                                    <option>Закінчив навчання</option>
-                                </select>
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Номер наказу"
+                                           name="order_entry">
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -228,8 +231,8 @@
                                     </c:forEach>
                                 </select>
                                 <select name="subgroup">
-                                    <option selected disabled>Підгрупа</option>
-                                    <option>1</option>
+                                    <option disabled>Підгрупа</option>
+                                    <option selected>1</option>
                                     <option>2</option>
                                     <option>3</option>
                                 </select>
@@ -276,7 +279,7 @@
                                 <div class="col-sm-4 col-un-padding">
                                     <input type="text" class="date form-control" placeholder="Дата народження"
                                            name="date_birth"
-                                           id="datepicker2">
+                                           id="datepicker3">
                                 </div>
                             </td>
                         </tr>
@@ -308,7 +311,7 @@
                                 <div class="col-sm-4 col-un-padding">
                                     <input type="text" class="date form-control" placeholder="Коли виданий"
                                            name="date_release"
-                                           id="datepicker3">
+                                           id="datepicker4">
                                 </div>
                             </td>
                         </tr>
