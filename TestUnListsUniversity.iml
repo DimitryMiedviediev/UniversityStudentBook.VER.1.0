@@ -20,9 +20,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.0.M9" level="application_server_libraries" />
-    <orderEntry type="library" name="mysql-connector-java-6.0.5-bin" level="project" />
-    <orderEntry type="library" name="servlet-api" level="project" />
     <orderEntry type="library" name="javax.servlet.jsp.jstl-1.2.1" level="project" />
     <orderEntry type="library" name="javax.servlet.jsp.jstl-api-1.2.1" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-6.0.5-bin" level="project" />
+    <orderEntry type="library" name="servlet-api" level="project" />
   </component>
 </module>
