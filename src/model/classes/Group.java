@@ -10,6 +10,7 @@ public class Group {
     private String educationForm;
     private String qualificationLevel;
     private String course;
+    private String status;
 
     public Group() {
     }
@@ -21,6 +22,16 @@ public class Group {
         this.educationForm = educationForm;
         this.qualificationLevel = qualificationLevel;
         this.course = course;
+    }
+
+    public Group(String groupId, String specId, String number, String educationForm, String qualificationLevel, String course, String status) {
+        this.groupId = groupId;
+        this.specId = specId;
+        this.number = number;
+        this.educationForm = educationForm;
+        this.qualificationLevel = qualificationLevel;
+        this.course = course;
+        this.status = status;
     }
 
     public String getGroupId() {
@@ -71,6 +82,14 @@ public class Group {
         this.course = course;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,7 +104,8 @@ public class Group {
             return false;
         if (qualificationLevel != null ? !qualificationLevel.equals(group.qualificationLevel) : group.qualificationLevel != null)
             return false;
-        return course != null ? course.equals(group.course) : group.course == null;
+        if (course != null ? !course.equals(group.course) : group.course != null) return false;
+        return status != null ? status.equals(group.status) : group.status == null;
     }
 
     @Override
@@ -96,6 +116,7 @@ public class Group {
         result = 31 * result + (educationForm != null ? educationForm.hashCode() : 0);
         result = 31 * result + (qualificationLevel != null ? qualificationLevel.hashCode() : 0);
         result = 31 * result + (course != null ? course.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 
@@ -108,6 +129,7 @@ public class Group {
                 ", educationForm='" + educationForm + '\'' +
                 ", qualificationLevel='" + qualificationLevel + '\'' +
                 ", course='" + course + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -213,14 +213,14 @@ public class Beans {
             Statement statement = conn.createStatement();
 
             String specId = null;
-            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \"" + speciality + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = '" + speciality + "'");
             ResultSetMetaData meta = resultSet.getMetaData();
             while (resultSet.next()) {
                 specId = resultSet.getString(meta.getColumnName(1));
             }
 
-            String query = "INSERT INTO groups (spec_id, group_num, group_educ_form, group_qual, group_course) " +
-                    "VALUES (\"" + specId + "\" , \"" + groupNum + "\" , \"" + groupEducForm + "\" , \"" + groupEducQual + "\" , \"" + groupCourse + "\")";
+            String query = "INSERT INTO groups (spec_id, group_num, group_educ_form, group_qual, group_course, group_status) " +
+                    "VALUES ('" + specId + "' , '" + groupNum + "' , '" + groupEducForm + "' , '" + groupEducQual + "' , '" + groupCourse + "' , 'Активна')";
             if ((!specId.equals("")) && (!groupNum.equals("")) && (!groupCourse.equals(""))) {
                 statement.executeUpdate(query);
                 System.out.println("Query create speciality: " + query);
@@ -239,7 +239,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT gr.group_id, sp.spec_name, gr.group_num, gr.group_educ_form, gr.group_qual, gr.group_course FROM groups gr INNER JOIN specialities sp ON gr.spec_id = sp.id_spec");
+            ResultSet resultSet = statement.executeQuery("SELECT gr.group_id, sp.spec_name, gr.group_num, gr.group_educ_form, gr.group_qual, gr.group_course, group_status FROM groups gr INNER JOIN specialities sp ON gr.spec_id = sp.id_spec WHERE group_status = 'Активна'");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -249,7 +249,8 @@ public class Beans {
                 String groupEducForm = resultSet.getString(meta.getColumnName(4));
                 String groupQual = resultSet.getString(meta.getColumnName(5));
                 String groupCourse = resultSet.getString(meta.getColumnName(6));
-                storage.add(new Group(groupId, specId, groupNum, groupEducForm, groupQual, groupCourse));
+                String groupStatus = resultSet.getString(meta.getColumnName(7));
+                storage.add(new Group(groupId, specId, groupNum, groupEducForm, groupQual, groupCourse, groupStatus));
             }
 
             System.out.println("List of groups:" + storage);
@@ -270,7 +271,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_id = \"" + group_Id + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE group_id = '" + group_Id + "'");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -280,7 +281,8 @@ public class Beans {
                 String educationForm = resultSet.getString(meta.getColumnName(4));
                 String qualificationLevel = resultSet.getString(meta.getColumnName(5));
                 String course = resultSet.getString(meta.getColumnName(6));
-                storage.add(new Group(groupId, specId, number, educationForm, qualificationLevel, course));
+                String status = resultSet.getString(meta.getColumnName(7));
+                storage.add(new Group(groupId, specId, number, educationForm, qualificationLevel, course, status));
             }
 
             System.out.println("List of editGroup:" + storage);
@@ -301,16 +303,16 @@ public class Beans {
             conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
             String specId = null;
-            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = \"" + specName + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT id_spec FROM specialities WHERE spec_name = '" + specName + "'");
             ResultSetMetaData meta = resultSet.getMetaData();
             while (resultSet.next()) {
                 specId = resultSet.getString(meta.getColumnName(1));
             }
-            String queryGroup = "UPDATE groups SET spec_id = \"" + specId + "\", group_num = \"" + groupNum + "\", group_educ_form = \""
-                    + groupEducForm + "\", group_qual = \"" + groupEducQual + "\", group_course = \"" + groupCourse + "\" WHERE group_id = \"" + groupId + "\"";
+            String queryGroup = "UPDATE groups SET spec_id = '" + specId + "', group_num = '" + groupNum + "', group_educ_form = '"
+                    + groupEducForm + "', group_qual = '" + groupEducQual + "', group_course = '" + groupCourse + "' WHERE group_id = '" + groupId + "'";
 
-            String queryStudent = "UPDATE students SET stud_spec = \"" + specName + "\", stud_educ_form = \"" + groupEducForm + "\", stud_qual = \""
-                    + groupEducQual + "\", stud_course = \"" + groupCourse + "\" WHERE group_id = \"" + groupId + "\"";
+            String queryStudent = "UPDATE students SET stud_spec = '" + specName + "', stud_educ_form = '" + groupEducForm + "', stud_qual = '"
+                    + groupEducQual + "', stud_course = '" + groupCourse + "' WHERE group_id = '" + groupId + "'";
 
             if ((!groupNum.equals("")) && (!groupCourse.equals(""))) {
                 statement.executeUpdate(queryGroup);
@@ -329,7 +331,7 @@ public class Beans {
         try {
             conn.setCatalog(userSchema);
             Statement statement = conn.createStatement();
-            String query = "DELETE FROM groups WHERE group_id = \"" + groupId + "\"";
+            String query = "DELETE FROM groups WHERE group_id = '" + groupId + "'";
             System.out.println("Query delete group: " + query);
             statement.execute(query);
         } catch (SQLException e) {
@@ -346,7 +348,7 @@ public class Beans {
             conn1.setCatalog(userSchema);
             Statement statement = conn1.createStatement();
 
-            statement.executeUpdate("UPDATE students SET status=\"Закінчив навчання\", graduate_date=\"" + dateGraduate + "\", graduate_order=\"" + orderGraduate + "\", group_id=NULL, subgroup=NULL, stud_course=NULL WHERE group_id=\"" + groupId + "\"");
+            statement.executeUpdate("UPDATE students SET status='Закінчив навчання', graduate_date='" + dateGraduate + "', graduate_order='" + orderGraduate + "' WHERE group_id='" + groupId + "'");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -358,9 +360,11 @@ public class Beans {
         try {
             conn2.setCatalog(userSchema);
             Statement statement = conn2.createStatement();
-            String query = "DELETE FROM groups WHERE group_id = \"" + groupId + "\"";
-            System.out.println("Query delete group: " + query);
-            statement.execute(query);
+//            String query = "DELETE FROM groups WHERE group_id = '" + groupId + "'";
+            statement.executeUpdate("UPDATE groups SET group_status='Неактивна' WHERE group_id = '" + groupId + "'");
+
+//            System.out.println("Query delete group: " + query);
+//            statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -394,14 +398,10 @@ public class Beans {
             conn2.setCatalog(userSchema);
             Statement statement = conn2.createStatement();
             for (int i = 0; i < courses.size(); i++) {
-                statement.executeUpdate("UPDATE groups SET group_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE group_course = \"" + courses.get(i) + "\"");
-//                String str = "UPDATE groups SET group_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE group_course = \"" + courses.get(i) + "\"";
-//                System.out.println(str);
+                statement.executeUpdate("UPDATE groups SET group_course = '" + (Integer.parseInt(courses.get(i)) + 1) + "' WHERE group_course = '" + courses.get(i) + "' AND group_status = 'Активна'");
             }
             for (int i = 0; i < courses.size(); i++) {
-                statement.executeUpdate("UPDATE students SET stud_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE stud_course = \"" + courses.get(i) + "\" AND status = \"Навчається\"");
-//                String str = "UPDATE students SET stud_course = \"" + (Integer.parseInt(courses.get(i)) + 1) + "\" WHERE stud_course = \"" + courses.get(i) + "\" AND status = \"Навчається\"";
-//                System.out.println(str);
+                statement.executeUpdate("UPDATE students SET stud_course = '" + (Integer.parseInt(courses.get(i)) + 1) + "' WHERE stud_course = '" + courses.get(i) + "' AND status = 'Навчається'");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1270,8 +1270,7 @@ public class Beans {
                                  HashMap<String, Boolean> groupList, HashMap<String, Boolean> subgroupList,
                                  HashMap<String, String> cityParam, HashMap<String, String> stateParam) {
 
-        if (retIfMapBoolTrue(qualList) || retIfMapBoolTrue(courseList) || retIfMapBoolTrue(educFormList) ||
-                retIfMapBoolTrue(groupList)) {
+        if (retIfMapBoolTrue(groupList)) {
             query = query + " INNER JOIN groups gr ON st.group_id = gr.group_id";
         }
 
@@ -1547,7 +1546,7 @@ public class Beans {
         try {
             con.setCatalog(userSchema);
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups gr INNER JOIN students st ON gr.group_id = st.group_id WHERE st.stud_id = \"" + studId + "\"");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM groups gr INNER JOIN students st ON gr.group_id = st.group_id WHERE st.stud_id = '" + studId + "'");
             ResultSetMetaData meta = resultSet.getMetaData();
 
             while (resultSet.next()) {
@@ -1822,7 +1821,7 @@ public class Beans {
 
             statement.executeUpdate("CREATE SCHEMA `" + dataBase + "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`specialities` (`id_spec` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`id_spec`), UNIQUE KEY `id_spec_UNIQUE` (`id_spec`)) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1");
-            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`groups` (`group_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_id` int(10) unsigned DEFAULT NULL, `group_num` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`group_id`), UNIQUE KEY `group_id_UNIQUE` (`group_id`), KEY `spec_id_idx` (`spec_id`), CONSTRAINT `spec_id_1` FOREIGN KEY (`spec_id`) REFERENCES `specialities` (`id_spec`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1");
+            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`groups` (`group_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_id` int(10) unsigned DEFAULT NULL, `group_num` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`group_id`), UNIQUE KEY `group_id_UNIQUE` (`group_id`), KEY `spec_id_idx` (`spec_id`), CONSTRAINT `spec_id_1` FOREIGN KEY (`spec_id`) REFERENCES `specialities` (`id_spec`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1");
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`students` (`stud_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `stud_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_order` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `graduate_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `graduate_order` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_id` int(10) unsigned DEFAULT NULL, `stud_spec` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `subgroup` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `financing` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_book` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `birth_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passport` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_office` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `identity_code` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`stud_id`), UNIQUE KEY `stud_id_UNIQUE` (`stud_id`), KEY `group_id_1_idx` (`group_id`), KEY `parent_id_1_idx` (`father_name`), CONSTRAINT `group_id_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1");
 
         } catch (SQLException e) {
