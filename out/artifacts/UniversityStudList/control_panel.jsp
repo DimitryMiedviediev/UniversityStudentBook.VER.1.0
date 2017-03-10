@@ -176,7 +176,7 @@
                                     <select name="group_edit" class="form-control input-sm center-block" required>
                                         <option selected disabled>Введіть значення</option>
                                         <c:forEach var="groupList" items="${groupList}">
-                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
+                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Кв: ${groupList.qualificationLevel} / Сп: ${groupList.specId} / Курс ${groupList.course} / Ф: ${groupList.educationForm}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -198,7 +198,7 @@
                                     <select name="group_delete" class="form-control input-sm center-block">
                                         <option selected disabled>Введіть значення</option>
                                         <c:forEach var="groupList" items="${groupList}">
-                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
+                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / КВ: ${groupList.qualificationLevel} / Сп: ${groupList.specId} / Курс ${groupList.course} / Ф: ${groupList.educationForm}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -220,7 +220,7 @@
                                     <select name="group_graduate" class="form-control input-sm center-block">
                                         <option selected disabled>Введіть значення</option>
                                         <c:forEach var="groupList" items="${groupList}">
-                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / Сп: ${groupList.specId} / Курс ${groupList.course}</option>
+                                            <option value="${groupList.groupId}">Гр: ${groupList.number} / КВ: ${groupList.qualificationLevel} / Сп: ${groupList.specId} / Курс ${groupList.course} / Ф: ${groupList.educationForm}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

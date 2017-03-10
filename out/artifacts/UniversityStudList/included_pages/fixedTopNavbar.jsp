@@ -9,6 +9,7 @@
                     <div class="navbar-right">
                         <button type="submit" class="btn btn-default" formaction="students_list" formmethod="post">Список студентів</button>
                         <button type="submit" class="btn btn-default" formaction="groups_list" formmethod="post">Список груп</button>
+                        <button type="submit" class="btn btn-default" formaction="orders_list" formmethod="post">Список наказів</button>
                         <button type="submit" class="btn btn-default" formaction="autorization" formmethod="post" name="exit" value="exit">Вийти</button>
                     </div>
                     <div class="navbar-left">
