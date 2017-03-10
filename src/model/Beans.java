@@ -1,9 +1,6 @@
 package model;
 
-import model.classes.Group;
-import model.classes.Speciality;
-import model.classes.Student;
-import model.classes.User;
+import model.classes.*;
 
 import java.sql.*;
 import java.util.*;
@@ -1033,6 +1030,229 @@ public class Beans {
         stopConnection(conn);
     }
 
+    /**
+     * Working with ORDERS
+     */
+
+    public ArrayList<Order> getOrderList(String userSchema, String query) {
+        ArrayList<Order> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT stud_id, stud_name, stud_surname, stud_lastname, status FROM students");
+            ResultSet resultSet = statement.executeQuery(query);
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String orderId = resultSet.getString(meta.getColumnName(1));
+                String orderNum = resultSet.getString(meta.getColumnName(2));
+                String orderType = resultSet.getString(meta.getColumnName(3));
+                String orderDate = dateFormatLongText(resultSet.getString(meta.getColumnName(4)));
+                String orderComment = resultSet.getString(meta.getColumnName(5));
+                storage.add(new Order(orderId, orderNum, orderType, orderDate, orderComment));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public ArrayList<Order> getOrderList(String userSchema) {
+        ArrayList<Order> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT stud_id, stud_name, stud_surname, stud_lastname, status FROM students");
+            ResultSet resultSet = statement.executeQuery("SELECT order_id, order_num, order_type, order_date, order_comment FROM orders");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String orderId = resultSet.getString(meta.getColumnName(1));
+                String orderNum = resultSet.getString(meta.getColumnName(2));
+                String orderType = resultSet.getString(meta.getColumnName(3));
+                String orderDate = dateFormatLongText(resultSet.getString(meta.getColumnName(4)));
+                String orderComment = resultSet.getString(meta.getColumnName(5));
+                storage.add(new Order(orderId, orderNum, orderType, orderDate, orderComment));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public ArrayList<Order> getOneOrder(String userSchema, String orderId) {
+        ArrayList<Order> storage = new ArrayList<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT order_id, order_num, order_type, order_date, order_comment FROM orders WHERE order_id = '" + orderId + "'");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+//                String orderId = resultSet.getString(meta.getColumnName(1));
+                String orderNum = resultSet.getString(meta.getColumnName(2));
+                String orderType = resultSet.getString(meta.getColumnName(3));
+                String orderDate = dateFormatLongText(resultSet.getString(meta.getColumnName(4)));
+                String order_comment = resultSet.getString(meta.getColumnName(5));
+                storage.add(new Order(orderId, orderNum, orderType, orderDate, order_comment));
+            }
+
+            System.out.println("List of orders:" + storage);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getOrderListForTitle(String userSchema) {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT order_num FROM orders");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String group = resultSet.getString(meta.getColumnName(1));
+                storage.put(group, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public HashMap<String, Boolean> getOrderTypeListForTitle(String userSchema) {
+        HashMap<String, Boolean> storage = new HashMap<>();
+
+        Connection con = startConnection();
+        try {
+            con.setCatalog(userSchema);
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT order_type FROM orders");
+            ResultSetMetaData meta = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                String group = resultSet.getString(meta.getColumnName(1));
+                storage.put(group, false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        stopConnection(con);
+
+        return storage;
+    }
+
+    public String retOrdersSortedQuery(HashMap<String, Boolean> orderType, HashMap<String, String> orderNumParam,
+                                       HashMap<String, String> orderDateParam) {
+        String query = "SELECT order_id, order_num, order_type, order_date, order_comment FROM orders";
+
+        for (Map.Entry<String, String> entry : orderNumParam.entrySet()) {
+            if (entry.getValue() != null) {
+                if (!entry.getValue().equals("")) {
+                    query = addQueryPart(query, "order_num", entry.getValue());
+                }
+            }
+        }
+
+        for (Map.Entry<String, Boolean> entry : orderType.entrySet()) {
+            if (entry.getValue()) {
+                query = addQueryPart(query, "order_type", entry.getKey());
+            }
+        }
+
+        for (Map.Entry<String, String> entry : orderDateParam.entrySet()) {
+            if (entry.getValue() != null) {
+                if (!entry.getValue().equals("")) {
+                    query = addQueryPart(query, "order_date", entry.getValue());
+                }
+            }
+        }
+
+        query = qParamGroup(query);
+
+        return query;
+    }
+
+    public void createNewOrder(String userSchema, String orderNum, String orderType, String orderDate, String orderComment) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+
+            String query = "INSERT INTO orders (order_num, order_type, order_date, order_comment) " +
+                    "VALUES ('" + orderNum + "' , '" + orderType + "' , '" + orderDate + "' , '" + orderComment + "')";
+            if ((!orderNum.equals("")) && (orderNum != null) && (!orderType.equals("")) && (orderType != null) && (!orderDate.equals("")) && (orderDate != null)) {
+                statement.executeUpdate(query);
+                System.out.println("Query create speciality: " + query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    public void updateOrder(String userSchema, String orderId, String orderNum, String orderType, String orderDate, String orderComment) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+            String query = "UPDATE orders SET order_num = '" + orderNum + "', order_type = '"
+                    + orderType + "', order_date = '" + orderDate + "', order_comment = '" + orderComment + "' WHERE order_id = '" + orderId + "'";
+
+            if ((!orderNum.equals("")) && (orderNum != null) && (!orderType.equals("")) && (orderType != null) && (!orderDate.equals("")) && (orderDate != null)) {
+                statement.executeUpdate(query);
+                System.out.println("Query update order: " + query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
+    public void removeOrder(String userSchema, String orderId) {
+        Connection conn = startConnection();
+
+        try {
+            conn.setCatalog(userSchema);
+            Statement statement = conn.createStatement();
+            String query = "DELETE FROM orders WHERE order_id = '" + orderId + "'";
+            System.out.println("Query delete group: " + query);
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        stopConnection(conn);
+    }
+
 
     /**
      * Getting parameters for sidebar on student list
@@ -1823,7 +2043,7 @@ public class Beans {
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`specialities` (`id_spec` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`id_spec`), UNIQUE KEY `id_spec_UNIQUE` (`id_spec`)) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1");
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`groups` (`group_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `spec_id` int(10) unsigned DEFAULT NULL, `group_num` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`group_id`), UNIQUE KEY `group_id_UNIQUE` (`group_id`), KEY `spec_id_idx` (`spec_id`), CONSTRAINT `spec_id_1` FOREIGN KEY (`spec_id`) REFERENCES `specialities` (`id_spec`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1");
             statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`students` (`stud_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `stud_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `entry_order` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `graduate_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `graduate_order` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `status` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `group_id` int(10) unsigned DEFAULT NULL, `stud_spec` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_educ_form` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_qual` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_course` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `subgroup` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `financing` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_book` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `birth_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passport` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_office` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `passp_date` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `identity_code` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `student_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `stud_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `father_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_surname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_lastname` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_1` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `mother_phone_2` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_house` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_street` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_city` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_state` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_zip` varchar(100) CHARACTER SET utf8 DEFAULT NULL, `parent_country` varchar(100) CHARACTER SET utf8 DEFAULT NULL, PRIMARY KEY (`stud_id`), UNIQUE KEY `stud_id_UNIQUE` (`stud_id`), KEY `group_id_1_idx` (`group_id`), KEY `parent_id_1_idx` (`father_name`), CONSTRAINT `group_id_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1");
-            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`orders` (`order_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `order_num` varchar(100) DEFAULT NULL, `order_type` varchar(100) DEFAULT NULL, `order_date` varchar(100) DEFAULT NULL, `order_comment` varchar(100) DEFAULT NULL, PRIMARY KEY (`order_id`), UNIQUE KEY `order_id_UNIQUE` (`order_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8\n");
+            statement.executeUpdate("CREATE TABLE `" + dataBase + "`.`orders` (`order_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `order_num` varchar(100) DEFAULT NULL, `order_type` varchar(100) DEFAULT NULL, `order_date` varchar(100) DEFAULT NULL, `order_comment` text, PRIMARY KEY (`order_id`), UNIQUE KEY `order_id_UNIQUE` (`order_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8\n");
 
         } catch (SQLException e) {
             e.printStackTrace();

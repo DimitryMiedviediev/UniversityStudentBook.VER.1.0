@@ -1,5 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="model.classes.Speciality" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -11,16 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Список студентів</title>
+    <title>Add new student</title>
 
     <!-- Bootstrap CSS-->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Develops CSS -->
-    <%--<link href="../css/users.css" rel="stylesheet">--%>
+    <link href="../css/users.css" rel="stylesheet">
     <link href="../css/font_style.css" rel="stylesheet">
-    <link href="../css/stupidtable.css" rel="stylesheet">
-    <link rel="stylesheet" , href="css/users.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,14 +29,6 @@
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
-    <!-- Stupidtable plugin for sorting table-data-->
-    <script src="../js/stupidtable.js"></script>
-    <script>
-        $(function () {
-            $("table").stupidtable();
-        });
-    </script>
 
     <!-- Include DataPicker plugin-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -128,6 +116,7 @@
         });
     </script>
 
+
 </head>
 
 <body>
@@ -136,105 +125,100 @@
 
 <!-- Header Jumbotron -->
 <div class="jumbotron text-center">
-    <h2>Список наказів</h2>
-    <p>Це список наказів вашого університету!</p>
+    <h2>Створити наказ</h2>
+    <p>Тут ви можете створити новий наказ!</p>
 </div>
 
 <!-- Body -->
 <div class="container">
     <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-2">
+        <%--<c:forEach var="studentInfo" items="${studentInfo}">--%>
+        <%--<c:if test="${studentInfo.id ne null}">--%>
+        <%--<form action="student_info?stud_id=${studentInfo.id}">--%>
+        <%--</c:if>--%>
+        <%--</c:forEach>--%>
+        <form action="order_add">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2">
 
-            <!-- Sidebar -->
-            <div class="list-group font-table">
-                <form action="orders_list" method="post">
-                    <!-- Empty DIV -->
-                    <div style="padding: 10px"></div>
+                <div style="padding: 10px"></div>
 
-                    <input type="submit" name="create_btn" value="Створити наказ" class="btn btn-default btn-md btn-block"
-                           formmethod="post"/>
-                    <h5>Номер наказу</h5>
-                    <ul>
-                        <c:forEach var="orderNumParam" items="${orderNumParam}">
-                            <c:if test="${orderNumParam.value ne null}">
-                                <input type="text" placeholder="Номер наказу" name="orderNum" class="form-control" list="orders"
-                                       value="${orderNumParam.value}">
-                            </c:if>
-                            <c:if test="${orderNumParam.value eq null}">
-                                <input type="text" placeholder="Номер наказу" name="orderNum" class="form-control" list="orders">
-                            </c:if>
-                        </c:forEach>
-                        <datalist id="orders">
-                            <c:forEach var="orderNumList" items="${orderNumList}">
-                                <option value="${orderNumList.key}"></option>
-                            </c:forEach>
-                        </datalist>
-                    </ul>
-                    <hr>
-                    <h5>Тип наказу</h5>
-                    <ul>
-                        <c:forEach var="orderTypeList" items="${orderTypeList}">
-                            <c:if test="${orderTypeList.value eq true}">
-                                <li><h6><input type="checkbox" name="orderType=${orderTypeList.key}"
-                                               value="orderType=${orderTypeList.key}"
-                                               checked> ${orderTypeList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${orderTypeList.value eq false}">
-                                <li><h6><input type="checkbox" name="orderType=${orderTypeList.key}"
-                                               value="orderType=${orderTypeList.key}"> ${orderTypeList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Дата наказу</h5>
-                    <ul>
-                        <c:forEach var="orderDateParam" items="${orderDateParam}">
-                            <c:if test="${orderDateParam.value eq null}">
+                <!-- Buttons area -->
+                <input type="submit" name="save_btn" value="Зберегти" class="btn btn-default btn-md btn-block"
+                       formmethod="post"/>
+                <input type="submit" name="clear_btn" value="Очистити" class="btn btn-default btn-md btn-block"
+                       formmethod="post"/>
+                <input type="submit" name="back_btn" value="Назад" class="btn btn-default btn-md btn-block"
+                       formmethod="post"/>
+
+            </div>
+            <div class="col-sm-8">
+                <!-- Information -->
+                <div class="container">
+
+                    <table class="table table-condensed font-table">
+                        <!-- University information -->
+                        <thead>
+                        <tr>
+                            <th class="col-sm-2"><h4><b>Параметр</b></h4></th>
+                            <th class="col-sm-6"><h4><b>Університетська інформація</b></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Номер наказу:</td>
+                            <td class="col-sm-6">
+                                <div class="has-error">
+                                    <input type="text" maxlength="15" class="form-control"
+                                           placeholder="Номер наказу"
+                                           name="orderNum">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Дата наказу:</td>
+                            <td class="col-sm-6">
+                                <div class="has-error">
                                     <input type="text" class="date form-control" placeholder="Дата наказу"
                                            name="orderDate"
                                            id="datepicker1">
-                            </c:if>
-                            <c:if test="${orderDateParam.value ne null}">
-                                    <input type="text" class="date form-control" placeholder="Дата наказу"
-                                           name="orderDate"
-                                           id="datepicker1" value="${orderDateParam.value}">
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <input type="submit" value="Sort" class="btn btn-default btn-block" formmethod="post">
-                </form>
-            </div>
-
-        </div>
-        <div class="col-sm-8">
-            <!-- Tables -->
-            <div class="container">
-                <table id="stupid" class="table table-hover font-table">
-                    <thead>
-                    <tr>
-                        <th data-sort="string-ins">Номер наказу</th>
-                        <th data-sort="string-ins">Тип наказу</th>
-                        <th data-sort="string-ins">Дата наказу</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <c:forEach var="orderList" items="${orderList}">
-                        <tr>
-                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderNum}</a></td>
-                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderType}</a></td>
-                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderDate}</a></td>
+                                </div>
+                            </td>
                         </tr>
-                    </c:forEach>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Тип наказу:</td>
+                            <td class="col-sm-6">
+                                    <select name="orderType" required>
+                                        <option disabled selected>Тип наказу</option>
+                                        <option>Наказ на зарахування</option>
+                                        <option>Наказ на відрахування</option>
+                                    </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Коментарі:</td>
+                            <td class="col-sm-6">
+                                <div class="has-error">
+                                    <textarea class="form-control" rows="3"
+                                           placeholder="Коментар до наказу"
+                                              name="orderComment"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                    </tbody>
+                </div>
 
-                </table>
             </div>
-        </div>
-        <div class="col-sm-1"></div>
+            <div class="col-sm-1"></div>
+        </form>
     </div>
 </div>
 
@@ -242,3 +226,4 @@
 
 </body>
 </html>
+

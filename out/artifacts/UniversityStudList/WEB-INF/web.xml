@@ -61,6 +61,24 @@
         <url-pattern>/orders_list</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Order_add</servlet-name>
+        <servlet-class>controller.Order_add</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Order_add</servlet-name>
+        <url-pattern>/order_add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Order_info</servlet-name>
+        <servlet-class>controller.Order_info</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Order_info</servlet-name>
+        <url-pattern>/order_info</url-pattern>
+    </servlet-mapping>
+
 
     <filter>
         <filter-name>Charset Filter</filter-name>

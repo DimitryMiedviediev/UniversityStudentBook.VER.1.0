@@ -42,6 +42,92 @@
         });
     </script>
 
+    <!-- Include DataPicker plugin-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <%--<link rel="stylesheet" href="/resources/demos/style.css">--%>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker1").datepicker();
+        });
+    </script>
+
+    <!-- jQuery mask for input types -->
+    <script type="text/javascript" src="../js/jquery.mask.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.date').mask('00/00/0000');
+            $('.time').mask('00:00:00');
+            $('.date_time').mask('00/00/0000 00:00:00');
+            $('.cep').mask('00000-000');
+            $('.phone').mask('0000-0000');
+            $('.phone_with_ddd').mask('(00) 0000-0000');
+            $('.phone_us').mask('(000) 000-0000');
+            $('.mixed').mask('AAA 000-S0S');
+            $('.ip_address').mask('099.099.099.099');
+            $('.percent').mask('##0,00%', {reverse: true});
+            $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+            $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+            $('.fallback').mask("00r00r0000", {
+                translation: {
+                    'r': {
+                        pattern: /[\/]/,
+                        fallback: '/'
+                    },
+                    placeholder: "__/__/____"
+                }
+            });
+
+            $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+
+            $('.cep_with_callback').mask('00000-000', {
+                onComplete: function (cep) {
+                    console.log('Mask is done!:', cep);
+                },
+                onKeyPress: function (cep, event, currentField, options) {
+                    console.log('An key was pressed!:', cep, ' event: ', event, 'currentField: ', currentField.attr('class'), ' options: ', options);
+                },
+                onInvalid: function (val, e, field, invalid, options) {
+                    var error = invalid[0];
+                    console.log("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
+                }
+            });
+
+            $('.crazy_cep').mask('00000-000', {
+                onKeyPress: function (cep, e, field, options) {
+                    var masks = ['00000-000', '0-00-00-00'];
+                    mask = (cep.length > 7) ? masks[1] : masks[0];
+                    $('.crazy_cep').mask(mask, options);
+                }
+            });
+
+            $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+            $('.cpf').mask('000.000.000-00', {reverse: true});
+            $('.money').mask('#.##0,00', {reverse: true});
+
+            var SPMaskBehavior = function (val) {
+                    return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+                },
+                spOptions = {
+                    onKeyPress: function (val, e, field, options) {
+                        field.mask(SPMaskBehavior.apply({}, arguments), options);
+                    }
+                };
+
+            $('.sp_celphones').mask(SPMaskBehavior, spOptions);
+
+            $(".bt-mask-it").click(function () {
+                $(".mask-on-div").mask("000.000.000-00");
+                $(".mask-on-div").fadeOut(500).fadeIn(500)
+            })
+
+            $('pre').each(function (i, e) {
+                hljs.highlightBlock(e)
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -62,157 +148,59 @@
 
             <!-- Sidebar -->
             <div class="list-group font-table">
-                <form action="students_list" method="post">
-                    <h5>Спеціалізація</h5>
-                    <ul>
-                        <c:forEach var="specList" items="${specList}">
-                            <c:if test="${specList.value eq true}">
-                                <li><h6><input type="checkbox" name="spec=${specList.key}" value="spec=${specList.key}"
-                                               checked> ${specList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${specList.value eq false}">
-                                <li><h6><input type="checkbox" name="spec=${specList.key}"
-                                               value="spec=${specList.key}"> ${specList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Статус</h5>
-                    <ul>
-                        <c:forEach var="statusList" items="${statusList}">
-                            <c:if test="${statusList.value eq true}">
-                                <li><h6><input type="checkbox" name="stat=${statusList.key}"
-                                               value="stat=${statusList.key}"
-                                               checked> ${statusList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${statusList.value eq false}">
-                                <li><h6><input type="checkbox" name="stat=${statusList.key}"
-                                               value="stat=${statusList.key}"> ${statusList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Кваліфікаційний рівень</h5>
-                    <ul>
-                        <c:forEach var="qualList" items="${qualList}">
-                            <c:if test="${qualList.value eq true}">
-                                <li><h6><input type="checkbox" name="qual=${qualList.key}" value="qual=${qualList.key}"
-                                               checked> ${qualList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${qualList.value eq false}">
-                                <li><h6><input type="checkbox" name="qual=${qualList.key}"
-                                               value="qual=${qualList.key}"> ${qualList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Курси</h5>
-                    <ul>
-                        <c:forEach var="courseList" items="${courseList}">
-                            <c:if test="${courseList.value eq true and courseList.key ne null}">
-                                <li><h6><input type="checkbox" name="course=${courseList.key}"
-                                               value="course=${courseList.key}"
-                                               checked> ${courseList.key} курс</h6></li>
-                            </c:if>
-                            <c:if test="${courseList.value eq false and courseList.key ne null}">
-                                <li><h6><input type="checkbox" name="course=${courseList.key}"
-                                               value="course=${courseList.key}"> ${courseList.key} курс</h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Група</h5>
-                    <ul>
-                        <c:forEach var="groupList" items="${groupList}">
-                            <c:if test="${groupList.value eq true and groupList.key ne null}">
-                                <li><h6><input type="checkbox" name="gr=${groupList.key}" value="gr=${groupList.key}"
-                                               checked> ${groupList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${groupList.value eq false and groupList.key ne null}">
-                                <li><h6><input type="checkbox" name="gr=${groupList.key}"
-                                               value="gr=${groupList.key}"> ${groupList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Підгрупа</h5>
-                    <ul>
-                        <c:forEach var="subgroupList" items="${subgroupList}">
-                            <c:if test="${subgroupList.value eq true and subgroupList.key ne null}">
-                                <li><h6><input type="checkbox" name="sub=${subgroupList.key}"
-                                               value="sub=${subgroupList.key}"
-                                               checked> ${subgroupList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${subgroupList.value eq false and subgroupList.key ne null}">
-                                <li><h6><input type="checkbox" name="sub=${subgroupList.key}"
-                                               value="sub=${subgroupList.key}"> ${subgroupList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Фінансування</h5>
-                    <ul>
-                        <c:forEach var="financeList" items="${financeList}">
-                            <c:if test="${financeList.value eq true}">
-                                <li><h6><input type="checkbox" name="fin=${financeList.key}"
-                                               value="fin=${financeList.key}"
-                                               checked> ${financeList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${financeList.value eq false}">
-                                <li><h6><input type="checkbox" name="fin=${financeList.key}"
-                                               value="fin=${financeList.key}"> ${financeList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Форма навчання</h5>
-                    <ul>
-                        <c:forEach var="educFormList" items="${educFormList}">
-                            <c:if test="${educFormList.value eq true}">
-                                <li><h6><input type="checkbox" name="edform=${educFormList.key}"
-                                               value="edform=${educFormList.key}"
-                                               checked> ${educFormList.key} </h6></li>
-                            </c:if>
-                            <c:if test="${educFormList.value eq false}">
-                                <li><h6><input type="checkbox" name="edform=${educFormList.key}"
-                                               value="edform=${educFormList.key}"> ${educFormList.key} </h6></li>
-                            </c:if>
-                        </c:forEach>
-                    </ul>
-                    <hr>
-                    <h5>Місце народження</h5>
-                    <ul>
-                        <c:forEach var="cityParam" items="${cityParam}">
-                            <c:if test="${cityParam.value != null}">
-                                <input type="text" placeholder="Місто" name="city" class="form-control" list="cities"
-                                       value="${cityParam.value}">
-                            </c:if>
-                            <c:if test="${cityParam.value == null}">
-                                <input type="text" placeholder="Місто" name="city" class="form-control" list="cities">
-                            </c:if>
-                        </c:forEach>
-                        <%--<input type="text" placeholder="Місто" name="city" class="form-control" list="cities">--%>
-                        <datalist id="cities">
-                            <c:forEach var="cityList" items="${cityList}">
-                                <option value="${cityList.key}"></option>
-                            </c:forEach>
-                        </datalist>
+                <form action="orders_list" method="post">
+                    <!-- Empty DIV -->
+                    <div style="padding: 10px"></div>
 
-                        <c:forEach var="stateParam" items="${stateParam}">
-                            <c:if test="${stateParam.value != null}">
-                                <input type="text" placeholder="Область" name="state" class="form-control" list="states"
-                                       value="${stateParam.value}">
+                    <input type="submit" name="create_btn" value="Створити наказ" class="btn btn-default btn-md btn-block"
+                           formmethod="post"/>
+                    <h5>Номер наказу</h5>
+                    <ul>
+                        <c:forEach var="orderNumParam" items="${orderNumParam}">
+                            <c:if test="${orderNumParam.value ne null}">
+                                <input type="text" placeholder="Номер наказу" name="orderNum" class="form-control" list="orders"
+                                       value="${orderNumParam.value}">
                             </c:if>
-                            <c:if test="${stateParam.value == null}">
-                                <input type="text" placeholder="Область" name="state" class="form-control"
-                                       list="states">
+                            <c:if test="${orderNumParam.value eq null}">
+                                <input type="text" placeholder="Номер наказу" name="orderNum" class="form-control" list="orders">
                             </c:if>
                         </c:forEach>
-                        <datalist id="states">
-                            <c:forEach var="stateList" items="${stateList}">
-                                <option value="${stateList.key}"></option>
+                        <datalist id="orders">
+                            <c:forEach var="orderNumList" items="${orderNumList}">
+                                <option value="${orderNumList.key}"></option>
                             </c:forEach>
                         </datalist>
+                    </ul>
+                    <hr>
+                    <h5>Тип наказу</h5>
+                    <ul>
+                        <c:forEach var="orderTypeList" items="${orderTypeList}">
+                            <c:if test="${orderTypeList.value eq true}">
+                                <li><h6><input type="checkbox" name="orderType=${orderTypeList.key}"
+                                               value="orderType=${orderTypeList.key}"
+                                               checked> ${orderTypeList.key} </h6></li>
+                            </c:if>
+                            <c:if test="${orderTypeList.value eq false}">
+                                <li><h6><input type="checkbox" name="orderType=${orderTypeList.key}"
+                                               value="orderType=${orderTypeList.key}"> ${orderTypeList.key} </h6></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                    <hr>
+                    <h5>Дата наказу</h5>
+                    <ul>
+                        <c:forEach var="orderDateParam" items="${orderDateParam}">
+                            <c:if test="${orderDateParam.value eq null}">
+                                    <input type="text" class="date form-control" placeholder="Дата наказу"
+                                           name="orderDate"
+                                           id="datepicker1">
+                            </c:if>
+                            <c:if test="${orderDateParam.value ne null}">
+                                    <input type="text" class="date form-control" placeholder="Дата наказу"
+                                           name="orderDate"
+                                           id="datepicker1" value="${orderDateParam.value}">
+                            </c:if>
+                        </c:forEach>
                     </ul>
                     <hr>
                     <input type="submit" value="Sort" class="btn btn-default btn-block" formmethod="post">
@@ -226,20 +214,18 @@
                 <table id="stupid" class="table table-hover font-table">
                     <thead>
                     <tr>
-                        <th data-sort="string-ins">Фамілія</th>
-                        <th data-sort="string-ins">Ім'я</th>
-                        <th data-sort="string-ins">По-батькові</th>
-                        <th data-sort="string-ins">Статус</th>
+                        <th data-sort="string-ins">Номер наказу</th>
+                        <th data-sort="string-ins">Тип наказу</th>
+                        <th data-sort="string-ins">Дата наказу</th>
                     </tr>
                     </thead>
                     <tbody>
 
-                    <c:forEach var="tempStudList" items="${studList}">
+                    <c:forEach var="orderList" items="${orderList}">
                         <tr>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.surname}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.name}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.lastname}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.status}</a></td>
+                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderNum}</a></td>
+                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderType}</a></td>
+                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderDate}</a></td>
                         </tr>
                     </c:forEach>
 
