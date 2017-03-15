@@ -36,18 +36,73 @@ public class Order_info extends HttpServlet {
         if (b == null || !b) {
             resp.sendRedirect("sign_in.jsp");
         } else {
-
             if (req.getParameter("update_btn") != null) {
-                
+                ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+                String userSchema = thisUser.get(0).getUser_database();
+
+                ArrayList<Order> oneOrder = beans.getOneOrder(userSchema, req.getParameter("order_id"), false);
+                req.setAttribute("oneOrder", oneOrder);
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("order_edit.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("save_btn") != null) {
+                if ((req.getParameter("orderNum") != null && !req.getParameter("orderNum").equals("")) &&
+                        (req.getParameter("orderType") != null && !req.getParameter("orderType").equals("")) &&
+                        (req.getParameter("orderDate") != null && !req.getParameter("orderDate").equals(""))) {
+                    ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+                    String userSchema = thisUser.get(0).getUser_database();
+
+                    beans.updateOrder(userSchema, req.getParameter("order_id"), req.getParameter("orderNum"),
+                            req.getParameter("orderType"), req.getParameter("orderDate"), req.getParameter("orderComment"));
+
+                    ArrayList<Order> oneOrder = beans.getOneOrder(userSchema, req.getParameter("order_id"), true);
+                    req.setAttribute("oneOrder", oneOrder);
+
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("order_info.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+                    String userSchema = thisUser.get(0).getUser_database();
+
+                    ArrayList<Order> oneOrder = new ArrayList<>();
+                    oneOrder.add(new Order(req.getParameter("order_id"), req.getParameter("orderNum"),
+                            req.getParameter("orderType"), req.getParameter("orderDate"), req.getParameter("orderComment")));
+                    req.setAttribute("oneOrder", oneOrder);
+
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("order_edit_error.jsp");
+                    dispatcher.forward(req, resp);
+                }
+//                ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+//                String userSchema = thisUser.get(0).getUser_database();
+//                beans.updateOrder(userSchema, req.getParameter("order_id"), req.getParameter("orderNum"),
+//                        req.getParameter("orderType"), req.getParameter("orderDate"), req.getParameter("orderComment"));
+//                ArrayList<Order> oneOrder = beans.getOneOrder(userSchema, req.getParameter("order_id"), true);
+//                req.setAttribute("oneOrder", oneOrder);
+//                RequestDispatcher dispatcher = req.getRequestDispatcher("order_info.jsp");
+//                dispatcher.forward(req, resp);
             } else if (req.getParameter("remove_btn") != null) {
+                ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+                String userSchema = thisUser.get(0).getUser_database();
+                beans.removeOrder(userSchema, req.getParameter("order_id"));
+                resp.sendRedirect("orders_list");
 
             } else if (req.getParameter("back_btn") != null) {
                 resp.sendRedirect("orders_list");
+            } else if (req.getParameter("back_to_info_btn") != null) {
+                ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
+                String userSchema = thisUser.get(0).getUser_database();
+
+                ArrayList<Order> oneOrder = beans.getOneOrder(userSchema, req.getParameter("order_id"), true);
+                req.setAttribute("oneOrder", oneOrder);
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("order_info.jsp");
+                dispatcher.forward(req, resp);
             } else {
                 ArrayList<User> thisUser = (ArrayList<User>) session.getAttribute("UserInfo");
                 String userSchema = thisUser.get(0).getUser_database();
 
-                ArrayList<Order> oneOrder = beans.getOneOrder(userSchema, req.getParameter("order_id"));
+                ArrayList<Order> oneOrder = beans.getOneOrder(userSchema, req.getParameter("order_id"), true);
                 req.setAttribute("oneOrder", oneOrder);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("order_info.jsp");

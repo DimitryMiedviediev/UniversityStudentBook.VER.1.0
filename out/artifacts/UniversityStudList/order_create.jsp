@@ -161,15 +161,17 @@
                         <thead>
                         <tr>
                             <th class="col-sm-2"><h4><b>Параметр</b></h4></th>
-                            <th class="col-sm-6"><h4><b>Університетська інформація</b></h4></th>
+                            <th class="col-sm-6"><h4><b>Інформація про наказ</b></h4></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td class="col-sm-2">Номер наказу:</td>
                             <td class="col-sm-6">
-                                <input type="text" maxlength="15" class="form-control" placeholder="Номер наказу"
-                                       name="orderNum">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" maxlength="15" class="form-control" placeholder="Номер наказу"
+                                           name="orderNum">
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -177,9 +179,11 @@
                         <tr>
                             <td class="col-sm-2">Дата наказу:</td>
                             <td class="col-sm-6">
-                                <input type="text" class="date form-control" placeholder="Дата наказу"
-                                       name="orderDate"
-                                       id="datepicker1">
+                                <div class="col-sm-4 col-un-padding">
+                                    <input type="text" class="date form-control" placeholder="Дата наказу"
+                                           name="orderDate"
+                                           id="datepicker1">
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -187,11 +191,13 @@
                         <tr>
                             <td class="col-sm-2">Тип наказу:</td>
                             <td class="col-sm-6">
-                                <select name="orderType" required>
-                                    <option disabled selected>Тип наказу</option>
-                                    <option>Наказ на зарахування</option>
-                                    <option>Наказ на відрахування</option>
-                                </select>
+                                <div class="col-sm-4 col-un-padding">
+                                    <select name="orderType" required>
+                                        <option disabled selected>Тип наказу</option>
+                                        <option>Наказ на зарахування</option>
+                                        <option>Наказ на відрахування</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -199,9 +205,11 @@
                         <tr>
                             <td class="col-sm-2">Коментарі:</td>
                             <td class="col-sm-6">
+                                <div class="col-sm-12 col-un-padding">
                                 <textarea class="form-control" rows="3"
                                           placeholder="Коментар до наказу"
                                           name="orderComment"></textarea>
+                                </div>
                             </td>
                         </tr>
                         </tbody>

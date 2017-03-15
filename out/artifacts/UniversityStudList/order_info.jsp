@@ -133,7 +133,9 @@
 <div class="container">
     <div class="row">
         <c:forEach var="oneOrder" items="${oneOrder}">
-        <form action="order_add?order_id=${oneOrder.id}">
+        <c:if test="${oneOrder ne null}">
+        <form action="order_info?order_id=${oneOrder.id}">
+            </c:if>
             </c:forEach>
             <%--<form action="order_add">--%>
             <div class="col-sm-1"></div>
@@ -159,7 +161,7 @@
                         <thead>
                         <tr>
                             <th class="col-sm-2"><h4><b>Параметр</b></h4></th>
-                            <th class="col-sm-6"><h4><b>Університетська інформація</b></h4></th>
+                            <th class="col-sm-6"><h4><b>Інформація про наказ</b></h4></th>
                         </tr>
                         </thead>
                         <tbody>

@@ -132,12 +132,11 @@
 <!-- Body -->
 <div class="container">
     <div class="row">
-        <%--<c:forEach var="studentInfo" items="${studentInfo}">--%>
-        <%--<c:if test="${studentInfo.id ne null}">--%>
-        <%--<form action="student_info?stud_id=${studentInfo.id}">--%>
-        <%--</c:if>--%>
-        <%--</c:forEach>--%>
-        <form action="order_add">
+        <c:forEach var="oneOrder" items="${oneOrder}">
+        <c:if test="${oneOrder ne null}">
+        <form action="order_info?order_id=${oneOrder.id}">
+            </c:if>
+            </c:forEach>
             <div class="col-sm-1"></div>
             <div class="col-sm-2">
 
@@ -146,9 +145,7 @@
                 <!-- Buttons area -->
                 <input type="submit" name="save_btn" value="Зберегти" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
-                <input type="submit" name="clear_btn" value="Очистити" class="btn btn-default btn-md btn-block"
-                       formmethod="post"/>
-                <input type="submit" name="back_btn" value="Назад" class="btn btn-default btn-md btn-block"
+                <input type="submit" name="back_to_info_btn" value="Назад" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
 
             </div>
@@ -169,8 +166,18 @@
                             <td class="col-sm-2">Номер наказу:</td>
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
-                                    <input type="text" maxlength="15" class="form-control" placeholder="Номер наказу"
-                                           name="orderNum">
+                                    <c:forEach var="oneOrder" items="${oneOrder}">
+                                        <c:if test="${oneOrder.orderNum ne null}">
+                                            <input type="text" maxlength="15" class="form-control"
+                                                   placeholder="Номер наказу"
+                                                   name="orderNum" value="${oneOrder.orderNum}">
+                                        </c:if>
+                                        <c:if test="${oneOrder.orderNum eq null}">
+                                            <input type="text" maxlength="15" class="form-control"
+                                                   placeholder="Номер наказу"
+                                                   name="orderNum">
+                                        </c:if>
+                                    </c:forEach>
                                 </div>
                             </td>
                         </tr>
@@ -180,9 +187,18 @@
                             <td class="col-sm-2">Дата наказу:</td>
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
-                                    <input type="text" class="date form-control" placeholder="Дата наказу"
-                                           name="orderDate"
-                                           id="datepicker1">
+                                    <c:forEach var="oneOrder" items="${oneOrder}">
+                                        <c:if test="${oneOrder.orderDate ne null}">
+                                            <input type="text" class="date form-control" placeholder="Дата наказу"
+                                                   name="orderDate"
+                                                   id="datepicker1" value="${oneOrder.orderDate}">
+                                        </c:if>
+                                        <c:if test="${oneOrder.orderDate eq null}">
+                                            <input type="text" class="date form-control" placeholder="Дата наказу"
+                                                   name="orderDate"
+                                                   id="datepicker1">
+                                        </c:if>
+                                    </c:forEach>
                                 </div>
                             </td>
                         </tr>
@@ -193,9 +209,22 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="orderType" required>
-                                        <option disabled selected>Тип наказу</option>
-                                        <option>Наказ на зарахування</option>
-                                        <option>Наказ на відрахування</option>
+                                        <c:forEach var="oneOrder" items="${oneOrder}">
+                                            <c:if test="${oneOrder.orderType eq 'Наказ на зарахування'}">
+                                                <option selected>Наказ на зарахування</option>
+                                            </c:if>
+                                            <c:if test="${oneOrder.orderType ne 'Наказ на зарахування'}">
+                                                <option>Наказ на зарахування</option>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:forEach var="oneOrder" items="${oneOrder}">
+                                            <c:if test="${oneOrder.orderType eq 'Наказ на відрахування'}">
+                                                <option selected>Наказ на відрахування</option>
+                                            </c:if>
+                                            <c:if test="${oneOrder.orderType ne 'Наказ на відрахування'}">
+                                                <option>Наказ на відрахування</option>
+                                            </c:if>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </td>
@@ -206,9 +235,18 @@
                             <td class="col-sm-2">Коментарі:</td>
                             <td class="col-sm-6">
                                 <div class="col-sm-12 col-un-padding">
-                                <textarea class="form-control" rows="3"
-                                          placeholder="Коментар до наказу"
-                                          name="orderComment"></textarea>
+                                    <c:forEach var="oneOrder" items="${oneOrder}">
+                                        <c:if test="${oneOrder.orderComment eq null}">
+                                            <textarea class="form-control" rows="3"
+                                                      placeholder="Коментар до наказу"
+                                                      name="orderComment"></textarea>
+                                        </c:if>
+                                        <c:if test="${oneOrder.orderComment ne null}">
+                                            <textarea class="form-control" rows="3"
+                                                      placeholder="Коментар до наказу"
+                                                      name="orderComment">${oneOrder.orderComment}</textarea>
+                                        </c:if>
+                                    </c:forEach>
                                 </div>
                             </td>
                         </tr>

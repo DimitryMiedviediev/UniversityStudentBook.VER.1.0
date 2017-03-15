@@ -38,7 +38,7 @@ public class Order_add extends HttpServlet {
             String userSchema = thisUser.get(0).getUser_database();
 
             if (req.getParameter("clear_btn") != null) {
-                req.setAttribute("ordersList", beans.getOrderList(userSchema));
+//                req.setAttribute("ordersList", beans.getOrderList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("order_create.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("back_btn") != null) {
@@ -55,7 +55,7 @@ public class Order_add extends HttpServlet {
                     dispatcher.forward(req, resp);
                 }
             } else {
-                req.setAttribute("ordersList", beans.getOrderList(userSchema));
+//                req.setAttribute("ordersList", beans.getOrderList(userSchema));
                 RequestDispatcher dispatcher = req.getRequestDispatcher("order_create.jsp");
                 dispatcher.forward(req, resp);
             }

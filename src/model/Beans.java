@@ -1092,7 +1092,7 @@ public class Beans {
         return storage;
     }
 
-    public ArrayList<Order> getOneOrder(String userSchema, String orderId) {
+    public ArrayList<Order> getOneOrder(String userSchema, String orderId, Boolean bool) {
         ArrayList<Order> storage = new ArrayList<>();
 
         Connection con = startConnection();
@@ -1106,7 +1106,12 @@ public class Beans {
 //                String orderId = resultSet.getString(meta.getColumnName(1));
                 String orderNum = resultSet.getString(meta.getColumnName(2));
                 String orderType = resultSet.getString(meta.getColumnName(3));
-                String orderDate = dateFormatLongText(resultSet.getString(meta.getColumnName(4)));
+                String orderDate;
+                if(bool){
+                    orderDate = dateFormatLongText(resultSet.getString(meta.getColumnName(4)));
+                } else {
+                    orderDate = resultSet.getString(meta.getColumnName(4));
+                }
                 String order_comment = resultSet.getString(meta.getColumnName(5));
                 storage.add(new Order(orderId, orderNum, orderType, orderDate, order_comment));
             }
