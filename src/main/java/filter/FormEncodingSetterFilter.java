@@ -1,11 +1,13 @@
 package filter;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 /**
  * Created by Dimitry on 14.02.17.
  */
+//@WebFilter("/*")
 public class FormEncodingSetterFilter implements Filter {
 
     // кодировка

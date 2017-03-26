@@ -29,8 +29,8 @@ public class BeansStudentList {
             HashMap<Integer, Boolean> studentsSubgroupList,
             HashMap<String, Boolean> studentsFinancing,
             HashMap<String, Boolean> studentEducationFormList,
-            HashMap<String, Boolean> studentsCityParameter,
-            HashMap<String, Boolean> studentsStateParameter) {
+            String studentsCityParameter,
+            String studentsStateParameter) {
 
         String query = "FROM Student";
         String studentSpecialityQuery = null;
@@ -124,23 +124,19 @@ public class BeansStudentList {
             }
         }
 
-        for (Map.Entry<String, Boolean> entry : studentsCityParameter.entrySet()) {
-            if (entry.getValue()) {
-                if (studentCityQuery == null) {
-                    studentCityQuery = "'" + entry.getKey() + "'";
-                } else if (studentCityQuery != null) {
-                    studentCityQuery = studentCityQuery + ", " + "'" + entry.getKey() + "'";
-                }
+        if (studentsCityParameter != null && !studentsCityParameter.equals("")) {
+            if (studentCityQuery == null) {
+                studentCityQuery = "'" + studentsCityParameter + "'";
+            } else if (studentCityQuery != null) {
+                studentCityQuery = studentCityQuery + ", " + "'" + studentsCityParameter + "'";
             }
         }
 
-        for (Map.Entry<String, Boolean> entry : studentsStateParameter.entrySet()) {
-            if (entry.getValue()) {
-                if (studentStateQuery == null) {
-                    studentStateQuery = "'" + entry.getKey() + "'";
-                } else if (studentStateQuery != null) {
-                    studentStateQuery = studentStateQuery + ", " + "'" + entry.getKey() + "'";
-                }
+        if (studentsStateParameter != null && !studentsStateParameter.equals("")) {
+            if (studentStateQuery == null) {
+                studentStateQuery = "'" + studentsStateParameter + "'";
+            } else if (studentStateQuery != null) {
+                studentStateQuery = studentStateQuery + ", " + "'" + studentsStateParameter + "'";
             }
         }
 
@@ -254,7 +250,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getGroup().getQualificationLevel(), false);
+                storage.put(studentList.get(i).getGroup().getGroupQualificationLevel(), false);
             }
 
             session.getTransaction().commit();
@@ -284,7 +280,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getGroup().getCourse(), false);
+                storage.put(studentList.get(i).getGroup().getGroupCourse(), false);
             }
 
             session.getTransaction().commit();
@@ -314,7 +310,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getGroup().getNumber(), false);
+                storage.put(studentList.get(i).getGroup().getGroupNumber(), false);
             }
 
             session.getTransaction().commit();
@@ -404,7 +400,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getGroup().getEducationForm(), false);
+                storage.put(studentList.get(i).getGroup().getGroupEducationForm(), false);
             }
 
             session.getTransaction().commit();

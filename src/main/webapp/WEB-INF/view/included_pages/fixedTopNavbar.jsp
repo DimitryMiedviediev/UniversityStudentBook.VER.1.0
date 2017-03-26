@@ -7,10 +7,10 @@
             <div class="col-sm-10">
                 <form class="navbar-form" role="search" method="post">
                     <div class="navbar-right">
-                        <button type="submit" class="btn btn-default" formaction="students_list" formmethod="post">Список студентів</button>
-                        <button type="submit" class="btn btn-default" formaction="groups_list" formmethod="post">Список груп</button>
-                        <button type="submit" class="btn btn-default" formaction="orders_list" formmethod="post">Список наказів</button>
-                        <button type="submit" class="btn btn-default" formaction="autorization" formmethod="post" name="exit" value="exit">Вийти</button>
+                        <button type="submit" class="btn btn-default" formaction="student_list" formmethod="post">Список студентів</button>
+                        <button type="submit" class="btn btn-default" formaction="group_list" formmethod="post">Список груп</button>
+                        <button type="submit" class="btn btn-default" formaction="order_list" formmethod="post">Список наказів</button>
+                        <button type="submit" class="btn btn-default" formaction="authorization" formmethod="post" name="exit" value="exit">Вийти</button>
                     </div>
                     <div class="navbar-left">
                         <button type="submit" class="btn btn-default" formaction="control_panel" formmethod="post">Адміністративна панель</button>

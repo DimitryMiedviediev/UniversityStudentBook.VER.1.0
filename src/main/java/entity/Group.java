@@ -21,19 +21,19 @@ public class Group {
     private Speciality speciality;
 
     @Column(name = "group_number", nullable = false)
-    private int number;
+    private int groupNumber;
 
     @Column(name = "group_education_form", nullable = false)
-    private String educationForm;
+    private String groupEducationForm;
 
     @Column(name = "group_qualification_level", nullable = false)
-    private String qualificationLevel;
+    private String groupQualificationLevel;
 
     @Column(name = "group_course", nullable = false)
-    private int course;
+    private int groupCourse;
 
     @Column(name = "group_status", nullable = false)
-    private Boolean status;
+    private String groupStatus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
     private Set<Student> students = new HashSet<>();
@@ -41,13 +41,13 @@ public class Group {
     public Group() {
     }
 
-    public Group(Speciality speciality, int number, String educationForm, String qualificationLevel, int course, Boolean status) {
+    public Group(Speciality speciality, int groupNumber, String groupEducationForm, String groupQualificationLevel, int groupCourse, String groupStatus) {
         this.speciality = speciality;
-        this.number = number;
-        this.educationForm = educationForm;
-        this.qualificationLevel = qualificationLevel;
-        this.course = course;
-        this.status = status;
+        this.groupNumber = groupNumber;
+        this.groupEducationForm = groupEducationForm;
+        this.groupQualificationLevel = groupQualificationLevel;
+        this.groupCourse = groupCourse;
+        this.groupStatus = groupStatus;
     }
 
     public int getId() {
@@ -66,44 +66,52 @@ public class Group {
         this.speciality = speciality;
     }
 
-    public int getNumber() {
-        return number;
+    public int getGroupNumber() {
+        return groupNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setGroupNumber(int groupNumber) {
+        this.groupNumber = groupNumber;
     }
 
-    public String getEducationForm() {
-        return educationForm;
+    public String getGroupEducationForm() {
+        return groupEducationForm;
     }
 
-    public void setEducationForm(String educationForm) {
-        this.educationForm = educationForm;
+    public void setGroupEducationForm(String groupEducationForm) {
+        this.groupEducationForm = groupEducationForm;
     }
 
-    public String getQualificationLevel() {
-        return qualificationLevel;
+    public String getGroupQualificationLevel() {
+        return groupQualificationLevel;
     }
 
-    public void setQualificationLevel(String qualificationLevel) {
-        this.qualificationLevel = qualificationLevel;
+    public void setGroupQualificationLevel(String groupQualificationLevel) {
+        this.groupQualificationLevel = groupQualificationLevel;
     }
 
-    public int getCourse() {
-        return course;
+    public int getGroupCourse() {
+        return groupCourse;
     }
 
-    public void setCourse(int course) {
-        this.course = course;
+    public void setGroupCourse(int groupCourse) {
+        this.groupCourse = groupCourse;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public String getGroupStatus() {
+        return groupStatus;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setGroupStatus(String groupStatus) {
+        this.groupStatus = groupStatus;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     @Override
@@ -114,25 +122,27 @@ public class Group {
         Group group = (Group) o;
 
         if (id != group.id) return false;
-        if (number != group.number) return false;
-        if (course != group.course) return false;
+        if (groupNumber != group.groupNumber) return false;
+        if (groupCourse != group.groupCourse) return false;
         if (speciality != null ? !speciality.equals(group.speciality) : group.speciality != null) return false;
-        if (educationForm != null ? !educationForm.equals(group.educationForm) : group.educationForm != null)
+        if (groupEducationForm != null ? !groupEducationForm.equals(group.groupEducationForm) : group.groupEducationForm != null)
             return false;
-        if (qualificationLevel != null ? !qualificationLevel.equals(group.qualificationLevel) : group.qualificationLevel != null)
+        if (groupQualificationLevel != null ? !groupQualificationLevel.equals(group.groupQualificationLevel) : group.groupQualificationLevel != null)
             return false;
-        return status != null ? status.equals(group.status) : group.status == null;
+        if (groupStatus != null ? !groupStatus.equals(group.groupStatus) : group.groupStatus != null) return false;
+        return students != null ? students.equals(group.students) : group.students == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
-        result = 31 * result + number;
-        result = 31 * result + (educationForm != null ? educationForm.hashCode() : 0);
-        result = 31 * result + (qualificationLevel != null ? qualificationLevel.hashCode() : 0);
-        result = 31 * result + course;
-        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + groupNumber;
+        result = 31 * result + (groupEducationForm != null ? groupEducationForm.hashCode() : 0);
+        result = 31 * result + (groupQualificationLevel != null ? groupQualificationLevel.hashCode() : 0);
+        result = 31 * result + groupCourse;
+        result = 31 * result + (groupStatus != null ? groupStatus.hashCode() : 0);
+        result = 31 * result + (students != null ? students.hashCode() : 0);
         return result;
     }
 
@@ -141,11 +151,12 @@ public class Group {
         return "Group{" +
                 "id=" + id +
                 ", speciality=" + speciality +
-                ", number=" + number +
-                ", educationForm='" + educationForm + '\'' +
-                ", qualificationLevel='" + qualificationLevel + '\'' +
-                ", course=" + course +
-                ", status=" + status +
+                ", groupNumber=" + groupNumber +
+                ", groupEducationForm='" + groupEducationForm + '\'' +
+                ", groupQualificationLevel='" + groupQualificationLevel + '\'' +
+                ", groupCourse=" + groupCourse +
+                ", groupStatus='" + groupStatus + '\'' +
+                ", students=" + students +
                 '}';
     }
 }

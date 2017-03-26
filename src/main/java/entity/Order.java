@@ -1,5 +1,7 @@
 package entity;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,26 +24,73 @@ public class Order {
     private List<Student> students = new ArrayList<>();
 
     @Column(name = "order_number", unique = true, nullable = false)
-    private String number;
+    private String orderNumber;
 
     @Column(name = "order_date", nullable = false)
-    private String date;
+    private String orderDate;
 
     @Column(name = "order_type", nullable = false)
-    private String type;
+    private String orderType;
 
     @Column(name = "order_comment")
-    private String comment;
+    private String orderComment;
 
     public Order() {
     }
 
-    public Order(List<Student> students, String number, String date, String type, String comment) {
+    public Order(String orderNumber, String orderDate, String orderType, String orderComment) {
+        this.orderNumber = orderNumber;
+        this.orderDate = orderDate;
+        this.orderType = orderType;
+        this.orderComment = orderComment;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
         this.students = students;
-        this.number = number;
-        this.date = date;
-        this.type = type;
-        this.comment = comment;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getOrderComment() {
+        return orderComment;
+    }
+
+    public void setOrderComment(String orderComment) {
+        this.orderComment = orderComment;
     }
 
     @Override
@@ -53,20 +102,20 @@ public class Order {
 
         if (id != order.id) return false;
         if (students != null ? !students.equals(order.students) : order.students != null) return false;
-        if (number != null ? !number.equals(order.number) : order.number != null) return false;
-        if (date != null ? !date.equals(order.date) : order.date != null) return false;
-        if (type != null ? !type.equals(order.type) : order.type != null) return false;
-        return comment != null ? comment.equals(order.comment) : order.comment == null;
+        if (orderNumber != null ? !orderNumber.equals(order.orderNumber) : order.orderNumber != null) return false;
+        if (orderDate != null ? !orderDate.equals(order.orderDate) : order.orderDate != null) return false;
+        if (orderType != null ? !orderType.equals(order.orderType) : order.orderType != null) return false;
+        return orderComment != null ? orderComment.equals(order.orderComment) : order.orderComment == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (students != null ? students.hashCode() : 0);
-        result = 31 * result + (number != null ? number.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (orderNumber != null ? orderNumber.hashCode() : 0);
+        result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
+        result = 31 * result + (orderType != null ? orderType.hashCode() : 0);
+        result = 31 * result + (orderComment != null ? orderComment.hashCode() : 0);
         return result;
     }
 
@@ -75,10 +124,10 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", students=" + students +
-                ", number='" + number + '\'' +
-                ", date='" + date + '\'' +
-                ", type='" + type + '\'' +
-                ", comment='" + comment + '\'' +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", orderDate='" + orderDate + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", orderComment='" + orderComment + '\'' +
                 '}';
     }
 }

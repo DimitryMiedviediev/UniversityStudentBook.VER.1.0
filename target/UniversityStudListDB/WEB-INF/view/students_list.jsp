@@ -61,7 +61,7 @@
             <!-- Sidebar -->
             <div class="list-group font-table">
                 <form action="student_list" method="post">
-                    <h5>Спеціалізація</h5>
+                    <h5>Спеціальність</h5>
                     <ul>
                         <c:forEach var="specList" items="${specList}">
                             <c:if test="${specList.value eq true}">
@@ -180,15 +180,15 @@
                     <hr>
                     <h5>Місце народження</h5>
                     <ul>
-                        <c:forEach var="cityParam" items="${cityParam}">
-                            <c:if test="${cityParam.value != null}">
+                        <%--<c:forEach var="cityParam" items="${cityParam}">--%>
+                            <c:if test="${cityParam ne null}">
                                 <input type="text" placeholder="Місто" name="city" class="form-control" list="cities"
-                                       value="${cityParam.value}">
+                                       value="${cityParam}">
                             </c:if>
-                            <c:if test="${cityParam.value == null}">
+                            <c:if test="${cityParam eq null}">
                                 <input type="text" placeholder="Місто" name="city" class="form-control" list="cities">
                             </c:if>
-                        </c:forEach>
+                        <%--</c:forEach>--%>
                         <%--<input type="text" placeholder="Місто" name="city" class="form-control" list="cities">--%>
                         <datalist id="cities">
                             <c:forEach var="cityList" items="${cityList}">
@@ -196,16 +196,16 @@
                             </c:forEach>
                         </datalist>
 
-                        <c:forEach var="stateParam" items="${stateParam}">
-                            <c:if test="${stateParam.value != null}">
+                        <%--<c:forEach var="stateParam" items="${stateParam}">--%>
+                            <c:if test="${stateParam ne null}">
                                 <input type="text" placeholder="Область" name="state" class="form-control" list="states"
-                                       value="${stateParam.value}">
+                                       value="${stateParam}">
                             </c:if>
-                            <c:if test="${stateParam.value == null}">
+                            <c:if test="${stateParam eq null}">
                                 <input type="text" placeholder="Область" name="state" class="form-control"
                                        list="states">
                             </c:if>
-                        </c:forEach>
+                        <%--</c:forEach>--%>
                         <datalist id="states">
                             <c:forEach var="stateList" items="${stateList}">
                                 <option value="${stateList.key}"></option>

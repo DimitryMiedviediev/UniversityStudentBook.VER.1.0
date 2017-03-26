@@ -4,6 +4,7 @@ import beans.BeansStudentList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,11 @@ import java.util.HashMap;
 /**
  * Created by Dimitry on 17.03.17.
  */
+@WebServlet(
+        name = "Student list",
+        description = "This is student list servlet",
+        urlPatterns = "/student_list"
+)
 public class StudentList extends HttpServlet {
     BeansStudentList beans = new BeansStudentList();
 
@@ -100,33 +106,19 @@ public class StudentList extends HttpServlet {
             req.setAttribute("financeList", financeList);
 
             HashMap<String, Boolean> cityList = beans.getCityListForTitle();
-            for (String key : cityList.keySet()) {
-                if (req.getParameter("city=" + key) != null) {
-                    cityList.put(key, true);
-                }
-            }
             req.setAttribute("cityList", cityList);
 
             HashMap<String, Boolean> stateList = beans.getStateListForTitle();
-            for (String key : stateList.keySet()) {
-                if (req.getParameter("state=" + key) != null) {
-                    stateList.put(key, true);
-                }
-            }
             req.setAttribute("stateList", stateList);
 
-            HashMap<String, String> cityParam = new HashMap<>();
-            cityParam.put("city", req.getParameter("city"));
-            System.out.println(req.getParameter("city"));
+            String cityParam = req.getParameter("city");
             req.setAttribute("cityParam", cityParam);
 
-            HashMap<String, String> stateParam = new HashMap<>();
-            stateParam.put("state", req.getParameter("state"));
-            System.out.println(req.getParameter("state"));
+            String stateParam = req.getParameter("state");
             req.setAttribute("stateParam", stateParam);
 
             req.setAttribute("studList", beans.getStudentList(specList, statusList, qualList,
-                    courseList, groupList, subgroupList, financeList, educFormList, cityList, stateList));
+                    courseList, groupList, subgroupList, financeList, educFormList, cityParam, stateParam));
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/students_list.jsp");
 

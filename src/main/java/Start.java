@@ -1,4 +1,6 @@
 import beans.BeansAuthorizationRegistration;
+import beans.BeansOrderInformation;
+import beans.BeansOrderList;
 import beans.BeansStudentList;
 import entity.*;
 import org.hibernate.Session;
@@ -6,10 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.query.Query;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Dimitry on 16.03.17.
@@ -18,29 +16,27 @@ public class Start {
     public static void main(String[] args) {
         BeansAuthorizationRegistration beans = new BeansAuthorizationRegistration();
         BeansStudentList beansStudentList = new BeansStudentList();
+        BeansOrderList beansOrderList = new BeansOrderList();
+        BeansOrderInformation beansOrderInformation = new BeansOrderInformation();
+
+        Order order = beansOrderInformation.getOrder(5);
+        System.out.println(
+                order.getId() + "; " +
+                        order.getOrderNumber() + "; " +
+                        order.getOrderDate() + "; " +
+                        order.getOrderType() + "; " +
+                        order.getOrderComment() + "; "
+        );
 
 
 //        createNewUniversity();
 //        createNewFaculty();
 //        createNewSpeciality();
 //        createNewGroup();
-        createNewStudent();
+//        createNewStudent();
+//        createNewOrder();
 
-//        List<Student> tempList = beansStudentList.getStudentList();
-//
-//        for (int i = 0; i < tempList.size(); i++) {
-//            System.out.println(
-//                    tempList.get(i).getStudent().getName() + " : " +
-//                            tempList.get(i).getStudent().getSurname() + " : " +
-//                            tempList.get(i).getStudent().getLastname() + " : " +
-//                            tempList.get(i).getStudentStatus()
-//            );
-//        }
-
-//        System.out.println(beansStudentList.getStudentList());
-
-        HashMap<String, Boolean> storage = beansStudentList.getSpecListForTitle();
-        System.out.println(storage);
+//        System.out.println(beansOrderList.getOrderTypesListForTitle());
 
     }
 
@@ -136,7 +132,7 @@ public class Start {
 
             Speciality speciality = new Speciality(
                     faculty,
-                    "Economic of Enterprize"
+                    "Finance"
             );
 
             session.save(speciality);
@@ -160,23 +156,23 @@ public class Start {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            Speciality speciality = session.get(Speciality.class, 2 );
+            Speciality speciality = session.get(Speciality.class, 2);
 
             Group group1 = new Group(
                     speciality,
-                    2,
+                    13,
                     "Distance",
-                    "Master",
+                    "Specialist",
                     3,
-                    true
+                    "Active"
             );
             Group group2 = new Group(
                     speciality,
-                    1,
+                    14,
                     "Full-time",
                     "Bachelor",
                     1,
-                    true
+                    "Active"
             );
 
             session.save(group1);
@@ -284,6 +280,34 @@ public class Start {
             session.save(student1);
             session.save(student2);
             session.save(student3);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public static void createNewOrder() {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            Order order1 = new Order(
+                    "66666666",
+                    "02/02/2022",
+                    "To graduate",
+                    "Dfhsjgfkzfgzldfhgkfgziurlgzyrgvr"
+            );
+
+            session.save(order1);
+
 
             session.getTransaction().commit();
         } catch (Exception e) {
