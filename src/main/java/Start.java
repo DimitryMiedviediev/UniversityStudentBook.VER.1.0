@@ -19,14 +19,14 @@ public class Start {
         BeansOrderList beansOrderList = new BeansOrderList();
         BeansOrderInformation beansOrderInformation = new BeansOrderInformation();
 
-        Order order = beansOrderInformation.getOrder(5);
-        System.out.println(
-                order.getId() + "; " +
-                        order.getOrderNumber() + "; " +
-                        order.getOrderDate() + "; " +
-                        order.getOrderType() + "; " +
-                        order.getOrderComment() + "; "
-        );
+//        Order order = beansOrderInformation.getOrder(5);
+//        System.out.println(
+//                order.getId() + "; " +
+//                        order.getOrderNumber() + "; " +
+//                        order.getOrderDate() + "; " +
+//                        order.getOrderType() + "; " +
+//                        order.getOrderComment() + "; "
+//        );
 
 
 //        createNewUniversity();
@@ -37,6 +37,8 @@ public class Start {
 //        createNewOrder();
 
 //        System.out.println(beansOrderList.getOrderTypesListForTitle());
+
+//        beansStudentList.getStudentList();
 
     }
 

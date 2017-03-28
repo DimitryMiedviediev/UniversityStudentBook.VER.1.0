@@ -40,89 +40,136 @@ public class StudentList extends HttpServlet {
         if (b == null || !b) {
             resp.sendRedirect("authorization");
         } else {
+            if (req.getParameter("student_sort") != null) {
 
-            HashMap<String, Boolean> specList = beans.getSpecListForTitle();
-            for (String key : specList.keySet()) {
-                if (req.getParameter("spec=" + key) != null) {
-                    specList.put(key, true);
+                HashMap<String, Boolean> specList = beans.getSpecListForTitle();
+                for (String key : specList.keySet()) {
+                    if (req.getParameter("spec=" + key) != null) {
+                        specList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("specList", specList);
+                req.setAttribute("specList", specList);
 
-            HashMap<String, Boolean> statusList = beans.getStatusListForTitle();
-            for (String key : statusList.keySet()) {
-                if (req.getParameter("stat=" + key) != null) {
-                    statusList.put(key, true);
+                HashMap<String, Boolean> statusList = beans.getStatusListForTitle();
+                for (String key : statusList.keySet()) {
+                    if (req.getParameter("stat=" + key) != null) {
+                        statusList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("statusList", statusList);
+                req.setAttribute("statusList", statusList);
 
-            HashMap<String, Boolean> qualList = beans.getQualificationListForTitle();
-            for (String key : qualList.keySet()) {
-                if (req.getParameter("qual=" + key) != null) {
-                    qualList.put(key, true);
+                HashMap<String, Boolean> qualList = beans.getQualificationListForTitle();
+                for (String key : qualList.keySet()) {
+                    if (req.getParameter("qual=" + key) != null) {
+                        qualList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("qualList", qualList);
+                req.setAttribute("qualList", qualList);
 
-            HashMap<Integer, Boolean> courseList = beans.getCourseListForTitle();
-            for (Integer key : courseList.keySet()) {
-                if (req.getParameter("course=" + key) != null) {
-                    courseList.put(key, true);
+                HashMap<Integer, Boolean> courseList = beans.getCourseListForTitle();
+                for (Integer key : courseList.keySet()) {
+                    if (req.getParameter("course=" + key) != null) {
+                        courseList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("courseList", courseList);
+                req.setAttribute("courseList", courseList);
 
-            HashMap<Integer, Boolean> groupList = beans.getGroupListForTitle();
-            for (Integer key : groupList.keySet()) {
-                if (req.getParameter("gr=" + key) != null) {
-                    groupList.put(key, true);
+                HashMap<Integer, Boolean> groupList = beans.getGroupListForTitle();
+                for (Integer key : groupList.keySet()) {
+                    if (req.getParameter("gr=" + key) != null) {
+                        groupList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("groupList", groupList);
+                req.setAttribute("groupList", groupList);
 
-            HashMap<Integer, Boolean> subgroupList = beans.getSubgroupListForTitle();
-            for (Integer key : subgroupList.keySet()) {
-                if (req.getParameter("sub=" + key) != null) {
-                    subgroupList.put(key, true);
+                HashMap<Integer, Boolean> subgroupList = beans.getSubgroupListForTitle();
+                for (Integer key : subgroupList.keySet()) {
+                    if (req.getParameter("sub=" + key) != null) {
+                        subgroupList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("subgroupList", subgroupList);
+                req.setAttribute("subgroupList", subgroupList);
 
-            HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle();
-            for (String key : educFormList.keySet()) {
-                if (req.getParameter("edform=" + key) != null) {
-                    educFormList.put(key, true);
+                HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle();
+                for (String key : educFormList.keySet()) {
+                    if (req.getParameter("edform=" + key) != null) {
+                        educFormList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("educFormList", educFormList);
+                req.setAttribute("educFormList", educFormList);
 
-            HashMap<String, Boolean> financeList = beans.getFinanceListForTitle();
-            for (String key : financeList.keySet()) {
-                if (req.getParameter("fin=" + key) != null) {
-                    financeList.put(key, true);
+                HashMap<String, Boolean> financeList = beans.getFinanceListForTitle();
+                for (String key : financeList.keySet()) {
+                    if (req.getParameter("fin=" + key) != null) {
+                        financeList.put(key, true);
+                    }
                 }
+                req.setAttribute("financeList", financeList);
+
+                HashMap<String, Boolean> cityList = beans.getCityListForTitle();
+                req.setAttribute("cityList", cityList);
+
+                HashMap<String, Boolean> stateList = beans.getStateListForTitle();
+                req.setAttribute("stateList", stateList);
+
+                String cityParam = req.getParameter("city");
+                req.setAttribute("cityParam", cityParam);
+
+                String stateParam = req.getParameter("state");
+                req.setAttribute("stateParam", stateParam);
+
+                req.setAttribute("studList", beans.getStudentList(specList, statusList, qualList,
+                        courseList, groupList, subgroupList, financeList, educFormList, cityParam, stateParam));
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/students_list.jsp");
+
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("student_create") != null){
+                resp.sendRedirect("student_create");
+            } else {
+                HashMap<String, Boolean> specList = beans.getSpecListForTitle();
+                req.setAttribute("specList", specList);
+
+                HashMap<String, Boolean> statusList = beans.getStatusListForTitle();
+                req.setAttribute("statusList", statusList);
+
+                HashMap<String, Boolean> qualList = beans.getQualificationListForTitle();
+                req.setAttribute("qualList", qualList);
+
+                HashMap<Integer, Boolean> courseList = beans.getCourseListForTitle();
+                req.setAttribute("courseList", courseList);
+
+                HashMap<Integer, Boolean> groupList = beans.getGroupListForTitle();
+                req.setAttribute("groupList", groupList);
+
+                HashMap<Integer, Boolean> subgroupList = beans.getSubgroupListForTitle();
+                req.setAttribute("subgroupList", subgroupList);
+
+                HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle();
+                req.setAttribute("educFormList", educFormList);
+
+                HashMap<String, Boolean> financeList = beans.getFinanceListForTitle();
+                req.setAttribute("financeList", financeList);
+
+                HashMap<String, Boolean> cityList = beans.getCityListForTitle();
+                req.setAttribute("cityList", cityList);
+
+                HashMap<String, Boolean> stateList = beans.getStateListForTitle();
+                req.setAttribute("stateList", stateList);
+
+                String cityParam = req.getParameter("city");
+                req.setAttribute("cityParam", cityParam);
+
+                String stateParam = req.getParameter("state");
+                req.setAttribute("stateParam", stateParam);
+
+                req.setAttribute("studList", beans.getStudentList(specList, statusList, qualList,
+                        courseList, groupList, subgroupList, financeList, educFormList, null, stateParam));
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/students_list.jsp");
+
+                dispatcher.forward(req, resp);
             }
-            req.setAttribute("financeList", financeList);
-
-            HashMap<String, Boolean> cityList = beans.getCityListForTitle();
-            req.setAttribute("cityList", cityList);
-
-            HashMap<String, Boolean> stateList = beans.getStateListForTitle();
-            req.setAttribute("stateList", stateList);
-
-            String cityParam = req.getParameter("city");
-            req.setAttribute("cityParam", cityParam);
-
-            String stateParam = req.getParameter("state");
-            req.setAttribute("stateParam", stateParam);
-
-            req.setAttribute("studList", beans.getStudentList(specList, statusList, qualList,
-                    courseList, groupList, subgroupList, financeList, educFormList, cityParam, stateParam));
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/students_list.jsp");
-
-            dispatcher.forward(req, resp);
         }
     }
 }

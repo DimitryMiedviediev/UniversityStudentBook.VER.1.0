@@ -37,6 +37,30 @@ public class BeansOrderInformation {
         }
     }
 
+    public void updateOrder(int id, String orderNumber, String orderType, String orderDate, String orderComment) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            Order order = session.get(Order.class, id);
+            order.setOrderNumber(orderNumber);
+            order.setOrderType(orderType);
+            order.setOrderDate(orderDate);
+            order.setOrderComment(orderComment);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
     public Order getOrder(int orderID) {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory factory = null;

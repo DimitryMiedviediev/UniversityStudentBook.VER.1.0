@@ -205,7 +205,7 @@
                         </c:if>
                     </ul>
                     <hr>
-                    <input type="submit" value="Sort" class="btn btn-default btn-block" formmethod="post">
+                    <input type="submit" value="Сортувати" name="order_sort" class="btn btn-default btn-block" formmethod="post">
                 </form>
             </div>
 

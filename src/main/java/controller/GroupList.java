@@ -40,60 +40,86 @@ public class GroupList extends HttpServlet {
         if (b == null || !b) {
             resp.sendRedirect("authorization");
         } else {
-
-            HashMap<String, Boolean> groupSpecialityList = beans.getGroupSpecialityListForTitle();
-            for (String key : groupSpecialityList.keySet()) {
-                if (req.getParameter("groupSpec=" + key) != null) {
-                    groupSpecialityList.put(key, true);
+            if (req.getParameter("group_sort") != null) {
+                HashMap<String, Boolean> groupSpecialityList = beans.getGroupSpecialityListForTitle();
+                for (String key : groupSpecialityList.keySet()) {
+                    if (req.getParameter("groupSpec=" + key) != null) {
+                        groupSpecialityList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("groupSpecialityList", groupSpecialityList);
+                req.setAttribute("groupSpecialityList", groupSpecialityList);
 
-            HashMap<String, Boolean> groupEducationFormList = beans.getGroupEducationFormListForTitle();
-            for (String key : groupEducationFormList.keySet()) {
-                if (req.getParameter("groupEducForm=" + key) != null) {
-                    groupEducationFormList.put(key, true);
+                HashMap<String, Boolean> groupEducationFormList = beans.getGroupEducationFormListForTitle();
+                for (String key : groupEducationFormList.keySet()) {
+                    if (req.getParameter("groupEducForm=" + key) != null) {
+                        groupEducationFormList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("groupEducationFormList", groupEducationFormList);
+                req.setAttribute("groupEducationFormList", groupEducationFormList);
 
-            HashMap<String, Boolean> groupQualificationLevelList = beans.getGroupQualificationLevelListForTitle();
-            for (String key : groupQualificationLevelList.keySet()) {
-                if (req.getParameter("groupQualLevel=" + key) != null) {
-                    groupQualificationLevelList.put(key, true);
+                HashMap<String, Boolean> groupQualificationLevelList = beans.getGroupQualificationLevelListForTitle();
+                for (String key : groupQualificationLevelList.keySet()) {
+                    if (req.getParameter("groupQualLevel=" + key) != null) {
+                        groupQualificationLevelList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("groupQualificationLevelList", groupQualificationLevelList);
+                req.setAttribute("groupQualificationLevelList", groupQualificationLevelList);
 
-            HashMap<Integer, Boolean> groupNumberList = beans.getGroupNumbersListForTitle();
-            for (Integer key : groupNumberList.keySet()) {
-                if (req.getParameter("groupNumber=" + key) != null) {
-                    groupNumberList.put(key, true);
+                HashMap<Integer, Boolean> groupNumberList = beans.getGroupNumbersListForTitle();
+                for (Integer key : groupNumberList.keySet()) {
+                    if (req.getParameter("groupNumber=" + key) != null) {
+                        groupNumberList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("groupNumberList", groupNumberList);
+                req.setAttribute("groupNumberList", groupNumberList);
 
-            HashMap<Integer, Boolean> groupCourseList = beans.getGroupCourseListForTitle();
-            for (Integer key : groupCourseList.keySet()) {
-                if (req.getParameter("groupCourse=" + key) != null) {
-                    groupCourseList.put(key, true);
+                HashMap<Integer, Boolean> groupCourseList = beans.getGroupCourseListForTitle();
+                for (Integer key : groupCourseList.keySet()) {
+                    if (req.getParameter("groupCourse=" + key) != null) {
+                        groupCourseList.put(key, true);
+                    }
                 }
-            }
-            req.setAttribute("groupCourseList", groupCourseList);
+                req.setAttribute("groupCourseList", groupCourseList);
 
-            HashMap<String, Boolean> groupStatusList = beans.getGroupStatusListForTitle();
-            for (String key : groupStatusList.keySet()) {
-                if (req.getParameter("groupStatus=" + key) != null) {
-                    groupStatusList.put(key, true);
+                HashMap<String, Boolean> groupStatusList = beans.getGroupStatusListForTitle();
+                for (String key : groupStatusList.keySet()) {
+                    if (req.getParameter("groupStatus=" + key) != null) {
+                        groupStatusList.put(key, true);
+                    }
                 }
+                req.setAttribute("groupStatusList", groupStatusList);
+
+
+                req.setAttribute("groupList", beans.getGroupList(groupSpecialityList, groupEducationFormList, groupQualificationLevelList, groupNumberList, groupCourseList, groupStatusList));
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group_list.jsp");
+                dispatcher.forward(req, resp);
+            } else if(req.getParameter("group_create") != null){
+                resp.sendRedirect("group_create");
+            } else {
+                HashMap<String, Boolean> groupSpecialityList = beans.getGroupSpecialityListForTitle();
+                req.setAttribute("groupSpecialityList", groupSpecialityList);
+
+                HashMap<String, Boolean> groupEducationFormList = beans.getGroupEducationFormListForTitle();
+                req.setAttribute("groupEducationFormList", groupEducationFormList);
+
+                HashMap<String, Boolean> groupQualificationLevelList = beans.getGroupQualificationLevelListForTitle();
+                req.setAttribute("groupQualificationLevelList", groupQualificationLevelList);
+
+                HashMap<Integer, Boolean> groupNumberList = beans.getGroupNumbersListForTitle();
+                req.setAttribute("groupNumberList", groupNumberList);
+
+                HashMap<Integer, Boolean> groupCourseList = beans.getGroupCourseListForTitle();
+                req.setAttribute("groupCourseList", groupCourseList);
+
+                HashMap<String, Boolean> groupStatusList = beans.getGroupStatusListForTitle();
+                req.setAttribute("groupStatusList", groupStatusList);
+
+                req.setAttribute("groupList", beans.getGroupList(groupSpecialityList, groupEducationFormList, groupQualificationLevelList, groupNumberList, groupCourseList, groupStatusList));
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group_list.jsp");
+                dispatcher.forward(req, resp);
             }
-            req.setAttribute("groupStatusList", groupStatusList);
-
-
-            req.setAttribute("groupList", beans.getGroupList(groupSpecialityList, groupEducationFormList, groupQualificationLevelList, groupNumberList, groupCourseList, groupStatusList));
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group_list.jsp");
-            dispatcher.forward(req, resp);
         }
     }
 }

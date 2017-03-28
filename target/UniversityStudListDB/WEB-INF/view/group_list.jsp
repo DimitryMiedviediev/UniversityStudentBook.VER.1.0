@@ -138,7 +138,7 @@
                 <form action="group_list" method="post">
                     <!-- Empty DIV -->
                     <div style="padding: 10px"></div>
-                    <input type="submit" name="order_create" value="Створити наказ" class="btn btn-default btn-md btn-block"
+                    <input type="submit" name="group_create" value="Створити группу" class="btn btn-default btn-md btn-block"
                            formmethod="post"/>
 
                     <h5>Спеціальність</h5>
@@ -227,7 +227,7 @@
                         </c:forEach>
                     </ul>
                     <hr>
-                    <input type="submit" value="order_sort" class="btn btn-default btn-block" formmethod="post">
+                    <input type="submit" name="group_sort" value="Сортувати" class="btn btn-default btn-block" formmethod="post">
                 </form>
             </div>
 

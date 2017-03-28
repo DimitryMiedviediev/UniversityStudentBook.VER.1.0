@@ -37,7 +37,7 @@ public class Authorization extends HttpServlet {
         session.setAttribute("Logged in", false);
         Boolean b = (Boolean) session.getAttribute("Logged In");
         System.out.println(b);
-        if (b != null && b) {
+        if (b != null && b && req.getParameter("exit") == null) {
             resp.sendRedirect("student_list");
         } else {
             if (req.getParameter("signIn") != null) {

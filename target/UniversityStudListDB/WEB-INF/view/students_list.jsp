@@ -61,6 +61,12 @@
             <!-- Sidebar -->
             <div class="list-group font-table">
                 <form action="student_list" method="post">
+
+                    <!-- Empty DIV -->
+                    <div style="padding: 10px"></div>
+                    <input type="submit" name="student_create" value="Створити студента" class="btn btn-default btn-md btn-block"
+                           formmethod="post"/>
+
                     <h5>Спеціальність</h5>
                     <ul>
                         <c:forEach var="specList" items="${specList}">
@@ -213,7 +219,7 @@
                         </datalist>
                     </ul>
                     <hr>
-                    <input type="submit" value="Sort" class="btn btn-default btn-block" formmethod="post">
+                    <input type="submit" value="Сортувати" name="student_sort" class="btn btn-default btn-block" formmethod="post">
                 </form>
             </div>
 
@@ -237,7 +243,7 @@
                             <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.surname}</a></td>
                             <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.name}</a></td>
                             <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.patronimic}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.studentStatus}</a></td>
+                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.group.speciality.title}</a></td>
                         </tr>
                     </c:forEach>
 

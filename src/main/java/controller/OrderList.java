@@ -40,7 +40,6 @@ public class OrderList extends HttpServlet {
         if (b == null || !b) {
             resp.sendRedirect("authorization");
         } else {
-            System.out.println();
             if (req.getParameter("order_sort") != null) {
                 HashMap<String, Boolean> orderTypeList = beans.getOrderTypesListForTitle();
                 for (String key : orderTypeList.keySet()) {
@@ -70,11 +69,6 @@ public class OrderList extends HttpServlet {
                 resp.sendRedirect("order_create");
             } else{
                 HashMap<String, Boolean> orderTypeList = beans.getOrderTypesListForTitle();
-                for (String key : orderTypeList.keySet()) {
-                    if (req.getParameter("orderType=" + key) != null) {
-                        orderTypeList.put(key, true);
-                    }
-                }
                 req.setAttribute("orderTypeList", orderTypeList);
 
                 HashMap<String, Boolean> orderNumberList = beans.getOrderNumbersListForTitle();
@@ -83,13 +77,7 @@ public class OrderList extends HttpServlet {
                 HashMap<String, Boolean> orderDateList = beans.getOrderDateListForTitle();
                 req.setAttribute("orderDateList", orderDateList);
 
-                String orderNumberParameter = req.getParameter("orderNumber");
-                req.setAttribute("orderNumberParameter", orderNumberParameter);
-
-                String orderDateParameter = req.getParameter("orderDate");
-                req.setAttribute("orderDateParameter", orderDateParameter);
-
-                req.setAttribute("orderList", beans.getOrderList(orderTypeList, orderNumberParameter, orderDateParameter));
+                req.setAttribute("orderList", beans.getOrderList(orderTypeList, null, null));
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/orders_list.jsp");
                 dispatcher.forward(req, resp);

@@ -142,11 +142,11 @@ public class BeansStudentList {
 
         query = addQueryPart(query, "group.speciality.title", studentSpecialityQuery);
         query = addQueryPart(query, "studentStatus", studentStatusQuery);
-        query = addQueryPart(query, "group.qualificationLevel", studentQualificationQuery);
-        query = addQueryPart(query, "group.course", studentCourseQuery);
-        query = addQueryPart(query, "group.educationForm", studentEducationFormQuery);
+        query = addQueryPart(query, "group.groupQualificationLevel", studentQualificationQuery);
+        query = addQueryPart(query, "group.groupCourse", studentCourseQuery);
+        query = addQueryPart(query, "group.groupEducationForm", studentEducationFormQuery);
         query = addQueryPart(query, "studentFinancing", studentFinancingQuery);
-        query = addQueryPart(query, "group.number", studentGroupQuery);
+        query = addQueryPart(query, "group.groupNumber", studentGroupQuery);
         query = addQueryPart(query, "studentSubgroup", studentSubgroupQuery);
         query = addQueryPart(query, "parentAddress.city", studentCityQuery);
         query = addQueryPart(query, "parentAddress.state", studentStateQuery);

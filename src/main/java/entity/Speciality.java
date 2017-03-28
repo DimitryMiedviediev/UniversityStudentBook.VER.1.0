@@ -23,7 +23,7 @@ public class Speciality {
     @Column(name = "speciality_title", unique = true, nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "speciality")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "speciality")
     private Set<Group> groups = new HashSet<>();
 
     public Speciality() {
@@ -88,9 +88,7 @@ public class Speciality {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (faculty != null ? faculty.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (groups != null ? groups.hashCode() : 0);
         return result;
     }
 

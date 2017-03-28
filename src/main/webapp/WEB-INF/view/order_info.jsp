@@ -133,7 +133,6 @@
 <div class="container">
     <div class="row">
         <form action="order_info?order_id=${orderObject.id}">
-            <%--<form action="order_add">--%>
             <div class="col-sm-1"></div>
             <div class="col-sm-2">
 

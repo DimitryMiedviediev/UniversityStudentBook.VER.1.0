@@ -34,7 +34,7 @@ public class Student {
     @Column(name = "student_status", nullable = false)
     private String studentStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 

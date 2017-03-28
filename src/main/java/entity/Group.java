@@ -16,7 +16,7 @@ public class Group {
     @Column(name = "group_id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "speciality_id", nullable = false)
     private Speciality speciality;
 
@@ -35,7 +35,7 @@ public class Group {
     @Column(name = "group_status", nullable = false)
     private String groupStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
     private Set<Student> students = new HashSet<>();
 
     public Group() {
@@ -136,13 +136,11 @@ public class Group {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
         result = 31 * result + groupNumber;
         result = 31 * result + (groupEducationForm != null ? groupEducationForm.hashCode() : 0);
         result = 31 * result + (groupQualificationLevel != null ? groupQualificationLevel.hashCode() : 0);
         result = 31 * result + groupCourse;
         result = 31 * result + (groupStatus != null ? groupStatus.hashCode() : 0);
-        result = 31 * result + (students != null ? students.hashCode() : 0);
         return result;
     }
 

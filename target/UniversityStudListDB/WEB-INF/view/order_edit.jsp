@@ -139,7 +139,7 @@
                 <div style="padding: 10px"></div>
 
                 <!-- Buttons area -->
-                <input type="submit" name="update_btn" value="Зберегти" class="btn btn-default btn-md btn-block"
+                <input type="submit" name="save_update_btn" value="Зберегти" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
                 <input type="submit" name="back_to_info_btn" value="Назад" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
@@ -165,12 +165,12 @@
                                     <c:if test="${orderObject.orderNumber ne null}">
                                         <input type="text" maxlength="15" class="form-control"
                                                placeholder="Номер наказу"
-                                               name="orderNum" value="${orderObject.orderNumber}">
+                                               name="orderNumber" value="${orderObject.orderNumber}">
                                     </c:if>
                                     <c:if test="${orderObject.orderNumber eq null}">
                                         <input type="text" maxlength="15" class="form-control"
                                                placeholder="Номер наказу"
-                                               name="orderNum">
+                                               name="orderNumber">
                                     </c:if>
                                 </div>
                             </td>
@@ -201,22 +201,13 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="orderType" required>
-                                        <c:forEach var="oneOrder" items="${oneOrder}">
-                                            <c:if test="${oneOrder.orderType eq 'Наказ на зарахування'}">
-                                                <option selected>Наказ на зарахування</option>
-                                            </c:if>
-                                            <c:if test="${oneOrder.orderType ne 'Наказ на зарахування'}">
-                                                <option>Наказ на зарахування</option>
-                                            </c:if>
-                                        </c:forEach>
-                                        <c:forEach var="oneOrder" items="${oneOrder}">
-                                            <c:if test="${oneOrder.orderType eq 'Наказ на відрахування'}">
-                                                <option selected>Наказ на відрахування</option>
-                                            </c:if>
-                                            <c:if test="${oneOrder.orderType ne 'Наказ на відрахування'}">
-                                                <option>Наказ на відрахування</option>
-                                            </c:if>
-                                        </c:forEach>
+                                        <option selected>${orderObject.orderType}</option>
+                                        <c:if test="${orderObject.orderType ne 'Наказ на зарахування'}">
+                                            <option>Наказ на зарахування</option>
+                                        </c:if>
+                                        <c:if test="${orderObject.orderType ne 'Наказ на відрахування'}">
+                                            <option>Наказ на відрахування</option>
+                                        </c:if>
                                     </select>
                                 </div>
                             </td>
