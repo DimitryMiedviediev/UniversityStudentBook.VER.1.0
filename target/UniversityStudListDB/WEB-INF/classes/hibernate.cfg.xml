@@ -9,7 +9,7 @@
         <property name="connection.url">jdbc:mysql://127.0.0.1:3306/HibTestUnlistDB?characterEncoding=UTF-8&amp;createDatabaseIfNotExist=true&amp;useSSL=false&amp;useUnicode=yes</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="connection.username">root</property>
-        <property name="connection.password"></property>
+        <property name="connection.password">rootking</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
@@ -21,5 +21,6 @@
         <mapping class="entity.Group"/>
         <mapping class="entity.Student"/>
         <mapping class="entity.Order"/>
+        <mapping class="entity.OrderType"/>
     </session-factory>
 </hibernate-configuration>

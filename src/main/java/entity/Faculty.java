@@ -13,7 +13,7 @@ public class Faculty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "faculty_id")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

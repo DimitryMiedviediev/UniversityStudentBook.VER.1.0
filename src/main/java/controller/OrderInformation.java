@@ -39,15 +39,18 @@ public class OrderInformation extends HttpServlet {
             resp.sendRedirect("authorization");
         } else {
             if (req.getParameter("order_create") != null) {
+                req.setAttribute("orderTypesList", beans.getOrderTypesList());
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_create.jsp");
                 dispatcher.forward(req, resp);
+
             } else if (req.getParameter("back_to_list") != null) {
                 resp.sendRedirect("order_list");
+
             } else if (req.getParameter("clear_new_order") != null) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_create.jsp");
                 dispatcher.forward(req, resp);
-            } else if (req.getParameter("save_new_order") != null) {
 
+            } else if (req.getParameter("save_new_order") != null) {
                 if (req.getParameter("orderNumber") != null &&
                         !req.getParameter("orderNumber").equals("") &&
                         req.getParameter("orderType") != null &&
@@ -57,32 +60,45 @@ public class OrderInformation extends HttpServlet {
 
                     beans.createNewOrder(
                             req.getParameter("orderNumber"),
-                            req.getParameter("orderType"),
                             req.getParameter("orderDate"),
+                            Integer.parseInt(req.getParameter("orderType")),
                             req.getParameter("orderComment"));
                     resp.sendRedirect("order_list");
+
                 } else {
-                    Order orderWithError = new Order(req.getParameter("orderNumber"),
-                            req.getParameter("orderType"),
-                            req.getParameter("orderDate"),
-                            req.getParameter("orderComment"));
-                    req.setAttribute("orderWithError", orderWithError);
+                    req.setAttribute("orderNumber", req.getParameter("orderNumber"));
+                    req.setAttribute("orderDate", req.getParameter("orderDate"));
+
+                    if (req.getParameter("orderType") != null) {
+                        req.setAttribute("orderType", Integer.parseInt(req.getParameter("orderType")));
+
+                    } else{
+                        req.setAttribute("orderType", null);
+                    }
+
+                    req.setAttribute("orderComment", req.getParameter("orderComment"));
+                    req.setAttribute("orderTypesList", beans.getOrderTypesList());
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_create_error.jsp");
                     dispatcher.forward(req, resp);
                 }
+
             } else if (req.getParameter("delete_btn") != null) {
                 beans.deleteOrder(Integer.parseInt(req.getParameter("order_id")));
                 resp.sendRedirect("order_list");
+
             } else if (req.getParameter("back_to_info_btn") != null) {
                 Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                 req.setAttribute("orderObject", order);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_info.jsp");
                 dispatcher.forward(req, resp);
+
             } else if (req.getParameter("update_btn") != null) {
                 Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                 req.setAttribute("orderObject", order);
+                req.setAttribute("orderTypesList", beans.getOrderTypesList());
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_edit.jsp");
                 dispatcher.forward(req, resp);
+
             } else if (req.getParameter("save_update_btn") != null) {
                 if (req.getParameter("orderNumber") != null &&
                         !req.getParameter("orderNumber").equals("") &&
@@ -92,19 +108,27 @@ public class OrderInformation extends HttpServlet {
                         !req.getParameter("orderDate").equals("")) {
                     beans.updateOrder(Integer.parseInt(req.getParameter("order_id")),
                             req.getParameter("orderNumber"),
-                            req.getParameter("orderType"),
+                            Integer.parseInt(req.getParameter("orderType")),
                             req.getParameter("orderDate"),
                             req.getParameter("orderComment"));
                     Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                     req.setAttribute("orderObject", order);
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_info.jsp");
                     dispatcher.forward(req, resp);
+
                 } else {
-                    Order order = new Order(req.getParameter("orderNumber"),
-                            req.getParameter("orderDate"),
-                            req.getParameter("orderType"),
-                            req.getParameter("orderComment"));
-                    req.setAttribute("orderObject", order);
+                    req.setAttribute("orderNumber", req.getParameter("orderNumber"));
+                    req.setAttribute("orderDate", req.getParameter("orderDate"));
+
+                    if (req.getParameter("orderType") != null) {
+                        req.setAttribute("orderType", Integer.parseInt(req.getParameter("orderType")));
+
+                    } else{
+                        req.setAttribute("orderType", null);
+                    }
+
+                    req.setAttribute("orderComment", req.getParameter("orderComment"));
+                    req.setAttribute("orderTypesList", beans.getOrderTypesList());
                     req.setAttribute("order_id", req.getParameter("order_id"));
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order_edit_error.jsp");
                     dispatcher.forward(req, resp);

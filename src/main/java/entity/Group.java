@@ -13,7 +13,7 @@ public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)

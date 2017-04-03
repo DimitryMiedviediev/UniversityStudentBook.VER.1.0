@@ -151,8 +151,13 @@
                 <div style="padding: 10px"></div>
 
                 <form action="order_create" method="post">
-
                     <input type="submit" name="order_create" value="Створити наказ"
+                           class="btn btn-default btn-md btn-block"
+                           formmethod="post"/>
+                </form>
+
+                <form action="order_configuration" method="post">
+                    <input type="submit" name="order_config" value="Конфігурація наказів"
                            class="btn btn-default btn-md btn-block"
                            formmethod="post"/>
                 </form>
@@ -226,7 +231,7 @@
                     <c:forEach var="orderList" items="${orderList}">
                         <tr>
                             <td><a href="order_info?order_id=${orderList.id}">${orderList.orderNumber}</a></td>
-                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderType}</a></td>
+                            <td><a href="order_info?order_id=${orderList.id}">${orderList.orderType.orderTypeTitle}</a></td>
                             <td><a href="order_info?order_id=${orderList.id}">${orderList.orderDate}</a></td>
                         </tr>
                     </c:forEach>

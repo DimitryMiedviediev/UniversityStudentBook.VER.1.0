@@ -13,7 +13,7 @@ public class Speciality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "speciality_id")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

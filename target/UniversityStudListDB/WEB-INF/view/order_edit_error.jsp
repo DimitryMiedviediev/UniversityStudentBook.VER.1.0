@@ -162,12 +162,12 @@
                             <td class="col-sm-2">Номер наказу:</td>
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding has-error">
-                                    <c:if test="${orderObject.orderNumber ne null}">
+                                    <c:if test="${orderNumber ne null}">
                                         <input type="text" maxlength="15" class="form-control"
                                                placeholder="Номер наказу"
-                                               name="orderNumber" value="${orderObject.orderNumber}">
+                                               name="orderNumber" value="${orderNumber}">
                                     </c:if>
-                                    <c:if test="${orderObject.orderNumber eq null}">
+                                    <c:if test="${orderNumber eq null}">
                                         <input type="text" maxlength="15" class="form-control"
                                                placeholder="Номер наказу"
                                                name="orderNumber">
@@ -181,12 +181,12 @@
                             <td class="col-sm-2">Дата наказу:</td>
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding has-error">
-                                    <c:if test="${orderObject.orderDate ne null}">
+                                    <c:if test="${orderDate ne null}">
                                         <input type="text" class="date form-control" placeholder="Дата наказу"
                                                name="orderDate"
-                                               id="datepicker1" value="${orderObject.orderDate}">
+                                               id="datepicker1" value="${orderDate}">
                                     </c:if>
-                                    <c:if test="${orderObject.orderDate eq null}">
+                                    <c:if test="${orderDate eq null}">
                                         <input type="text" class="date form-control" placeholder="Дата наказу"
                                                name="orderDate"
                                                id="datepicker1">
@@ -201,13 +201,22 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding has-error">
                                     <select name="orderType" required>
-                                        <option selected>${orderObject.orderType}</option>
-                                        <c:if test="${orderObject.orderType ne 'Наказ на зарахування'}">
-                                            <option>Наказ на зарахування</option>
-                                        </c:if>
-                                        <c:if test="${orderObject.orderType ne 'Наказ на відрахування'}">
-                                            <option>Наказ на відрахування</option>
-                                        </c:if>
+                                        <%--<option selected>${orderObject.orderType}</option>--%>
+                                        <%--<c:if test="${orderObject.orderType ne 'Наказ на зарахування'}">--%>
+                                            <%--<option>Наказ на зарахування</option>--%>
+                                        <%--</c:if>--%>
+                                        <%--<c:if test="${orderObject.orderType ne 'Наказ на відрахування'}">--%>
+                                            <%--<option>Наказ на відрахування</option>--%>
+                                        <%--</c:if>--%>
+                                            <option disabled>Тип наказу</option>
+                                            <c:forEach var="orderTypesList" items="${orderTypesList}">
+                                            <c:if test="${orderType eq orderTypesList.id}">
+                                                <option value="${orderTypesList.id}" selected>${orderTypesList.orderTypeTitle}</option>
+                                            </c:if>
+                                            <c:if test="${orderType ne orderTypesList.id}">
+                                                <option value="${orderTypesList.id}">${orderTypesList.orderTypeTitle}</option>
+                                            </c:if>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </td>
@@ -218,15 +227,15 @@
                             <td class="col-sm-2">Коментарі:</td>
                             <td class="col-sm-6">
                                 <div class="col-sm-12 col-un-padding has-error">
-                                    <c:if test="${orderObject.orderComment eq null}">
+                                    <c:if test="${orderComment eq null}">
                                             <textarea class="form-control" rows="3"
                                                       placeholder="Коментар до наказу"
                                                       name="orderComment"></textarea>
                                     </c:if>
-                                    <c:if test="${orderObject.orderComment ne null}">
+                                    <c:if test="${orderComment ne null}">
                                             <textarea class="form-control" rows="3"
                                                       placeholder="Коментар до наказу"
-                                                      name="orderComment">${orderObject.orderComment}</textarea>
+                                                      name="orderComment">${orderComment}</textarea>
                                     </c:if>
                                 </div>
                             </td>

@@ -17,7 +17,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
+    @Column(name = "id")
     private int id;
 
     @ManyToMany(mappedBy = "orders")
@@ -29,8 +29,12 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private String orderDate;
 
-    @Column(name = "order_type", nullable = false)
-    private String orderType;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_type_id", nullable = false)
+    private OrderType orderType;
+
+//    @Column(name = "order_type", nullable = false)
+//    private String orderType;
 
     @Column(name = "order_comment")
     private String orderComment;
@@ -38,7 +42,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String orderNumber, String orderDate, String orderType, String orderComment) {
+    public Order(String orderNumber, String orderDate, OrderType orderType, String orderComment) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderType = orderType;
@@ -77,11 +81,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public String getOrderType() {
+    public OrderType getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(String orderType) {
+    public void setOrderType(OrderType orderType) {
         this.orderType = orderType;
     }
 
@@ -101,7 +105,6 @@ public class Order {
         Order order = (Order) o;
 
         if (id != order.id) return false;
-        if (students != null ? !students.equals(order.students) : order.students != null) return false;
         if (orderNumber != null ? !orderNumber.equals(order.orderNumber) : order.orderNumber != null) return false;
         if (orderDate != null ? !orderDate.equals(order.orderDate) : order.orderDate != null) return false;
         if (orderType != null ? !orderType.equals(order.orderType) : order.orderType != null) return false;
@@ -111,7 +114,6 @@ public class Order {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (students != null ? students.hashCode() : 0);
         result = 31 * result + (orderNumber != null ? orderNumber.hashCode() : 0);
         result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
         result = 31 * result + (orderType != null ? orderType.hashCode() : 0);
@@ -123,10 +125,9 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", students=" + students +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", orderDate='" + orderDate + '\'' +
-                ", orderType='" + orderType + '\'' +
+                ", orderType=" + orderType +
                 ", orderComment='" + orderComment + '\'' +
                 '}';
     }

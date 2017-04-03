@@ -6,55 +6,6 @@
 
     <display-name>Counter Web Application</display-name>
 
-    <!--<servlet>-->
-        <!--<servlet-name>Authorization</servlet-name>-->
-        <!--<servlet-class>controller.Authorization</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>Authorization</servlet-name>-->
-        <!--<url-pattern>/authorization</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet>-->
-        <!--<servlet-name>Registration</servlet-name>-->
-        <!--<servlet-class>controller.Registration</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>Registration</servlet-name>-->
-        <!--<url-pattern>/registration</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet>-->
-        <!--<servlet-name>StudentList</servlet-name>-->
-        <!--<servlet-class>controller.StudentList</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>StudentList</servlet-name>-->
-        <!--<url-pattern>/student_list</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet>-->
-        <!--<servlet-name>OrderList</servlet-name>-->
-        <!--<servlet-class>controller.OrderList</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>OrderList</servlet-name>-->
-        <!--<url-pattern>/order_list</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet>-->
-    <!--<servlet-name>GroupList</servlet-name>-->
-    <!--<servlet-class>controller.GroupList</servlet-class>-->
-<!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>GroupList</servlet-name>-->
-        <!--<url-pattern>/group_list</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet>-->
-        <!--<servlet-name>OrderInformation</servlet-name>-->
-        <!--<servlet-class>controller.OrderInformationation</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>OrderInformation</servlet-name>-->
-        <!--<url-pattern>/order_create</url-pattern>-->
-    <!--</servlet-mapping>-->
-
     <filter>
         <filter-name>Charset Filter</filter-name>
         <filter-class>filter.FormEncodingSetterFilter</filter-class>

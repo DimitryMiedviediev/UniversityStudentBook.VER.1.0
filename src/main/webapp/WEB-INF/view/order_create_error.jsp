@@ -171,7 +171,7 @@
                                 <div class="col-sm-4 col-un-padding has-error">
                                     <input type="text" maxlength="15" class="form-control"
                                            placeholder="Номер наказу"
-                                           name="orderNum">
+                                           name="orderNumber" value="${orderNumber}">
                                 </div>
                             </td>
                         </tr>
@@ -183,7 +183,7 @@
                                 <div class="col-sm-4 col-un-padding has-error">
                                     <input type="text" class="date form-control" placeholder="Дата наказу"
                                            name="orderDate"
-                                           id="datepicker1">
+                                           id="datepicker1" value="${orderDate}">
                                 </div>
                             </td>
                         </tr>
@@ -194,9 +194,21 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="orderType" required>
-                                        <option disabled selected>Тип наказу</option>
-                                        <option>Наказ на зарахування</option>
-                                        <option>Наказ на відрахування</option>
+                                        <c:if test="${orderTypesList ne null}">
+                                            <option disabled selected>Тип наказу</option>
+                                        </c:if>
+                                        <c:if test="${orderTypesList eq null}">
+                                            <option disabled>Тип наказу</option>
+                                        </c:if>
+                                        <c:forEach var="orderTypesList" items="${orderTypesList}">
+                                            <c:if test="${orderTypesList.id eq orderType}">
+                                                <option value="${orderTypesList.id}"
+                                                        selected>${orderTypesList.orderTypeTitle}</option>
+                                            </c:if>
+                                            <c:if test="${orderTypesList.id ne orderType}">
+                                                <option value="${orderTypesList.id}">${orderTypesList.orderTypeTitle}</option>
+                                            </c:if>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </td>
@@ -208,8 +220,8 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-12 col-un-padding has-error">
                                     <textarea class="form-control" rows="3"
-                                           placeholder="Коментар до наказу"
-                                              name="orderComment"></textarea>
+                                              placeholder="Коментар до наказу"
+                                              name="orderComment">${orderComment}</textarea>
                                 </div>
                             </td>
                         </tr>

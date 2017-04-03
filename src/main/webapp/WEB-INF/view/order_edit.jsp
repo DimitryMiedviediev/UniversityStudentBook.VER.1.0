@@ -201,13 +201,15 @@
                             <td class="col-sm-6">
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="orderType" required>
-                                        <option selected>${orderObject.orderType}</option>
-                                        <c:if test="${orderObject.orderType ne 'Наказ на зарахування'}">
-                                            <option>Наказ на зарахування</option>
-                                        </c:if>
-                                        <c:if test="${orderObject.orderType ne 'Наказ на відрахування'}">
-                                            <option>Наказ на відрахування</option>
-                                        </c:if>
+                                        <option disabled>Тип наказу</option>
+                                        <c:forEach var="orderTypesList" items="${orderTypesList}">
+                                            <c:if test="${orderObject.orderType.id eq orderTypesList.id}">
+                                                <option value="${orderTypesList.id}" selected>${orderTypesList.orderTypeTitle}</option>
+                                            </c:if>
+                                            <c:if test="${orderObject.orderType.id ne orderTypesList.id}">
+                                                <option value="${orderTypesList.id}">${orderTypesList.orderTypeTitle}</option>
+                                            </c:if>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </td>

@@ -292,32 +292,32 @@ public class Start {
             }
         }
     }
-
-    public static void createNewOrder() {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        SessionFactory factory = null;
-        try {
-            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Session session = factory.getCurrentSession();
-            session.beginTransaction();
-
-            Order order1 = new Order(
-                    "66666666",
-                    "02/02/2022",
-                    "To graduate",
-                    "Dfhsjgfkzfgzldfhgkfgziurlgzyrgvr"
-            );
-
-            session.save(order1);
-
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (factory != null) {
-                factory.close();
-            }
-        }
-    }
+//
+//    public static void createNewOrder() {
+//        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+//        SessionFactory factory = null;
+//        try {
+//            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+//            Session session = factory.getCurrentSession();
+//            session.beginTransaction();
+//
+//            Order order1 = new Order(
+//                    "66666666",
+//                    "02/02/2022",
+//                    "To graduate",
+//                    "Dfhsjgfkzfgzldfhgkfgziurlgzyrgvr"
+//            );
+//
+//            session.save(order1);
+//
+//
+//            session.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (factory != null) {
+//                factory.close();
+//            }
+//        }
+//    }
 }

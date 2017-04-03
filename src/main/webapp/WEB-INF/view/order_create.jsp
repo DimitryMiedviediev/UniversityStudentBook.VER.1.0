@@ -189,8 +189,9 @@
                                 <div class="col-sm-4 col-un-padding">
                                     <select name="orderType" required>
                                         <option disabled selected>Тип наказу</option>
-                                        <option>Наказ на зарахування</option>
-                                        <option>Наказ на відрахування</option>
+                                        <c:forEach var="orderTypesList" items="${orderTypesList}">
+                                            <option value="${orderTypesList.id}">${orderTypesList.orderTypeTitle}</option>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </td>

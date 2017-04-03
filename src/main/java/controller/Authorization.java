@@ -47,6 +47,7 @@ public class Authorization extends HttpServlet {
                     session.setAttribute("UserInfo", beans.getUserInfo(req.getParameter("email"), req.getParameter("password")));
                     session.setAttribute("Logged In", true);
                     resp.sendRedirect("student_list");
+
                 } else {
                     HashMap<String, String> userMap = new HashMap<>();
                     userMap.put(req.getParameter("email"), req.getParameter("password"));
@@ -59,6 +60,7 @@ public class Authorization extends HttpServlet {
                 session.invalidate();
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/sign_in.jsp");
                 dispatcher.forward(req, resp);
+
             } else {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/sign_in.jsp");
                 dispatcher.forward(req, resp);

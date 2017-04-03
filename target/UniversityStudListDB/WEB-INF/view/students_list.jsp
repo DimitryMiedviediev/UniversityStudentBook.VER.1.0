@@ -243,7 +243,7 @@
                             <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.surname}</a></td>
                             <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.name}</a></td>
                             <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.patronimic}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.group.speciality.title}</a></td>
+                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.studentStatus}</a></td>
                         </tr>
                     </c:forEach>
 

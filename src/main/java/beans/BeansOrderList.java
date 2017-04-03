@@ -1,6 +1,7 @@
 package beans;
 
 import entity.Order;
+import entity.OrderType;
 import entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,7 +54,7 @@ public class BeansOrderList {
             }
         }
 
-        query = addQueryPart(query, "orderType", orderTypeQuery);
+        query = addQueryPart(query, "orderType.orderTypeTitle", orderTypeQuery);
         query = addQueryPart(query, "orderNumber", orderNumberQuery);
         query = addQueryPart(query, "orderDate", orderDateQuery);
 
@@ -93,10 +94,10 @@ public class BeansOrderList {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            orderList = session.createQuery("FROM Order").getResultList();
+            orderList = session.createQuery("FROM Order ").getResultList();
 
             for (int i = 0; i < orderList.size(); i++) {
-                storage.put(orderList.get(i).getOrderType(), false);
+                storage.put(orderList.get(i).getOrderType().getOrderTypeTitle(), false);
             }
 
             session.getTransaction().commit();

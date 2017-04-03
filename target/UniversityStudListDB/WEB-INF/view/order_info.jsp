@@ -179,7 +179,7 @@
                     <tr>
                         <td class="col-sm-2">Тип наказу:</td>
                         <td class="col-sm-6">
-                            ${orderObject.orderType}
+                            ${orderObject.orderType.orderTypeTitle}
                         </td>
                     </tr>
                     </tbody>
