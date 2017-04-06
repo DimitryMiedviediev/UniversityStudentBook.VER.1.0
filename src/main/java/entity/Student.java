@@ -1,10 +1,11 @@
 package entity;
 
+import entity.group.Group;
+import entity.order.Order;
+
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Dimitry on 17.03.17.

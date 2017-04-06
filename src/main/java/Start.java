@@ -1,8 +1,9 @@
-import beans.BeansAuthorizationRegistration;
-import beans.BeansOrderInformation;
-import beans.BeansOrderList;
-import beans.BeansStudentList;
+import beans.authentication.BeansAuthorizationRegistration;
+import beans.order.BeansOrderInformation;
+import beans.order.BeansOrderList;
+import beans.student.BeansStudentList;
 import entity.*;
+import entity.group.Group;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -29,8 +30,8 @@ public class Start {
 //        );
 
 
-//        createNewUniversity();
-//        createNewFaculty();
+        createNewUniversity();
+        createNewFaculty();
 //        createNewSpeciality();
 //        createNewGroup();
 //        createNewStudent();
@@ -134,7 +135,7 @@ public class Start {
 
             Speciality speciality = new Speciality(
                     faculty,
-                    "Finance"
+                    "Economic of enterprise"
             );
 
             session.save(speciality);
@@ -150,148 +151,148 @@ public class Start {
         }
     }
 
-    public static void createNewGroup() {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        SessionFactory factory = null;
-        try {
-            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Session session = factory.getCurrentSession();
-            session.beginTransaction();
-
-            Speciality speciality = session.get(Speciality.class, 2);
-
-            Group group1 = new Group(
-                    speciality,
-                    13,
-                    "Distance",
-                    "Specialist",
-                    3,
-                    "Active"
-            );
-            Group group2 = new Group(
-                    speciality,
-                    14,
-                    "Full-time",
-                    "Bachelor",
-                    1,
-                    "Active"
-            );
-
-            session.save(group1);
-            session.save(group2);
-
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (factory != null) {
-                factory.close();
-            }
-        }
-    }
-
-    public static void createNewStudent() {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        SessionFactory factory = null;
-        try {
-            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Session session = factory.getCurrentSession();
-            session.beginTransaction();
-
-            Group group1 = session.get(Group.class, 1);
-            Group group2 = session.get(Group.class, 2);
-
-            Student student1 = new Student(
-                    new Person(
-                            "Artem",
-                            "Tkachenko",
-                            "Andriyovich",
-                            null,
-                            null,
-                            "tkachenko.artem@gmail.com"
-                    ),
-                    null,
-                    "Educate",
-                    group1,
-                    1,
-                    "Commercial",
-                    "s5f34j3",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-
-            Student student2 = new Student(
-                    new Person(
-                            "Anastasia",
-                            "Zubok",
-                            "Vasilivna",
-                            null,
-                            null,
-                            "zubok.nastya@gmail.com"
-                    ),
-                    null,
-                    "Educate",
-                    group2,
-                    1,
-                    "Government",
-                    "874543",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-            Student student3 = new Student(
-                    new Person(
-                            "Artem",
-                            "Tsimbrovsky",
-                            "Igorovich",
-                            null,
-                            null,
-                            "tsimbrovsky@gmail.com"
-                    ),
-                    null,
-                    "Educate",
-                    group1,
-                    1,
-                    "Commercial",
-                    "297634234",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-
-            session.save(student1);
-            session.save(student2);
-            session.save(student3);
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (factory != null) {
-                factory.close();
-            }
-        }
-    }
+//    public static void createNewGroup() {
+//        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+//        SessionFactory factory = null;
+//        try {
+//            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+//            Session session = factory.getCurrentSession();
+//            session.beginTransaction();
+//
+//            Speciality speciality = session.get(Speciality.class, 2);
+//
+//            Group group1 = new Group(
+//                    speciality,
+//                    13,
+//                    "Distance",
+//                    "Specialist",
+//                    3,
+//                    "Active"
+//            );
+//            Group group2 = new Group(
+//                    speciality,
+//                    14,
+//                    "Full-time",
+//                    "Bachelor",
+//                    1,
+//                    "Active"
+//            );
+//
+//            session.save(group1);
+//            session.save(group2);
+//
+//
+//            session.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (factory != null) {
+//                factory.close();
+//            }
+//        }
+//    }
+//
+//    public static void createNewStudent() {
+//        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+//        SessionFactory factory = null;
+//        try {
+//            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+//            Session session = factory.getCurrentSession();
+//            session.beginTransaction();
+//
+//            Group group1 = session.get(Group.class, 1);
+//            Group group2 = session.get(Group.class, 2);
+//
+//            Student student1 = new Student(
+//                    new Person(
+//                            "Artem",
+//                            "Tkachenko",
+//                            "Andriyovich",
+//                            null,
+//                            null,
+//                            "tkachenko.artem@gmail.com"
+//                    ),
+//                    null,
+//                    "Educate",
+//                    group1,
+//                    1,
+//                    "Commercial",
+//                    "s5f34j3",
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null
+//            );
+//
+//            Student student2 = new Student(
+//                    new Person(
+//                            "Anastasia",
+//                            "Zubok",
+//                            "Vasilivna",
+//                            null,
+//                            null,
+//                            "zubok.nastya@gmail.com"
+//                    ),
+//                    null,
+//                    "Educate",
+//                    group2,
+//                    1,
+//                    "Government",
+//                    "874543",
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null
+//            );
+//            Student student3 = new Student(
+//                    new Person(
+//                            "Artem",
+//                            "Tsimbrovsky",
+//                            "Igorovich",
+//                            null,
+//                            null,
+//                            "tsimbrovsky@gmail.com"
+//                    ),
+//                    null,
+//                    "Educate",
+//                    group1,
+//                    1,
+//                    "Commercial",
+//                    "297634234",
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    null
+//            );
+//
+//            session.save(student1);
+//            session.save(student2);
+//            session.save(student3);
+//
+//            session.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (factory != null) {
+//                factory.close();
+//            }
+//        }
+//    }
 //
 //    public static void createNewOrder() {
 //        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();

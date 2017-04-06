@@ -1,5 +1,7 @@
 package entity;
 
+import entity.group.Group;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

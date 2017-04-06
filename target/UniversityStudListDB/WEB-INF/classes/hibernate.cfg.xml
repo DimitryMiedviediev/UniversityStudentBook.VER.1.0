@@ -18,9 +18,16 @@
         <mapping class="entity.University"/>
         <mapping class="entity.Faculty"/>
         <mapping class="entity.Speciality"/>
-        <mapping class="entity.Group"/>
+        <mapping class="entity.group.Group"/>
+        <mapping class="entity.group.parameters.GroupEducationForm"/>
+        <mapping class="entity.group.parameters.GroupQualificationLevel"/>
+        <mapping class="entity.group.parameters.GroupStatus"/>
+
+
         <mapping class="entity.Student"/>
-        <mapping class="entity.Order"/>
-        <mapping class="entity.OrderType"/>
+
+
+        <mapping class="entity.order.Order"/>
+        <mapping class="entity.order.parameters.OrderType"/>
     </session-factory>
 </hibernate-configuration>
