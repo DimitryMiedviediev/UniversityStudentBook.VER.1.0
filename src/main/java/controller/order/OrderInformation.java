@@ -40,7 +40,7 @@ public class OrderInformation extends HttpServlet {
         } else {
             if (req.getParameter("order_create") != null) {
                 req.setAttribute("orderTypesList", beans.getOrderTypesList());
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/create/order_create.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_create.jsp");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("back_to_list") != null) {
@@ -48,7 +48,7 @@ public class OrderInformation extends HttpServlet {
 
             } else if (req.getParameter("clear_new_order") != null) {
                 req.setAttribute("orderTypesList", beans.getOrderTypesList());
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/create/order_create.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_create.jsp");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("save_new_order") != null) {
@@ -77,7 +77,7 @@ public class OrderInformation extends HttpServlet {
                     }
                     req.setAttribute("orderComment", req.getParameter("orderComment"));
                     req.setAttribute("orderTypesList", beans.getOrderTypesList());
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/create/order_create.jsp");
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_create.jsp");
                     dispatcher.forward(req, resp);
                 }
 
@@ -88,14 +88,14 @@ public class OrderInformation extends HttpServlet {
             } else if (req.getParameter("back_to_info_btn") != null) {
                 Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                 req.setAttribute("orderObject", order);
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/info/order_info.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_info.jsp");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("update_btn") != null) {
                 Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                 req.setAttribute("orderObject", order);
                 req.setAttribute("orderTypesList", beans.getOrderTypesList());
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/edit/order_edit.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_edit.jsp");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("save_update_btn") != null) {
@@ -112,7 +112,7 @@ public class OrderInformation extends HttpServlet {
                             req.getParameter("orderComment"));
                     Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                     req.setAttribute("orderObject", order);
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/info/order_info.jsp");
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_info.jsp");
                     dispatcher.forward(req, resp);
 
                 } else {
@@ -128,14 +128,14 @@ public class OrderInformation extends HttpServlet {
                     req.setAttribute("orderTypesList", beans.getOrderTypesList());
                     Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                     req.setAttribute("orderObject", order);
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/edit/order_edit.jsp");
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_edit.jsp");
                     dispatcher.forward(req, resp);
                 }
             } else {
                 if (req.getParameter("order_id") != null) {
                     Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
                     req.setAttribute("orderObject", order);
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/info/order_info.jsp");
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_info.jsp");
                     dispatcher.forward(req, resp);
                 } else {
                     resp.sendRedirect("order_list");

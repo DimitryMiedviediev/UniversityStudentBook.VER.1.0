@@ -12,11 +12,11 @@
                         <button type="submit" class="btn btn-default" formaction="order_list" formmethod="post">Список наказів</button>
                         <button type="submit" class="btn btn-default" formaction="authorization" formmethod="post" name="exit" value="exit">Вийти</button>
                     </div>
-                    <div class="navbar-left">
-                        <button type="submit" class="btn btn-default" formaction="control_panel" formmethod="post">Адміністративна панель</button>
-                        <button type="submit" class="btn btn-default" formaction="student_add" formmethod="post">Додати студента
-                        </button>
-                    </div>
+                    <%--<div class="navbar-left">--%>
+                        <%--<button type="submit" class="btn btn-default" formaction="control_panel" formmethod="post">Адміністративна панель</button>--%>
+                        <%--<button type="submit" class="btn btn-default" formaction="student_add" formmethod="post">Додати студента--%>
+                        <%--</button>--%>
+                    <%--</div>--%>
                 </form>
             </div>
             <div class="col-sm-1"></div>

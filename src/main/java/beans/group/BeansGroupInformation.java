@@ -128,26 +128,6 @@ public class BeansGroupInformation {
         }
     }
 
-//    public OrderType getOrderType(int orderTypeID){
-//        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-//        SessionFactory factory = null;
-//        OrderType orderType = null;
-//        try {
-//            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-//            Session session = factory.getCurrentSession();
-//            session.beginTransaction();
-//            orderType = session.get(OrderType.class, orderTypeID);
-//            session.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (factory != null) {
-//                factory.close();
-//            }
-//        }
-//        return orderType;
-//    }
-
     public List<GroupEducationForm> getGroupEducationFormList() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory factory = null;

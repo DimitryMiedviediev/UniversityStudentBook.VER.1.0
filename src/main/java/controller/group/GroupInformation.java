@@ -44,7 +44,7 @@ public class GroupInformation extends HttpServlet {
                 req.setAttribute("groupEducationFormList", beans.getGroupEducationFormList());
                 req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelList());
                 req.setAttribute("groupStatusList", beans.getGroupStatusList());
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/create/group_create.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_create.jsp");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("back_to_list") != null) {
@@ -55,7 +55,7 @@ public class GroupInformation extends HttpServlet {
                 req.setAttribute("groupEducationFormList", beans.getGroupEducationFormList());
                 req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelList());
                 req.setAttribute("groupStatusList", beans.getGroupStatusList());
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/create/group_create.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_create.jsp");
                 dispatcher.forward(req, resp);
 
             } else if (req.getParameter("save_new_group") != null) {
@@ -80,6 +80,7 @@ public class GroupInformation extends HttpServlet {
                     resp.sendRedirect("group_list");
 
                 } else {
+                    req.setAttribute("error", "error");
                     req.setAttribute("groupNumber", req.getParameter("groupNumber"));
                     req.setAttribute("speciality", req.getParameter("speciality"));
                     req.setAttribute("groupEducationForm", req.getParameter("groupEducationForm"));
@@ -91,7 +92,7 @@ public class GroupInformation extends HttpServlet {
                     req.setAttribute("groupEducationFormList", beans.getGroupEducationFormList());
                     req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelList());
                     req.setAttribute("groupStatusList", beans.getGroupStatusList());
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/create/group_create_error.jsp");
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_create.jsp");
                     dispatcher.forward(req, resp);
                 }
 
@@ -99,11 +100,11 @@ public class GroupInformation extends HttpServlet {
                 beans.deleteGroup(Integer.parseInt(req.getParameter("group_id")));
                 resp.sendRedirect("group_list");
 
-//            } else if (req.getParameter("back_to_info_btn") != null) {
-//                Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
-//                req.setAttribute("orderObject", order);
-//                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/info/order_info.jsp");
-//                dispatcher.forward(req, resp);
+            } else if (req.getParameter("back_to_info_btn") != null) {
+                Group group = beans.getGroup(Integer.parseInt(req.getParameter("group_id")));
+                req.setAttribute("groupObject", group);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_info.jsp");
+                dispatcher.forward(req, resp);
 
             } else if (req.getParameter("update_btn") != null) {
                 Group group = beans.getGroup(Integer.parseInt(req.getParameter("group_id")));
@@ -112,48 +113,72 @@ public class GroupInformation extends HttpServlet {
                 req.setAttribute("groupEducationFormList", beans.getGroupEducationFormList());
                 req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelList());
                 req.setAttribute("groupStatusList", beans.getGroupStatusList());
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/edit/group_edit.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_edit.jsp");
                 dispatcher.forward(req, resp);
-//
-//            } else if (req.getParameter("save_update_btn") != null) {
-//                if (req.getParameter("orderNumber") != null &&
-//                        !req.getParameter("orderNumber").equals("") &&
-//                        req.getParameter("orderType") != null &&
-//                        !req.getParameter("orderType").equals("") &&
-//                        req.getParameter("orderDate") != null &&
-//                        !req.getParameter("orderDate").equals("")) {
-//                    beans.updateOrder(Integer.parseInt(req.getParameter("order_id")),
-//                            req.getParameter("orderNumber"),
-//                            Integer.parseInt(req.getParameter("orderType")),
-//                            req.getParameter("orderDate"),
-//                            req.getParameter("orderComment"));
-//                    Order order = beans.getOrder(Integer.parseInt(req.getParameter("order_id")));
-//                    req.setAttribute("orderObject", order);
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/info/order_info.jsp");
-//                    dispatcher.forward(req, resp);
-//
-//                } else {
-//                    req.setAttribute("orderNumber", req.getParameter("orderNumber"));
-//                    req.setAttribute("orderDate", req.getParameter("orderDate"));
-//
-//                    if (req.getParameter("orderType") != null) {
-//                        req.setAttribute("orderType", Integer.parseInt(req.getParameter("orderType")));
-//
-//                    } else{
-//                        req.setAttribute("orderType", null);
-//                    }
-//
-//                    req.setAttribute("orderComment", req.getParameter("orderComment"));
-//                    req.setAttribute("orderTypesList", beans.getOrderTypesList());
-//                    req.setAttribute("order_id", req.getParameter("order_id"));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/edit/order_edit_error.jsp");
-//                    dispatcher.forward(req, resp);
-//                }
+
+            } else if (req.getParameter("save_update_btn") != null) {
+                if (req.getParameter("groupNumber") != null &&
+                        !req.getParameter("groupNumber").equals("") &&
+                        req.getParameter("speciality") != null &&
+                        req.getParameter("groupEducationForm") != null &&
+                        req.getParameter("groupQualificationLevel") != null &&
+                        req.getParameter("groupCourse") != null &&
+                        !req.getParameter("groupCourse").equals("") &&
+                        req.getParameter("groupStatus") != null
+                        ) {
+                    beans.updateGroup(
+                            Integer.parseInt(req.getParameter("group_id")),
+                            Integer.parseInt(req.getParameter("groupNumber")),
+                            Integer.parseInt(req.getParameter("speciality")),
+                            Integer.parseInt(req.getParameter("groupEducationForm")),
+                            Integer.parseInt(req.getParameter("groupQualificationLevel")),
+                            Integer.parseInt(req.getParameter("groupCourse")),
+                            Integer.parseInt(req.getParameter("groupStatus"))
+                    );
+                    Group group = beans.getGroup(Integer.parseInt(req.getParameter("group_id")));
+                    req.setAttribute("groupObject", group);
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_info.jsp");
+                    dispatcher.forward(req, resp);
+
+                } else {
+                    req.setAttribute("error", "error");
+                    req.setAttribute("groupNumber", req.getParameter("groupNumber"));
+                    if (req.getParameter("speciality") != null) {
+                        req.setAttribute("speciality", Integer.parseInt(req.getParameter("speciality")));
+                    } else{
+                        req.setAttribute("speciality", null);
+                    }
+                    if (req.getParameter("groupEducationForm") != null) {
+                        req.setAttribute("groupEducationForm", Integer.parseInt(req.getParameter("groupEducationForm")));
+                    } else{
+                        req.setAttribute("groupEducationForm", null);
+                    }
+                    if (req.getParameter("groupQualificationLevel") != null) {
+                        req.setAttribute("groupQualificationLevel", Integer.parseInt(req.getParameter("groupQualificationLevel")));
+                    } else{
+                        req.setAttribute("groupQualificationLevel", null);
+                    }
+                    req.setAttribute("groupCourse", req.getParameter("groupCourse"));
+                    if (req.getParameter("groupStatus") != null) {
+                        req.setAttribute("groupStatus", Integer.parseInt(req.getParameter("groupStatus")));
+                    } else{
+                        req.setAttribute("groupStatus", null);
+                    }
+
+                    Group group = beans.getGroup(Integer.parseInt(req.getParameter("group_id")));
+                    req.setAttribute("groupObject", group);
+                    req.setAttribute("specialityList", beans.getSpecialityList());
+                    req.setAttribute("groupEducationFormList", beans.getGroupEducationFormList());
+                    req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelList());
+                    req.setAttribute("groupStatusList", beans.getGroupStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_edit.jsp");
+                    dispatcher.forward(req, resp);
+                }
             } else {
                 if (req.getParameter("group_id") != null) {
                     Group group = beans.getGroup(Integer.parseInt(req.getParameter("group_id")));
                     req.setAttribute("groupObject", group);
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/info/group_info.jsp");
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_info.jsp");
                     dispatcher.forward(req, resp);
                 } else {
                     resp.sendRedirect("group_list");

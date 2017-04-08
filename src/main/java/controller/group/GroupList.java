@@ -91,7 +91,7 @@ public class GroupList extends HttpServlet {
 
                 req.setAttribute("groupList", beans.getGroupList(groupSpecialityList, groupEducationFormList, groupQualificationLevelList, groupNumberList, groupCourseList, groupStatusList));
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/list/group_list.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_list.jsp");
                 dispatcher.forward(req, resp);
             } else if(req.getParameter("group_create") != null){
                 resp.sendRedirect("group_create");
@@ -116,7 +116,7 @@ public class GroupList extends HttpServlet {
 
                 req.setAttribute("groupList", beans.getGroupList(groupSpecialityList, groupEducationFormList, groupQualificationLevelList, groupNumberList, groupCourseList, groupStatusList));
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/list/group_list.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_list.jsp");
                 dispatcher.forward(req, resp);
             }
         }

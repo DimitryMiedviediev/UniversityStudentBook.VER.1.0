@@ -62,7 +62,7 @@ public class OrderList extends HttpServlet {
 
                 req.setAttribute("orderList", beans.getOrderList(orderTypeList, orderNumberParameter, orderDateParameter));
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/list/orders_list.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/orders_list.jsp");
                 dispatcher.forward(req, resp);
             } else{
                 HashMap<String, Boolean> orderTypeList = beans.getOrderTypesListForTitle();
@@ -76,7 +76,7 @@ public class OrderList extends HttpServlet {
 
                 req.setAttribute("orderList", beans.getOrderList(orderTypeList, null, null));
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/list/orders_list.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/orders_list.jsp");
                 dispatcher.forward(req, resp);
             }
         }

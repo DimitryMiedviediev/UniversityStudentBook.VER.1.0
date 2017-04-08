@@ -1,4 +1,6 @@
 import beans.authentication.BeansAuthorizationRegistration;
+import beans.group.BeansGroupConfiguration;
+import beans.group.BeansGroupInformation;
 import beans.order.BeansOrderInformation;
 import beans.order.BeansOrderList;
 import beans.student.BeansStudentList;
@@ -19,28 +21,18 @@ public class Start {
         BeansStudentList beansStudentList = new BeansStudentList();
         BeansOrderList beansOrderList = new BeansOrderList();
         BeansOrderInformation beansOrderInformation = new BeansOrderInformation();
+        BeansGroupInformation beansGroupInformation = new BeansGroupInformation();
+        BeansGroupConfiguration beansGroupConfiguration = new BeansGroupConfiguration();
 
-//        Order order = beansOrderInformation.getOrder(5);
-//        System.out.println(
-//                order.getId() + "; " +
-//                        order.getOrderNumber() + "; " +
-//                        order.getOrderDate() + "; " +
-//                        order.getOrderType() + "; " +
-//                        order.getOrderComment() + "; "
-//        );
-
-
-        createNewUniversity();
-        createNewFaculty();
+//        createNewUniversity();
+//        createNewFaculty();
 //        createNewSpeciality();
 //        createNewGroup();
 //        createNewStudent();
 //        createNewOrder();
 
-//        System.out.println(beansOrderList.getOrderTypesListForTitle());
 
-//        beansStudentList.getStudentList();
-
+//        beansGroupConfiguration.createNewStatus("Активна");
     }
 
     public static void createNewUniversity() {
