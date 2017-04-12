@@ -67,11 +67,19 @@ public class GroupConfiguration extends HttpServlet{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("education_form_update_option") != null) {
-                req.setAttribute("updateEducationForm", "updateEducationForm");
-                req.setAttribute("updateEducationFormArea", "updateEducationFormArea");
-                req.setAttribute("educationFormToUpdate", beans.readOneEducationForm(Integer.parseInt(req.getParameter("update_education_form"))));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("update_education_form") != null) {
+                    req.setAttribute("updateEducationForm", "updateEducationForm");
+                    req.setAttribute("updateEducationFormArea", "updateEducationFormArea");
+                    req.setAttribute("educationFormToUpdate", beans.readOneEducationForm(Integer.parseInt(req.getParameter("update_education_form"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }else{
+                    req.setAttribute("updateEducationForm", "updateEducationForm");
+                    req.setAttribute("groupEducationFormsList", beans.getGroupEducationFormsList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
             } else if (req.getParameter("education_form_update_save") != null) {
                 if (req.getParameter("education_form_title") != null && !req.getParameter("education_form_title").equals("")) {
                     beans.updateEducationForm(Integer.parseInt(req.getParameter("education_form_id")), req.getParameter("education_form_title"));
@@ -92,9 +100,16 @@ public class GroupConfiguration extends HttpServlet{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("education_form_delete_option") != null) {
-                beans.deleteEducationForm(Integer.parseInt(req.getParameter("delete_education_form")));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("delete_education_form")!=null){
+                    beans.deleteEducationForm(Integer.parseInt(req.getParameter("delete_education_form")));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("deleteEducationForm", "deleteEducationForm");
+                    req.setAttribute("groupEducationFormsList", beans.getGroupEducationFormsList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
 //
 //
 //
@@ -120,11 +135,19 @@ public class GroupConfiguration extends HttpServlet{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("qualification_level_update_option") != null) {
-                req.setAttribute("updateQualificationLevel", "updateQualificationLevel");
-                req.setAttribute("updateQualificationLevelArea", "updateQualificationLevelArea");
-                req.setAttribute("qualificationLevelToUpdate", beans.readOneQualificationLevel(Integer.parseInt(req.getParameter("update_qualification_level"))));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("update_qualification_level") != null){
+                    req.setAttribute("updateQualificationLevel", "updateQualificationLevel");
+                    req.setAttribute("updateQualificationLevelArea", "updateQualificationLevelArea");
+                    req.setAttribute("qualificationLevelToUpdate", beans.readOneQualificationLevel(Integer.parseInt(req.getParameter("update_qualification_level"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }else{
+                    req.setAttribute("updateQualificationLevel", "updateQualificationLevel");
+                    req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelsList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
             } else if (req.getParameter("qualification_level_update_save") != null) {
                 if (req.getParameter("qualification_level_title") != null && !req.getParameter("qualification_level_title").equals("")) {
                     beans.updateQualificationLevel(Integer.parseInt(req.getParameter("qualification_level_id")), req.getParameter("qualification_level_title"));
@@ -145,9 +168,17 @@ public class GroupConfiguration extends HttpServlet{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("qualification_level_delete_option") != null) {
-                beans.deleteQualificationLevel(Integer.parseInt(req.getParameter("delete_qualification_level")));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("delete_qualification_level") !=null){
+                    beans.deleteQualificationLevel(Integer.parseInt(req.getParameter("delete_qualification_level")));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else{
+                    req.setAttribute("deleteQualificationLevel", "deleteQualificationLevel");
+                    req.setAttribute("groupQualificationLevelList", beans.getGroupQualificationLevelsList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
                 //
 //
 //
@@ -173,11 +204,19 @@ public class GroupConfiguration extends HttpServlet{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("status_update_option") != null) {
-                req.setAttribute("updateStatus", "updateStatus");
-                req.setAttribute("updateStatusArea", "updateStatusArea");
-                req.setAttribute("statusToUpdate", beans.readOneStatus(Integer.parseInt(req.getParameter("update_status"))));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("update_status") != null){
+                    req.setAttribute("updateStatus", "updateStatus");
+                    req.setAttribute("updateStatusArea", "updateStatusArea");
+                    req.setAttribute("statusToUpdate", beans.readOneStatus(Integer.parseInt(req.getParameter("update_status"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("updateStatus", "updateStatus");
+                    req.setAttribute("groupStatusList", beans.getGroupStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
             } else if (req.getParameter("status_update_save") != null) {
                 if (req.getParameter("status_title") != null && !req.getParameter("status_title").equals("")) {
                     beans.updateStatus(Integer.parseInt(req.getParameter("status_id")), req.getParameter("status_title"));
@@ -198,11 +237,16 @@ public class GroupConfiguration extends HttpServlet{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("status_delete_option") != null) {
-                beans.deleteStatus(Integer.parseInt(req.getParameter("delete_status")));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-                dispatcher.forward(req, resp);
-
-
+                if(req.getParameter("delete_status") != null){
+                    beans.deleteStatus(Integer.parseInt(req.getParameter("delete_status")));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else{
+                    req.setAttribute("deleteStatus", "deleteStatus");
+                    req.setAttribute("groupStatusList", beans.getGroupStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
 
             } else if (req.getParameter("cancel") != null) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");

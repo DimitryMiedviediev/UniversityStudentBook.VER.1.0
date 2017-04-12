@@ -1,7 +1,7 @@
 package entity.order;
 
 import entity.order.parameters.OrderType;
-import entity.Student;
+import entity.student.Student;
 
 import javax.persistence.*;
 import java.util.ArrayList;

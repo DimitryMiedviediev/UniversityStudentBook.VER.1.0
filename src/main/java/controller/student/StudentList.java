@@ -81,8 +81,8 @@ public class StudentList extends HttpServlet {
                 }
                 req.setAttribute("groupList", groupList);
 
-                HashMap<Integer, Boolean> subgroupList = beans.getSubgroupListForTitle();
-                for (Integer key : subgroupList.keySet()) {
+                HashMap<String, Boolean> subgroupList = beans.getSubgroupListForTitle();
+                for (String key : subgroupList.keySet()) {
                     if (req.getParameter("sub=" + key) != null) {
                         subgroupList.put(key, true);
                     }
@@ -120,7 +120,7 @@ public class StudentList extends HttpServlet {
                 req.setAttribute("studList", beans.getStudentList(specList, statusList, qualList,
                         courseList, groupList, subgroupList, financeList, educFormList, cityParam, stateParam));
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/list/students_list.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/students_list.jsp");
 
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("student_create") != null){
@@ -141,7 +141,7 @@ public class StudentList extends HttpServlet {
                 HashMap<Integer, Boolean> groupList = beans.getGroupListForTitle();
                 req.setAttribute("groupList", groupList);
 
-                HashMap<Integer, Boolean> subgroupList = beans.getSubgroupListForTitle();
+                HashMap<String, Boolean> subgroupList = beans.getSubgroupListForTitle();
                 req.setAttribute("subgroupList", subgroupList);
 
                 HashMap<String, Boolean> educFormList = beans.getEducFormListForTitle();
@@ -165,7 +165,7 @@ public class StudentList extends HttpServlet {
                 req.setAttribute("studList", beans.getStudentList(specList, statusList, qualList,
                         courseList, groupList, subgroupList, financeList, educFormList, null, stateParam));
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/list/students_list.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/students_list.jsp");
 
                 dispatcher.forward(req, resp);
             }

@@ -1,11 +1,10 @@
 package entity.group;
 
 import entity.Speciality;
-import entity.Student;
+import entity.student.Student;
 import entity.group.parameters.GroupEducationForm;
 import entity.group.parameters.GroupQualificationLevel;
 import entity.group.parameters.GroupStatus;
-import entity.order.parameters.OrderType;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -114,14 +113,6 @@ public class Group {
 
     public void setGroupStatus(GroupStatus groupStatus) {
         this.groupStatus = groupStatus;
-    }
-
-    public Set<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Set<Student> students) {
-        this.students = students;
     }
 
     @Override

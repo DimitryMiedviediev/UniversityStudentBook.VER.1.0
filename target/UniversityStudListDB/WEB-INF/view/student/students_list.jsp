@@ -44,7 +44,7 @@
 
 <body>
 
-<jsp:include page="../../included_pages/fixedTopNavbar.jsp"/>
+<jsp:include page="../included_pages/fixedTopNavbar.jsp"/>
 
 <!-- Header Jumbotron -->
 <div class="jumbotron text-center">
@@ -60,13 +60,24 @@
 
             <!-- Sidebar -->
             <div class="list-group font-table">
-                <form action="student_list" method="post">
 
-                    <!-- Empty DIV -->
-                    <div style="padding: 10px"></div>
-                    <input type="submit" name="student_create" value="Створити студента" class="btn btn-default btn-md btn-block"
+
+                <!-- Empty DIV -->
+                <div style="padding: 10px"></div>
+
+                <form action="student_create" method="post">
+                    <input type="submit" name="student_create" value="Створити студента"
+                           class="btn btn-default btn-md btn-block"
                            formmethod="post"/>
+                </form>
 
+                <form action="student_configuration" method="post">
+                    <input type="submit" name="student_config" value="Конфігурація студентів"
+                           class="btn btn-default btn-md btn-block"
+                           formmethod="post"/>
+                </form>
+
+                <form action="student_list" method="post">
                     <h5>Спеціальність</h5>
                     <ul>
                         <c:forEach var="specList" items="${specList}">
@@ -186,31 +197,48 @@
                     <hr>
                     <h5>Місце народження</h5>
                     <ul>
-                        <%--<c:forEach var="cityParam" items="${cityParam}">--%>
-                            <c:if test="${cityParam ne null}">
-                                <input type="text" placeholder="Місто" name="city" class="form-control" list="cities"
-                                       value="${cityParam}">
-                            </c:if>
-                            <c:if test="${cityParam eq null}">
-                                <input type="text" placeholder="Місто" name="city" class="form-control" list="cities">
-                            </c:if>
-                        <%--</c:forEach>--%>
-                        <%--<input type="text" placeholder="Місто" name="city" class="form-control" list="cities">--%>
+                        <%--&lt;%&ndash;<c:forEach var="cityParam" items="${cityParam}">&ndash;%&gt;--%>
+                        <%--<c:if test="${cityParam ne null}">--%>
+                            <%--<input type="text" placeholder="Місто" name="city" class="form-control" list="cities"--%>
+                                   <%--value="${cityParam}">--%>
+                        <%--</c:if>--%>
+                        <%--<c:if test="${cityParam eq null}">--%>
+                            <%--<input type="text" placeholder="Місто" name="city" class="form-control" list="cities">--%>
+                        <%--</c:if>--%>
+                        <%--&lt;%&ndash;</c:forEach>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<input type="text" placeholder="Місто" name="city" class="form-control" list="cities">&ndash;%&gt;--%>
+                        <%--<datalist id="cities">--%>
+                            <%--<c:forEach var="cityList" items="${cityList}">--%>
+                                <%--<option value="${cityList.key}"></option>--%>
+                            <%--</c:forEach>--%>
+                        <%--</datalist>--%>
+
+
+                        <c:if test="${cityParam ne null}">
+                            <input type="text" placeholder="Місто" name="city" class="form-control"
+                                   list="cities"
+                                   value="${cityParam}">
+                        </c:if>
+                        <c:if test="${cityParam eq null}">
+                            <input type="text" placeholder="Місто" name="city" class="form-control"
+                                   list="cities">
+                        </c:if>
                         <datalist id="cities">
                             <c:forEach var="cityList" items="${cityList}">
                                 <option value="${cityList.key}"></option>
                             </c:forEach>
                         </datalist>
 
+
                         <%--<c:forEach var="stateParam" items="${stateParam}">--%>
-                            <c:if test="${stateParam ne null}">
-                                <input type="text" placeholder="Область" name="state" class="form-control" list="states"
-                                       value="${stateParam}">
-                            </c:if>
-                            <c:if test="${stateParam eq null}">
-                                <input type="text" placeholder="Область" name="state" class="form-control"
-                                       list="states">
-                            </c:if>
+                        <c:if test="${stateParam ne null}">
+                            <input type="text" placeholder="Область" name="state" class="form-control" list="states"
+                                   value="${stateParam}">
+                        </c:if>
+                        <c:if test="${stateParam eq null}">
+                            <input type="text" placeholder="Область" name="state" class="form-control"
+                                   list="states">
+                        </c:if>
                         <%--</c:forEach>--%>
                         <datalist id="states">
                             <c:forEach var="stateList" items="${stateList}">
@@ -219,7 +247,8 @@
                         </datalist>
                     </ul>
                     <hr>
-                    <input type="submit" value="Сортувати" name="student_sort" class="btn btn-default btn-block" formmethod="post">
+                    <input type="submit" value="Сортувати" name="student_sort" class="btn btn-default btn-block"
+                           formmethod="post">
                 </form>
             </div>
 
@@ -238,12 +267,16 @@
                     </thead>
                     <tbody>
 
-                    <c:forEach var="tempStudList" items="${studList}">
+                    <c:forEach var="studList" items="${studList}">
                         <tr>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.surname}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.name}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.patronimic}</a></td>
-                            <td><a href="student_info?stud_id=${tempStudList.id}">${tempStudList.student.studentStatus}</a></td>
+                            <td><a href="student_info?student_id=${studList.id}">${studList.student.surname}</a>
+                            </td>
+                            <td><a href="student_info?student_id=${studList.id}">${studList.student.name}</a></td>
+                            <td><a href="student_info?student_id=${studList.id}">${studList.student.patronimic}</a>
+                            </td>
+                            <td>
+                                <a href="student_info?student_id=${studList.id}">${studList.studentStatus.studentStatusTitle}</a>
+                            </td>
                         </tr>
                     </c:forEach>
 
@@ -256,7 +289,7 @@
     </div>
 </div>
 
-<jsp:include page="../../included_pages/footerJumbotron.jsp"/>
+<jsp:include page="../included_pages/footerJumbotron.jsp"/>
 
 </body>
 </html>

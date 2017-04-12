@@ -1,7 +1,13 @@
-package entity;
+package entity.student;
 
+import entity.Address;
+import entity.Person;
 import entity.group.Group;
 import entity.order.Order;
+import entity.order.parameters.OrderType;
+import entity.student.parameters.StudentFinancing;
+import entity.student.parameters.StudentStatus;
+import entity.student.parameters.StudentSubgroup;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,21 +35,22 @@ public class Student {
     })
     private Person student;
 
-    @ManyToMany
-    private List<Order> orders = new ArrayList<>();
-
-    @Column(name = "student_status", nullable = false)
-    private String studentStatus;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_status_id", nullable = false)
+    private StudentStatus studentStatus;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-    @Column(name = "student_subgroup", nullable = false)
-    private int studentSubgroup;
 
-    @Column(name = "student_financing", nullable = false)
-    private String studentFinancing;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_subgroup_id", nullable = false)
+    private StudentSubgroup studentSubgroup;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_financing_id", nullable = false)
+    private StudentFinancing studentFinancing;
 
     @Column(name = "student_book", nullable = false)
     private String studentBook;
@@ -107,12 +114,14 @@ public class Student {
     })
     private Address parentAddress;
 
+    @ManyToMany
+    private List<Order> orders = new ArrayList<>();
+
     public Student() {
     }
 
-    public Student(Person student, List<Order> orders, String studentStatus, Group group, int studentSubgroup, String studentFinancing, String studentBook, String studentBirthDate, String studentPassportNumber, String studentPassportOffice, String studentPassportReleaseDate, String studentIdentityCode, Address studentAddress, Person father, Person mother, Address parentAddress) {
+    public Student(Person student, StudentStatus studentStatus, Group group, StudentSubgroup studentSubgroup, StudentFinancing studentFinancing, String studentBook, String studentBirthDate, String studentPassportNumber, String studentPassportOffice, String studentPassportReleaseDate, String studentIdentityCode, Address studentAddress, Person father, Person mother, Address parentAddress) {
         this.student = student;
-        this.orders = orders;
         this.studentStatus = studentStatus;
         this.group = group;
         this.studentSubgroup = studentSubgroup;
@@ -145,19 +154,11 @@ public class Student {
         this.student = student;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public String getStudentStatus() {
+    public StudentStatus getStudentStatus() {
         return studentStatus;
     }
 
-    public void setStudentStatus(String studentStatus) {
+    public void setStudentStatus(StudentStatus studentStatus) {
         this.studentStatus = studentStatus;
     }
 
@@ -169,19 +170,19 @@ public class Student {
         this.group = group;
     }
 
-    public int getStudentSubgroup() {
+    public StudentSubgroup getStudentSubgroup() {
         return studentSubgroup;
     }
 
-    public void setStudentSubgroup(int studentSubgroup) {
+    public void setStudentSubgroup(StudentSubgroup studentSubgroup) {
         this.studentSubgroup = studentSubgroup;
     }
 
-    public String getStudentFinancing() {
+    public StudentFinancing getStudentFinancing() {
         return studentFinancing;
     }
 
-    public void setStudentFinancing(String studentFinancing) {
+    public void setStudentFinancing(StudentFinancing studentFinancing) {
         this.studentFinancing = studentFinancing;
     }
 
@@ -273,12 +274,12 @@ public class Student {
         Student student1 = (Student) o;
 
         if (id != student1.id) return false;
-        if (studentSubgroup != student1.studentSubgroup) return false;
         if (student != null ? !student.equals(student1.student) : student1.student != null) return false;
-        if (orders != null ? !orders.equals(student1.orders) : student1.orders != null) return false;
         if (studentStatus != null ? !studentStatus.equals(student1.studentStatus) : student1.studentStatus != null)
             return false;
         if (group != null ? !group.equals(student1.group) : student1.group != null) return false;
+        if (studentSubgroup != null ? !studentSubgroup.equals(student1.studentSubgroup) : student1.studentSubgroup != null)
+            return false;
         if (studentFinancing != null ? !studentFinancing.equals(student1.studentFinancing) : student1.studentFinancing != null)
             return false;
         if (studentBook != null ? !studentBook.equals(student1.studentBook) : student1.studentBook != null)
@@ -304,10 +305,9 @@ public class Student {
     public int hashCode() {
         int result = id;
         result = 31 * result + (student != null ? student.hashCode() : 0);
-        result = 31 * result + (orders != null ? orders.hashCode() : 0);
         result = 31 * result + (studentStatus != null ? studentStatus.hashCode() : 0);
         result = 31 * result + (group != null ? group.hashCode() : 0);
-        result = 31 * result + studentSubgroup;
+        result = 31 * result + (studentSubgroup != null ? studentSubgroup.hashCode() : 0);
         result = 31 * result + (studentFinancing != null ? studentFinancing.hashCode() : 0);
         result = 31 * result + (studentBook != null ? studentBook.hashCode() : 0);
         result = 31 * result + (studentBirthDate != null ? studentBirthDate.hashCode() : 0);
@@ -327,11 +327,10 @@ public class Student {
         return "Student{" +
                 "id=" + id +
                 ", student=" + student +
-                ", orders=" + orders +
-                ", studentStatus='" + studentStatus + '\'' +
+                ", studentStatus=" + studentStatus +
                 ", group=" + group +
                 ", studentSubgroup=" + studentSubgroup +
-                ", studentFinancing='" + studentFinancing + '\'' +
+                ", studentFinancing=" + studentFinancing +
                 ", studentBook='" + studentBook + '\'' +
                 ", studentBirthDate='" + studentBirthDate + '\'' +
                 ", studentPassportNumber='" + studentPassportNumber + '\'' +

@@ -24,7 +24,10 @@
         <mapping class="entity.group.parameters.GroupStatus"/>
 
 
-        <mapping class="entity.Student"/>
+        <mapping class="entity.student.Student"/>
+        <mapping class="entity.student.parameters.StudentStatus"/>
+        <mapping class="entity.student.parameters.StudentFinancing"/>
+        <mapping class="entity.student.parameters.StudentSubgroup"/>
 
 
         <mapping class="entity.order.Order"/>

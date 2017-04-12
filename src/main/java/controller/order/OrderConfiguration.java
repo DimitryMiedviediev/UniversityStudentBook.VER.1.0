@@ -63,11 +63,19 @@ public class OrderConfiguration extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("update_option") != null) {
-                req.setAttribute("updateType", "updateType");
-                req.setAttribute("updateTypeArea", "updateTypeArea");
-                req.setAttribute("orderToUpdate", beans.readOneOrderType(Integer.parseInt(req.getParameter("update_order_type"))));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("update_order_type") != null){
+                    req.setAttribute("updateType", "updateType");
+                    req.setAttribute("updateTypeArea", "updateTypeArea");
+                    req.setAttribute("orderToUpdate", beans.readOneOrderType(Integer.parseInt(req.getParameter("update_order_type"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("updateType", "updateType");
+                    req.setAttribute("orderTypesList", beans.getOrderTypesList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
             } else if (req.getParameter("update_save") != null) {
                 if (req.getParameter("order_type_title") != null && !req.getParameter("order_type_title").equals("")) {
                     beans.updateOrderType(Integer.parseInt(req.getParameter("order_type_id")), req.getParameter("order_type_title"));
@@ -88,9 +96,16 @@ public class OrderConfiguration extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("delete_option") != null) {
-                beans.deleteOrderType(Integer.parseInt(req.getParameter("delete_order_type")));
-                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
-                dispatcher.forward(req, resp);
+                if(req.getParameter("delete_order_type") != null){
+                    beans.deleteOrderType(Integer.parseInt(req.getParameter("delete_order_type")));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("deleteType", "deleteType");
+                    req.setAttribute("orderTypesList", beans.getOrderTypesList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
             } else if (req.getParameter("cancel") != null) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/order/order_config.jsp");
                 dispatcher.forward(req, resp);

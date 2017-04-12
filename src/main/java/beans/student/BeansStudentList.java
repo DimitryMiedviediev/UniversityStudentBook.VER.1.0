@@ -1,16 +1,12 @@
 package beans.student;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import entity.Student;
-import entity.User;
+import entity.student.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +22,7 @@ public class BeansStudentList {
             HashMap<String, Boolean> studentsQualificationList,
             HashMap<Integer, Boolean> studentsCourseList,
             HashMap<Integer, Boolean> studentsGroupsList,
-            HashMap<Integer, Boolean> studentsSubgroupList,
+            HashMap<String, Boolean> studentsSubgroupList,
             HashMap<String, Boolean> studentsFinancing,
             HashMap<String, Boolean> studentEducationFormList,
             String studentsCityParameter,
@@ -114,12 +110,12 @@ public class BeansStudentList {
             }
         }
 
-        for (Map.Entry<Integer, Boolean> entry : studentsSubgroupList.entrySet()) {
+        for (Map.Entry<String, Boolean> entry : studentsSubgroupList.entrySet()) {
             if (entry.getValue()) {
                 if (studentSubgroupQuery == null) {
-                    studentSubgroupQuery = entry.getKey().toString();
+                    studentSubgroupQuery = "'" + entry.getKey() + "'";
                 } else if (studentSubgroupQuery != null) {
-                    studentSubgroupQuery = studentSubgroupQuery + ", " + entry.getKey();
+                    studentSubgroupQuery = studentSubgroupQuery + ", " + "'" + entry.getKey() + "'";
                 }
             }
         }
@@ -141,13 +137,13 @@ public class BeansStudentList {
         }
 
         query = addQueryPart(query, "group.speciality.title", studentSpecialityQuery);
-        query = addQueryPart(query, "studentStatus", studentStatusQuery);
-        query = addQueryPart(query, "group.groupQualificationLevel", studentQualificationQuery);
+        query = addQueryPart(query, "studentStatus.studentStatusTitle", studentStatusQuery);
+        query = addQueryPart(query, "group.groupQualificationLevel.groupQualificationLevelTitle", studentQualificationQuery);
         query = addQueryPart(query, "group.groupCourse", studentCourseQuery);
-        query = addQueryPart(query, "group.groupEducationForm", studentEducationFormQuery);
-        query = addQueryPart(query, "studentFinancing", studentFinancingQuery);
+        query = addQueryPart(query, "group.groupEducationForm.groupEducationFormTitle", studentEducationFormQuery);
+        query = addQueryPart(query, "studentFinancing.studentFinancingTitle", studentFinancingQuery);
         query = addQueryPart(query, "group.groupNumber", studentGroupQuery);
-        query = addQueryPart(query, "studentSubgroup", studentSubgroupQuery);
+        query = addQueryPart(query, "studentSubgroup.studentSubgroupTitle", studentSubgroupQuery);
         query = addQueryPart(query, "parentAddress.city", studentCityQuery);
         query = addQueryPart(query, "parentAddress.state", studentStateQuery);
 
@@ -220,7 +216,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getStudentStatus(), false);
+                storage.put(studentList.get(i).getStudentStatus().getStudentStatusTitle(), false);
             }
 
             session.getTransaction().commit();
@@ -325,8 +321,8 @@ public class BeansStudentList {
         return storage;
     }
 
-    public HashMap<Integer, Boolean> getSubgroupListForTitle() {
-        HashMap<Integer, Boolean> storage = new HashMap<>();
+    public HashMap<String, Boolean> getSubgroupListForTitle() {
+        HashMap<String, Boolean> storage = new HashMap<>();
 
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory factory = null;
@@ -340,7 +336,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getStudentSubgroup(), false);
+                storage.put(studentList.get(i).getStudentSubgroup().getStudentSubgroupTitle(), false);
             }
 
             session.getTransaction().commit();
@@ -370,7 +366,7 @@ public class BeansStudentList {
             studentList = session.createQuery("FROM Student").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
-                storage.put(studentList.get(i).getStudentFinancing(), false);
+                storage.put(studentList.get(i).getStudentFinancing().getStudentFinancingTitle(), false);
             }
 
             session.getTransaction().commit();
@@ -427,7 +423,7 @@ public class BeansStudentList {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            studentList = session.createQuery("FROM Student").getResultList();
+            studentList = session.createQuery("FROM Student WHERE parentAddress.city != null").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
                 storage.put(studentList.get(i).getParentAddress().getCity(), false);
@@ -457,7 +453,7 @@ public class BeansStudentList {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            studentList = session.createQuery("FROM Student").getResultList();
+            studentList = session.createQuery("FROM Student WHERE parentAddress.state != null").getResultList();
 
             for (int i = 0; i < studentList.size(); i++) {
                 storage.put(studentList.get(i).getParentAddress().getState(), false);

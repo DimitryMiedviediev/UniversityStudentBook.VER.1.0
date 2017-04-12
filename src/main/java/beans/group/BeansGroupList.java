@@ -1,7 +1,7 @@
 package beans.group;
 
 import entity.group.Group;
-import entity.Student;
+import entity.student.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

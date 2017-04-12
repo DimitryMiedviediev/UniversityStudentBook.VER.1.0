@@ -3,14 +3,19 @@ import beans.group.BeansGroupConfiguration;
 import beans.group.BeansGroupInformation;
 import beans.order.BeansOrderInformation;
 import beans.order.BeansOrderList;
+import beans.student.BeansStudentInformation;
 import beans.student.BeansStudentList;
 import entity.*;
 import entity.group.Group;
+import entity.student.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dimitry on 16.03.17.
@@ -20,7 +25,7 @@ public class Start {
         BeansAuthorizationRegistration beans = new BeansAuthorizationRegistration();
         BeansStudentList beansStudentList = new BeansStudentList();
         BeansOrderList beansOrderList = new BeansOrderList();
-        BeansOrderInformation beansOrderInformation = new BeansOrderInformation();
+        BeansStudentInformation beansStudentInformation = new BeansStudentInformation();
         BeansGroupInformation beansGroupInformation = new BeansGroupInformation();
         BeansGroupConfiguration beansGroupConfiguration = new BeansGroupConfiguration();
 
@@ -30,6 +35,7 @@ public class Start {
 //        createNewGroup();
 //        createNewStudent();
 //        createNewOrder();
+//        System.out.println(beansStudentInformation.getOrderList());
 
 
 //        beansGroupConfiguration.createNewStatus("Активна");
@@ -44,14 +50,14 @@ public class Start {
             session.beginTransaction();
 
             University university = new University(
-                    "KNUTE",
+                    "КНТЕУ",
                     "Scientia difficilis sed fructuosa",
                     "1946",
-                    "Public",
+                    "Державний",
                     new Person(
-                            "Anatoliy",
-                            "Mazeraki",
-                            "Antonovich",
+                            "Анатолій",
+                            "Мазеракі",
+                            "Антонович",
                             null,
                             null,
                             null
@@ -91,11 +97,11 @@ public class Start {
 
             Faculty faculty = new Faculty(
                     university,
-                    "FEMP",
+                    "ФЕМП",
                     new Person(
-                            "Natalia",
-                            "Huliayeva",
-                            "Micolaivna",
+                            "Наталія",
+                            "Гуляєва",
+                            "Миколаївна",
                             null,
                             null,
                             null
@@ -127,10 +133,15 @@ public class Start {
 
             Speciality speciality = new Speciality(
                     faculty,
-                    "Economic of enterprise"
+                    "Економіка підприємств"
+            );
+            Speciality speciality1 = new Speciality(
+                    faculty,
+                    "Фінанси підприємств"
             );
 
             session.save(speciality);
+            session.save(speciality1);
 
 
             session.getTransaction().commit();
