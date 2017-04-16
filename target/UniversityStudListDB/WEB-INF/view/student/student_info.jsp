@@ -252,7 +252,7 @@
                     <tr>
                         <td class="col-sm-2">Паспорт виданий:</td>
                         <td class="col-sm-6">
-                            ${studentObject.studentPassportOffice} курс
+                            ${studentObject.studentPassportOffice}
                         </td>
                     </tr>
                     </tbody>
@@ -276,13 +276,20 @@
                     <tr>
                         <td class="col-sm-2">Адреса студента:</td>
                         <td class="col-sm-6">
-                            ${studentObject.studentAddress.street}
-                            ${studentObject.studentAddress.house},
-                            ${studentObject.studentAddress.city},
-                            ${studentObject.studentAddress.state},
-                            ${studentObject.studentAddress.country}
-                            <c:if test="${studentObject.studentAddress.zip ne null}">
-                                / ${studentObject.studentAddress.zip}
+                            <c:if test="${studentObject.studentAddress.street ne null}">
+                                ${studentObject.studentAddress.street},
+                            </c:if>
+                            <c:if test="${studentObject.studentAddress.house ne null}">
+                                ${studentObject.studentAddress.house},
+                            </c:if>
+                            <c:if test="${studentObject.studentAddress.city ne null}">
+                                ${studentObject.studentAddress.city},
+                            </c:if>
+                            <c:if test="${studentObject.studentAddress.state ne null}">
+                                ${studentObject.studentAddress.state},
+                            </c:if>
+                            <c:if test="${studentObject.studentAddress.country ne null}">
+                                ${studentObject.studentAddress.country}
                             </c:if>
                         </td>
                     </tr>
@@ -382,13 +389,20 @@
                     <tr>
                         <td class="col-sm-2">Адреса батьків:</td>
                         <td class="col-sm-6">
-                            ${studentObject.parentAddress.street}
-                            ${studentObject.parentAddress.house},
-                            ${studentObject.parentAddress.city},
-                            ${studentObject.parentAddress.state},
-                            ${studentObject.parentAddress.country}
-                            <c:if test="${studentObject.parentAddress.zip ne null}">
-                                / ${studentObject.parentAddress.zip}
+                            <c:if test="${studentObject.parentAddress.street ne null}">
+                                ${studentObject.parentAddress.street},
+                            </c:if>
+                            <c:if test="${studentObject.parentAddress.house ne null}">
+                                ${studentObject.parentAddress.house},
+                            </c:if>
+                            <c:if test="${studentObject.parentAddress.city ne null}">
+                                ${studentObject.parentAddress.city},
+                            </c:if>
+                            <c:if test="${studentObject.parentAddress.state ne null}">
+                                ${studentObject.parentAddress.state},
+                            </c:if>
+                            <c:if test="${studentObject.parentAddress.country ne null}">
+                                ${studentObject.parentAddress.country}
                             </c:if>
                         </td>
                     </tr>
