@@ -134,6 +134,13 @@
                        formmethod="post"/>
                 <input type="submit" name="back_to_list" value="Назад" class="btn btn-default btn-md btn-block"
                        formmethod="post"/>
+
+                <div style="padding: 20px"></div>
+
+                <input type="submit" name="to_student_orders" value="До наказів студента" class="btn btn-default btn-md btn-block"
+                       formmethod="post"/>
+                <input type="submit" name="to_change_status" value="Змінити статус" class="btn btn-default btn-md btn-block"
+                       formmethod="post"/>
             </div>
         </form>
         <div class="col-sm-8">
@@ -217,6 +224,14 @@
                         <td class="col-sm-2">Номер заліковки:</td>
                         <td class="col-sm-6">
                             ${studentObject.studentBook}
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-2">Статус:</td>
+                        <td class="col-sm-6">
+                            ${studentObject.studentStatus.studentStatusTitle}
                         </td>
                     </tr>
                     </tbody>

@@ -15,7 +15,10 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dimitry on 08.04.17.
@@ -29,7 +32,7 @@ public class BeansStudentInformation {
             String studentPhone1,
             String studentPhone2,
             String studentEmail,
-//            int statusId,
+            int orderId,
             int groupId,
             int studentSubgroup,
             int financingId,
@@ -64,64 +67,64 @@ public class BeansStudentInformation {
             String parentAddressZip,
             String parentAddressCountry) {
 
-        if(studentPhone1.equals("")){
+        if (studentPhone1.equals("")) {
             studentPhone1 = null;
         }
-        if(studentPhone2.equals("")){
+        if (studentPhone2.equals("")) {
             studentPhone2 = null;
         }
-        if(studentEmail.equals("")){
+        if (studentEmail.equals("")) {
             studentEmail = null;
         }
-        if(studentBirthDate.equals("")){
+        if (studentBirthDate.equals("")) {
             studentBirthDate = null;
         }
-        if(studentPassportNumber.equals("")){
+        if (studentPassportNumber.equals("")) {
             studentPassportNumber = null;
         }
-        if(studentPassportOffice.equals("")){
+        if (studentPassportOffice.equals("")) {
             studentPassportOffice = null;
         }
-        if(studentPassportReleaseDate.equals("")){
+        if (studentPassportReleaseDate.equals("")) {
             studentPassportReleaseDate = null;
         }
-        if(studentIdentityCode.equals("")){
+        if (studentIdentityCode.equals("")) {
             studentIdentityCode = null;
         }
-        if(fatherName.equals("")){
+        if (fatherName.equals("")) {
             fatherName = null;
         }
-        if(fatherSurname.equals("")){
+        if (fatherSurname.equals("")) {
             fatherSurname = null;
         }
-        if(fatherPatronimic.equals("")){
+        if (fatherPatronimic.equals("")) {
             fatherPatronimic = null;
         }
-        if(fatherPhone1.equals("")){
+        if (fatherPhone1.equals("")) {
             fatherPhone1 = null;
         }
-        if(fatherPhone2.equals("")){
+        if (fatherPhone2.equals("")) {
             fatherPhone2 = null;
         }
-        if(fatherEmail.equals("")){
+        if (fatherEmail.equals("")) {
             fatherEmail = null;
         }
-        if(motherName.equals("")){
+        if (motherName.equals("")) {
             motherName = null;
         }
-        if(motherSurname.equals("")){
+        if (motherSurname.equals("")) {
             motherSurname = null;
         }
-        if(motherPatronimic.equals("")){
+        if (motherPatronimic.equals("")) {
             motherPatronimic = null;
         }
-        if(motherPhone1.equals("")){
+        if (motherPhone1.equals("")) {
             motherPhone1 = null;
         }
-        if(motherPhone2.equals("")){
+        if (motherPhone2.equals("")) {
             motherPhone2 = null;
         }
-        if(motherEmail.equals("")){
+        if (motherEmail.equals("")) {
             motherEmail = null;
         }
 
@@ -185,6 +188,9 @@ public class BeansStudentInformation {
                             parentAddressCountry
                     )
             );
+
+            Order order = session.get(Order.class, orderId);
+            student.getOrders().add(order);
 
             session.save(student);
             session.getTransaction().commit();
@@ -485,6 +491,163 @@ public class BeansStudentInformation {
             }
         }
         return studentStatus;
+    }
+
+    public List<Order> getStudentOrderList(int studentID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        List<Order> studentOrderList = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            studentOrderList = session.get(Student.class, studentID).getOrders();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+
+        return studentOrderList;
+    }
+
+    public List<Order> getOtherOrderList(int studentID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        List<Order> otherOrderList = null;
+        List<Order> studentOrderList = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            otherOrderList = session.createQuery("FROM Order ").getResultList();
+            studentOrderList = session.get(Student.class, studentID).getOrders();
+
+            otherOrderList.removeAll(studentOrderList);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+
+        return otherOrderList;
+    }
+
+    public List<Integer> returnConvertParameters(String[] arr) {
+//        String[] en = req.getParameterValues("null_status");
+        List<Integer> idOrdersList = new ArrayList<>();
+        for (String str : arr) {
+            idOrdersList.add(Integer.parseInt(str));
+        }
+        return idOrdersList;
+    }
+
+    public void addOrderToStudent(List<Integer> orderList, int studentID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+            Student student = session.get(Student.class, studentID);
+            for (int i = 0; i < orderList.size(); i++) {
+                Order order = session.get(Order.class, orderList.get(i));
+                student.getOrders().add(order);
+            }
+            session.save(student);
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void removeOrderToStudent(List<Integer> orderList, int studentID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+            Student student = session.get(Student.class, studentID);
+            for (int i = 0; i < orderList.size(); i++) {
+                Order order = session.get(Order.class, orderList.get(i));
+                student.getOrders().remove(order);
+            }
+            session.save(student);
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void changingStatus(int studentID, int statusID, int orderID){
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            Student student = session.get(Student.class, studentID);
+            StudentStatus studentStatus  = session.get(StudentStatus.class, statusID);
+            Order order = session.get(Order.class, orderID);
+
+            student.setStudentStatus(studentStatus);
+            student.getOrders().add(order);
+
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void changingStatus(int studentID, int statusID){
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            Student student = session.get(Student.class, studentID);
+            StudentStatus studentStatus  = session.get(StudentStatus.class, statusID);
+
+            student.setStudentStatus(studentStatus);
+
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
     }
 
 }

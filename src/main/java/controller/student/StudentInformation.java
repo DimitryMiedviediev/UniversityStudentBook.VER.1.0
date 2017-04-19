@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Created by Dimitry on 08.04.17.
@@ -44,7 +45,7 @@ public class StudentInformation extends HttpServlet {
                 req.setAttribute("studentStatusList", beans.getStudentStatusList());
                 req.setAttribute("studentFinancingList", beans.getStudentFinancingList());
                 req.setAttribute("groupList", beans.getGroupList());
-//                req.setAttribute("orderList", beans.getOrderList());
+                req.setAttribute("orderList", beans.getOrderList());
                 req.setAttribute("studentSubgroupList", beans.getSubgroupList());
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_create.jsp");
                 dispatcher.forward(req, resp);
@@ -56,7 +57,7 @@ public class StudentInformation extends HttpServlet {
                 req.setAttribute("studentStatusList", beans.getStudentStatusList());
                 req.setAttribute("studentFinancingList", beans.getStudentFinancingList());
                 req.setAttribute("groupList", beans.getGroupList());
-//                req.setAttribute("orderList", beans.getOrderList());
+                req.setAttribute("orderList", beans.getOrderList());
                 req.setAttribute("studentSubgroupList", beans.getSubgroupList());
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_create.jsp");
                 dispatcher.forward(req, resp);
@@ -69,7 +70,7 @@ public class StudentInformation extends HttpServlet {
                         req.getParameter("studentPatronimic") != null &&
                         !req.getParameter("studentPatronimic").equals("") &&
                         req.getParameter("groupId") != null &&
-//                        req.getParameter("orderId") != null &&
+                        req.getParameter("orderId") != null &&
                         req.getParameter("studentSubgroupId") != null &&
                         req.getParameter("studentFinancingId") != null &&
                         req.getParameter("studentBook") != null &&
@@ -82,6 +83,7 @@ public class StudentInformation extends HttpServlet {
                             req.getParameter("studentPhone1"),
                             req.getParameter("studentPhone2"),
                             req.getParameter("studentEmail"),
+                            Integer.parseInt(req.getParameter("orderId")),
                             Integer.parseInt(req.getParameter("groupId")),
                             Integer.parseInt(req.getParameter("studentSubgroupId")),
                             Integer.parseInt(req.getParameter("studentFinancingId")),
@@ -135,7 +137,7 @@ public class StudentInformation extends HttpServlet {
                     req.setAttribute("studentEmail", req.getParameter("studentEmail"));
 
                     req.setAttribute("groupId", req.getParameter("groupId"));
-//                    req.setAttribute("orderId", req.getParameter("orderId"));
+                    req.setAttribute("orderId", req.getParameter("orderId"));
                     req.setAttribute("studentSubgroupId", req.getParameter("studentSubgroupId"));
                     req.setAttribute("studentFinancingId", req.getParameter("studentFinancingId"));
                     req.setAttribute("studentBook", req.getParameter("studentBook"));
@@ -195,7 +197,7 @@ public class StudentInformation extends HttpServlet {
                 req.setAttribute("studentStatusList", beans.getStudentStatusList());
                 req.setAttribute("studentFinancingList", beans.getStudentFinancingList());
                 req.setAttribute("groupList", beans.getGroupList());
-//                req.setAttribute("orderList", beans.getOrderList());
+                req.setAttribute("orderList", beans.getOrderList());
                 req.setAttribute("studentSubgroupList", beans.getSubgroupList());
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_edit.jsp");
                 dispatcher.forward(req, resp);
@@ -324,6 +326,105 @@ public class StudentInformation extends HttpServlet {
                     dispatcher.forward(req, resp);
                 }
 
+
+            } else if (req.getParameter("to_student_orders") != null) {
+                Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                req.setAttribute("studentObject", student);
+                req.setAttribute("studentOrderList", beans.getStudentOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("to_student_info") != null) {
+                Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                req.setAttribute("studentObject", student);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_info.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("add_student_orders") != null) {
+                Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                req.setAttribute("addOrderArea", "addOrderArea");
+                req.setAttribute("studentObject", student);
+                req.setAttribute("otherOrderList", beans.getOtherOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("add_student_orders_option") != null) {
+                if (req.getParameterValues("orders") != null){
+                    Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                    List<Integer> orderIdList = beans.returnConvertParameters(req.getParameterValues("orders"));
+                    beans.addOrderToStudent(orderIdList, Integer.parseInt(req.getParameter("student_id")));
+                    req.setAttribute("studentObject", student);
+                    req.setAttribute("studentOrderList", beans.getStudentOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                    req.setAttribute("addOrderArea", "addOrderArea");
+                    req.setAttribute("studentObject", student);
+                    req.setAttribute("otherOrderList", beans.getOtherOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
+
+            } else if (req.getParameter("remove_student_orders") != null) {
+                Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                req.setAttribute("removeOrderArea", "removeOrderArea");
+                req.setAttribute("studentObject", student);
+                req.setAttribute("studentOrderList", beans.getStudentOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("remove_student_orders_option") != null) {
+                if(req.getParameterValues("orders") != null){
+                    Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                    List<Integer> orderIdList = beans.returnConvertParameters(req.getParameterValues("orders"));
+                    beans.removeOrderToStudent(orderIdList, Integer.parseInt(req.getParameter("student_id")));
+                    req.setAttribute("studentObject", student);
+                    req.setAttribute("studentOrderList", beans.getStudentOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                    req.setAttribute("removeOrderArea", "removeOrderArea");
+                    req.setAttribute("studentObject", student);
+                    req.setAttribute("studentOrderList", beans.getStudentOrderList(Integer.parseInt(req.getParameter("student_id"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_orders.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
+            } else if (req.getParameter("to_change_status") != null) {
+                Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                req.setAttribute("studentObject", student);
+                req.setAttribute("studentStatusList", beans.getStudentStatusList());
+                req.setAttribute("orderList", beans.getOrderList());
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_status.jsp");
+                dispatcher.forward(req, resp);
+
+            } else if (req.getParameter("to_change_status_option") != null) {
+                if(req.getParameter("statusId") != null){
+                    if (req.getParameter("orderId") != null){
+                        beans.changingStatus(
+                                Integer.parseInt(req.getParameter("student_id")),
+                                Integer.parseInt(req.getParameter("statusId")),
+                                Integer.parseInt(req.getParameter("orderId")));
+                    } else {
+                        beans.changingStatus(
+                                Integer.parseInt(req.getParameter("student_id")),
+                                Integer.parseInt(req.getParameter("statusId")));
+                    }
+                    Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                    req.setAttribute("studentObject", student);
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_info.jsp");
+                    dispatcher.forward(req, resp);
+                }else {
+                    Student student = beans.getStudent(Integer.parseInt(req.getParameter("student_id")));
+                    req.setAttribute("studentObject", student);
+                    req.setAttribute("studentStatusList", beans.getStudentStatusList());
+                    req.setAttribute("orderList", beans.getOrderList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_status.jsp");
+                    dispatcher.forward(req, resp);
+                }
 
             } else {
                 if (req.getParameter("student_id") != null) {

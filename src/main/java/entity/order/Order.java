@@ -19,7 +19,7 @@ public class Order {
     @Column(name = "id")
     private int id;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER)
     private List<Student> students = new ArrayList<>();
 
     @Column(name = "order_number", unique = true, nullable = false)

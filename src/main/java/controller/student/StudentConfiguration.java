@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by Dimitry on 16.04.17.
@@ -138,13 +141,13 @@ public class StudentConfiguration extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("financing_update_option") != null) {
-                if(req.getParameter("update_financing") != null){
+                if (req.getParameter("update_financing") != null) {
                     req.setAttribute("updateFinancing", "updateFinancing");
                     req.setAttribute("updateFinancingArea", "updateFinancingArea");
                     req.setAttribute("financingToUpdate", beans.readOneFinancing(Integer.parseInt(req.getParameter("update_financing"))));
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
                     dispatcher.forward(req, resp);
-                }else{
+                } else {
                     req.setAttribute("updateFinancing", "updateFinancing");
                     req.setAttribute("financingList", beans.getFinancingList());
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
@@ -171,92 +174,164 @@ public class StudentConfiguration extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
                 dispatcher.forward(req, resp);
             } else if (req.getParameter("financing_delete_option") != null) {
-                if(req.getParameter("delete_financing") !=null){
+                if (req.getParameter("delete_financing") != null) {
                     beans.deleteFinancing(Integer.parseInt(req.getParameter("delete_financing")));
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
                     dispatcher.forward(req, resp);
-                } else{
+                } else {
                     req.setAttribute("deleteFinancing", "deleteFinancing");
                     req.setAttribute("financingList", beans.getFinancingList());
                     RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
                     dispatcher.forward(req, resp);
                 }
 
-            //
+                //
 //
 //
-//                 Qualification level
-//            } else if (req.getParameter("status_create") != null) {
-//                req.setAttribute("createStatus", "createStatus");
-//                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                dispatcher.forward(req, resp);
-//            } else if (req.getParameter("status_create_option") != null) {
-//                if (req.getParameter("status") != null && !req.getParameter("status").equals("")) {
-//                    beans.createNewStatus(req.getParameter("status"));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                } else {
-//                    req.setAttribute("createStatus", "createStatus");
-//                    req.setAttribute("wrongStatus", req.getParameter("status"));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                }
-//            } else if (req.getParameter("status_update") != null) {
-//                req.setAttribute("updateStatus", "updateStatus");
-//                req.setAttribute("groupStatusList", beans.getGroupStatusList());
-//                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                dispatcher.forward(req, resp);
-//            } else if (req.getParameter("status_update_option") != null) {
-//                if(req.getParameter("update_status") != null){
-//                    req.setAttribute("updateStatus", "updateStatus");
-//                    req.setAttribute("updateStatusArea", "updateStatusArea");
-//                    req.setAttribute("statusToUpdate", beans.readOneStatus(Integer.parseInt(req.getParameter("update_status"))));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                } else {
-//                    req.setAttribute("updateStatus", "updateStatus");
-//                    req.setAttribute("groupStatusList", beans.getGroupStatusList());
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                }
+//                 Status
+            } else if (req.getParameter("status_create") != null) {
+                req.setAttribute("createStatus", "createStatus");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("status_create_option") != null) {
+                if (req.getParameter("status") != null && !req.getParameter("status").equals("")) {
+                    beans.createNewStatus(req.getParameter("status"));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("createStatus", "createStatus");
+                    req.setAttribute("wrongStatus", req.getParameter("status"));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+            } else if (req.getParameter("status_update") != null) {
+                req.setAttribute("updateStatus", "updateStatus");
+                req.setAttribute("statusList", beans.getStatusList());
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("status_update_option") != null) {
+                if (req.getParameter("update_status") != null) {
+                    req.setAttribute("updateStatus", "updateStatus");
+                    req.setAttribute("updateStatusArea", "updateStatusArea");
+                    req.setAttribute("statusToUpdate", beans.readOneStatus(Integer.parseInt(req.getParameter("update_status"))));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("updateStatus", "updateStatus");
+                    req.setAttribute("statusList", beans.getStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
+            } else if (req.getParameter("status_update_save") != null) {
+                if (req.getParameter("status_title") != null && !req.getParameter("status_title").equals("")) {
+                    beans.updateStatusTitle(Integer.parseInt(req.getParameter("status_id")), req.getParameter("status_title"));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("updateStatus", "updateStatus");
+                    req.setAttribute("updateStatusArea", "updateStatusArea");
+                    req.setAttribute("updateStatusAreaError", "updateStatusAreaError");
+                    req.setAttribute("statusTitleError", req.getParameter("status_title"));
+                    req.setAttribute("statusIdError", req.getParameter("status_id"));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+            } else if (req.getParameter("status_delete") != null) {
+                req.setAttribute("deleteStatus", "deleteStatus");
+                req.setAttribute("statusList", beans.getStatusList());
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("status_delete_option") != null) {
+                if (req.getParameter("delete_status") != null) {
+                    beans.deleteStatus(Integer.parseInt(req.getParameter("delete_status")));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("deleteStatus", "deleteStatus");
+                    req.setAttribute("statusList", beans.getStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+
+////
+////              Status true configuration
+////
+            } else if (req.getParameter("status_true") != null) {
+                req.setAttribute("trueStatus", "trueStatus");
+                req.setAttribute("statusList", beans.getStatusList());
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("status_true_option") != null) {
+                if (req.getParameter("true_status") != null) {
+                    beans.changeTrueStatus(Integer.parseInt(req.getParameter("true_status")));
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("trueStatus", "trueStatus");
+                    req.setAttribute("statusList", beans.getStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
 //
-//            } else if (req.getParameter("status_update_save") != null) {
-//                if (req.getParameter("status_title") != null && !req.getParameter("status_title").equals("")) {
-//                    beans.updateStatus(Integer.parseInt(req.getParameter("status_id")), req.getParameter("status_title"));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                } else {
-//                    req.setAttribute("updateStatus", "updateStatus");
-//                    req.setAttribute("updateStatusArea", "updateStatusArea");
-//                    req.setAttribute("updateStatusAreaError", "updateStatusAreaError");
-//                    req.setAttribute("statusTitleError", req.getParameter("status_title"));
-//                    req.setAttribute("statusIdError", req.getParameter("status_id"));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                }
-//            } else if (req.getParameter("status_delete") != null) {
-//                req.setAttribute("deleteStatus", "deleteStatus");
-//                req.setAttribute("groupStatusList", beans.getGroupStatusList());
-//                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                dispatcher.forward(req, resp);
-//            } else if (req.getParameter("status_delete_option") != null) {
-//                if(req.getParameter("delete_status") != null){
-//                    beans.deleteStatus(Integer.parseInt(req.getParameter("delete_status")));
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                } else{
-//                    req.setAttribute("deleteStatus", "deleteStatus");
-//                    req.setAttribute("groupStatusList", beans.getGroupStatusList());
-//                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/group/group_config.jsp");
-//                    dispatcher.forward(req, resp);
-//                }
+////              Statuses false configuration
+////
+            } else if (req.getParameter("status_false") != null) {
+                req.setAttribute("falseStatus", "falseStatus");
+                req.setAttribute("statusList", beans.getStatusList());
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("status_false_option") != null) {
+                if (req.getParameter("false_status") != null) {
+                    String[] en = req.getParameterValues("false_status");
+                    List<Integer> idStatusList = new ArrayList<>();
+                    for (String str : en) {
+                        idStatusList.add(Integer.parseInt(str));
+                    }
+                    beans.changeFalseStatus(idStatusList);
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("falseStatus", "falseStatus");
+                    req.setAttribute("statusList", beans.getStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
+////
+////
+////
+////
+            } else if (req.getParameter("status_null") != null) {
+                req.setAttribute("nullStatus", "nullStatus");
+                req.setAttribute("statusList", beans.getStatusList());
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else if (req.getParameter("status_null_option") != null) {
+                if (req.getParameter("null_status") != null) {
+                    String[] en = req.getParameterValues("null_status");
+                    List<Integer> idStatusList = new ArrayList<>();
+                    for (String str : en) {
+                        idStatusList.add(Integer.parseInt(str));
+                    }
+                    beans.changeNullStatus(idStatusList);
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                } else {
+                    req.setAttribute("nullStatus", "nullStatus");
+                    req.setAttribute("statusList", beans.getStatusList());
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                    dispatcher.forward(req, resp);
+                }
 //
-        } else if (req.getParameter("cancel") != null) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
-            dispatcher.forward(req, resp);
-        } else {
-            resp.sendRedirect("student_list");
+//
+//
+//
+            } else if (req.getParameter("cancel") != null) {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/view/student/student_config.jsp");
+                dispatcher.forward(req, resp);
+            } else {
+                resp.sendRedirect("student_list");
+            }
         }
     }
-}
 }

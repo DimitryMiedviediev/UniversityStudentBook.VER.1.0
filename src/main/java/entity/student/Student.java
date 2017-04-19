@@ -43,7 +43,6 @@ public class Student {
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_subgroup_id", nullable = false)
     private StudentSubgroup studentSubgroup;
@@ -114,7 +113,7 @@ public class Student {
     })
     private Address parentAddress;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
     public Student() {
@@ -264,6 +263,14 @@ public class Student {
 
     public void setParentAddress(Address parentAddress) {
         this.parentAddress = parentAddress;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

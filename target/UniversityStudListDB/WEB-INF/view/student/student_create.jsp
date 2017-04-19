@@ -300,30 +300,30 @@
                             </td>
                         </tr>
                         </tbody>
-                        <%--<tbody>--%>
-                        <%--<tr>--%>
-                        <%--<td class="col-sm-2">Наказ на зарахування:</td>--%>
-                        <%--<td class="col-sm-6">--%>
-                        <%--<select name="orderId" required>--%>
-                        <%--<option disabled selected>Наказ</option>--%>
-                        <%--<c:forEach var="orderList" items="${orderList}">--%>
-                        <%--<c:if test="${error eq null}">--%>
-                        <%--<option value="${orderList.id}">${orderList.orderNumber}/${orderList.orderType.orderTypeTitle}/${orderList.orderDate}</option>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${error ne null}">--%>
-                        <%--<c:if test="${orderId eq orderList.id}">--%>
-                        <%--<option value="${orderList.id}"--%>
-                        <%--selected>${orderList.orderNumber}/${orderList.orderType.orderTypeTitle}/${orderList.orderDate}</option>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${orderId ne orderList.id}">--%>
-                        <%--<option value="${orderList.id}">${orderList.orderNumber}/${orderList.orderType.orderTypeTitle}/${orderList.orderDate}</option>--%>
-                        <%--</c:if>--%>
-                        <%--</c:if>--%>
-                        <%--</c:forEach>--%>
-                        <%--</select>--%>
-                        <%--</td>--%>
-                        <%--</tr>--%>
-                        <%--</tbody>--%>
+                        <tbody>
+                        <tr>
+                            <td class="col-sm-2">Наказ на зарахування:</td>
+                            <td class="col-sm-6">
+                                <select name="orderId" required>
+                                    <option disabled selected>Наказ</option>
+                                    <c:forEach var="orderList" items="${orderList}">
+                                        <c:if test="${error eq null}">
+                                            <option value="${orderList.id}">${orderList.orderNumber}/${orderList.orderType.orderTypeTitle}/${orderList.orderDate}</option>
+                                        </c:if>
+                                        <c:if test="${error ne null}">
+                                            <c:if test="${orderId eq orderList.id}">
+                                                <option value="${orderList.id}"
+                                                        selected>${orderList.orderNumber}/${orderList.orderType.orderTypeTitle}/${orderList.orderDate}</option>
+                                            </c:if>
+                                            <c:if test="${orderId ne orderList.id}">
+                                                <option value="${orderList.id}">${orderList.orderNumber}/${orderList.orderType.orderTypeTitle}/${orderList.orderDate}</option>
+                                            </c:if>
+                                        </c:if>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
                         <tbody>
                         <tr>
                             <td class="col-sm-2">Номер заліковки:</td>

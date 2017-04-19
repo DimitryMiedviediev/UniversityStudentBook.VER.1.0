@@ -1,7 +1,10 @@
 package beans.student;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import entity.group.parameters.GroupStatus;
+import entity.student.Student;
 import entity.student.parameters.StudentFinancing;
+import entity.student.parameters.StudentStatus;
 import entity.student.parameters.StudentSubgroup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +12,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.persistence.NoResultException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -226,5 +231,188 @@ public class BeansStudentConfiguration {
         }
 
         return studentFinancingList;
+    }
+
+    public void createNewStatus(String statusTitle) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            StudentStatus studentStatus = new StudentStatus(statusTitle, null);
+
+            session.save(studentStatus);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void deleteStatus(int statusID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            StudentStatus studentStatus = session.get(StudentStatus.class, statusID);
+
+            session.delete(studentStatus);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void updateStatusTitle(int statusID, String statusNewTitle) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            StudentStatus studentStatus = session.get(StudentStatus.class, statusID);
+            studentStatus.setStudentStatusTitle(statusNewTitle);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public StudentStatus readOneStatus(int statusID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        StudentStatus studentStatus = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            studentStatus = session.get(StudentStatus.class, statusID);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+        return studentStatus;
+    }
+
+    public List<StudentStatus> getStatusList() {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        List<StudentStatus> studentStatusList = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+            studentStatusList = session.createQuery("FROM StudentStatus ").getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+
+        return studentStatusList;
+    }
+
+    public void changeTrueStatus(int statusID) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        StudentStatus studentStatus = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            try{
+                studentStatus = (StudentStatus) session.createQuery("FROM StudentStatus WHERE studentStatusRole = true").getSingleResult();
+                studentStatus.setStudentStatusRole(null);
+            }catch (NoResultException e){
+
+            }
+
+            studentStatus = session.get(StudentStatus.class, statusID);
+            studentStatus.setStudentStatusRole(true);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void changeFalseStatus(List<Integer> idList) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+            StudentStatus studentStatus = null;
+
+            for (int i = 0; i < idList.size(); i++) {
+                studentStatus = session.get(StudentStatus.class, idList.get(i));
+                studentStatus.setStudentStatusRole(false);
+            }
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
+    }
+
+    public void changeNullStatus(List<Integer> idList) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory factory = null;
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+            StudentStatus studentStatus = null;
+
+            for (int i = 0; i < idList.size(); i++) {
+                studentStatus = session.get(StudentStatus.class, idList.get(i));
+                studentStatus.setStudentStatusRole(null);
+            }
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (factory != null) {
+                factory.close();
+            }
+        }
     }
 }

@@ -467,211 +467,329 @@
                         </c:if>
                     </tr>
                     </tbody>
-                    <%--<!-- Status information -->--%>
-                    <%--<thead>--%>
-                    <%--<tr>--%>
-                        <%--<th class="col-sm-6 text-center"><h4><b>Статус</b></h4></th>--%>
-                        <%--<th class="col-sm-2 text-center"><h4><b>Дії</b></h4></th>--%>
-                    <%--</tr>--%>
-                    <%--</thead>--%>
-                    <%--<tbody>--%>
-                    <%--<tr>--%>
-                        <%--<c:if test="${createStatus eq null}">--%>
-                            <%--<form action="group_configuration" method="post">--%>
-                                <%--<td class="col-sm-6">--%>
-                                    <%--<p>Натисніть кнопку для створення нового статусу!</p>--%>
-                                <%--</td>--%>
-                                <%--<td class="col-sm-2">--%>
-                                    <%--<input type="submit" value="Створити" name="status_create"--%>
-                                           <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                <%--</td>--%>
-                            <%--</form>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${createStatus ne null}">--%>
-                            <%--<c:if test="${wrongStatus eq null}">--%>
-                                <%--<form action="group_configuration" method="post">--%>
-                                    <%--<td class="col-sm-6">--%>
-                                        <%--<div class="col-sm-3"></div>--%>
-                                        <%--<div class="col-sm-6 col-un-padding">--%>
-                                            <%--<input type="text" maxlength="30" class="form-control normal-area-input"--%>
-                                                   <%--placeholder="Назва нового статусу"--%>
-                                                   <%--name="status">--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3"></div>--%>
-                                    <%--</td>--%>
-                                    <%--<td class="col-sm-2">--%>
-                                        <%--<div class="col-sm-12 col-un-padding">--%>
-                                            <%--<input type="submit" value="Зберегти" name="status_create_option"--%>
-                                                   <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                            <%--<input type="submit" value="Відмінити" name="cancel"--%>
-                                                   <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                            <%--</button>--%>
-                                        <%--</div>--%>
-                                    <%--</td>--%>
-                                <%--</form>--%>
-                            <%--</c:if>--%>
-                            <%--<c:if test="${wrongStatus ne null}">--%>
-                                <%--<form action="group_configuration" method="post">--%>
-                                    <%--<td class="col-sm-6">--%>
-                                        <%--<div class="col-sm-3"></div>--%>
-                                        <%--<div class="col-sm-6 col-un-padding has-error">--%>
-                                            <%--<input type="text" maxlength="30" class="form-control normal-area-input"--%>
-                                                   <%--placeholder="Назва нового статусу"--%>
-                                                   <%--name="status" value="${wrongStatus}">--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3"></div>--%>
-                                    <%--</td>--%>
-                                    <%--<td class="col-sm-2">--%>
-                                        <%--<div class="col-sm-12 col-un-padding">--%>
-                                            <%--<input type="submit" value="Зберегти" name="status_create_option"--%>
-                                                   <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                            <%--<input type="submit" value="Відмінити" name="cancel"--%>
-                                                   <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                            <%--</button>--%>
-                                        <%--</div>--%>
-                                    <%--</td>--%>
-                                <%--</form>--%>
-                            <%--</c:if>--%>
-                        <%--</c:if>--%>
-                    <%--</tr>--%>
-                    <%--</tbody>--%>
-                    <%--<tbody>--%>
-                    <%--<tr>--%>
-                        <%--<c:if test="${updateStatus eq null}">--%>
-                            <%--<form action="group_configuration" method="post">--%>
-                                <%--<td class="col-sm-6">--%>
-                                    <%--<p>Натисніть кнопку для вибору статусу для редагування!</p>--%>
-                                <%--</td>--%>
-                                <%--<td class="col-sm-2">--%>
-                                    <%--<input type="submit" value="Редагувати" name="status_update"--%>
-                                           <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                <%--</td>--%>
-                            <%--</form>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${updateStatus ne null}">--%>
-                            <%--<c:if test="${updateStatusArea eq null}">--%>
-                                <%--<form action="group_configuration" method="post">--%>
-                                    <%--<td class="col-sm-6">--%>
-                                        <%--<div class="col-sm-3"></div>--%>
-                                        <%--<div class="col-sm-6">--%>
-                                            <%--<select name="update_status" required>--%>
-                                                <%--<option disabled selected>Статус</option>--%>
-                                                <%--<c:forEach var="groupStatusList" items="${groupStatusList}">--%>
-                                                    <%--<option value="${groupStatusList.id}">${groupStatusList.groupStatusTitle}</option>--%>
-                                                <%--</c:forEach>--%>
-                                            <%--</select>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3"></div>--%>
-                                    <%--</td>--%>
-                                    <%--<td class="col-sm-2">--%>
-                                        <%--<div class="col-sm-12 col-un-padding">--%>
-                                            <%--<input type="submit" value="Вибрати" name="status_update_option"--%>
-                                                   <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                            <%--<input type="submit" value="Відмінити" name="cancel"--%>
-                                                   <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                            <%--</button>--%>
-                                        <%--</div>--%>
-                                    <%--</td>--%>
-                                <%--</form>--%>
-                            <%--</c:if>--%>
-                            <%--<c:if test="${updateStatusArea ne null}">--%>
-                                <%--<c:if test="${updateStatusAreaError eq null}">--%>
-                                    <%--<form action="group_configuration" method="post">--%>
-                                        <%--<td class="col-sm-6">--%>
-                                            <%--<div class="col-sm-3"></div>--%>
-                                            <%--<div class="col-sm-6 col-un-padding">--%>
-                                                <%--<input type="text" maxlength="30" class="form-control normal-area-input"--%>
-                                                       <%--placeholder="Назва нового статусу" name="status_title"--%>
-                                                       <%--value="${statusToUpdate.groupStatusTitle}">--%>
-                                                <%--<input type="hidden" maxlength="30"--%>
-                                                       <%--class="form-control normal-area-input"--%>
-                                                       <%--name="status_id" value="${statusToUpdate.id}">--%>
-                                            <%--</div>--%>
-                                            <%--<div class="col-sm-3"></div>--%>
-                                        <%--</td>--%>
-                                        <%--<td class="col-sm-2">--%>
-                                            <%--<div class="col-sm-12 col-un-padding">--%>
-                                                <%--<input type="submit" value="Зберегти" name="status_update_save"--%>
-                                                       <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                                <%--<input type="submit" value="Відмінити" name="cancel"--%>
-                                                       <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                                <%--</button>--%>
-                                            <%--</div>--%>
-                                        <%--</td>--%>
-                                    <%--</form>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${updateStatusAreaError ne null}">--%>
-                                    <%--<form action="group_configuration" method="post">--%>
-                                        <%--<td class="col-sm-6">--%>
-                                            <%--<div class="col-sm-3"></div>--%>
-                                            <%--<div class="col-sm-6 col-un-padding has-error">--%>
-                                                <%--<input type="text" maxlength="30" class="form-control normal-area-input"--%>
-                                                       <%--placeholder="Назва нового статусу" name="status_title"--%>
-                                                       <%--value="${statusTitleError}">--%>
-                                                <%--<input type="hidden" maxlength="30"--%>
-                                                       <%--class="form-control normal-area-input"--%>
-                                                       <%--name="status_id" value="${statusIdError}">--%>
-                                            <%--</div>--%>
-                                            <%--<div class="col-sm-3"></div>--%>
-                                        <%--</td>--%>
-                                        <%--<td class="col-sm-2">--%>
-                                            <%--<div class="col-sm-12 col-un-padding">--%>
-                                                <%--<input type="submit" value="Зберегти" name="status_update_save"--%>
-                                                       <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                                <%--<input type="submit" value="Відмінити" name="cancel"--%>
-                                                       <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                                <%--</button>--%>
-                                            <%--</div>--%>
-                                        <%--</td>--%>
-                                    <%--</form>--%>
-                                <%--</c:if>--%>
-                            <%--</c:if>--%>
-                        <%--</c:if>--%>
-                    <%--</tr>--%>
-                    <%--</tbody>--%>
-                    <%--<tbody>--%>
-                    <%--<tr>--%>
-                        <%--<c:if test="${deleteStatus eq null}">--%>
-                            <%--<form action="group_configuration" method="post">--%>
-                                <%--<td class="col-sm-6">--%>
-                                    <%--<p>Натисніть кнопку для вибору статусу на видалення!</p>--%>
-                                <%--</td>--%>
-                                <%--<td class="col-sm-2">--%>
-                                    <%--<input type="submit" value="Видалити" name="status_delete"--%>
-                                           <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                <%--</td>--%>
-                            <%--</form>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${deleteStatus ne null}">--%>
-                            <%--<form action="group_configuration" method="post">--%>
-                                <%--<td class="col-sm-6">--%>
-                                    <%--<div class="col-sm-3"></div>--%>
-                                    <%--<div class="col-sm-6">--%>
-                                        <%--<select name="delete_status" required>--%>
-                                            <%--<option disabled selected>Статус</option>--%>
-                                            <%--<c:forEach var="groupStatusList" items="${groupStatusList}">--%>
-                                                <%--<option value="${groupStatusList.id}">${groupStatusList.groupStatusTitle}</option>--%>
-                                            <%--</c:forEach>--%>
-                                        <%--</select>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-3"></div>--%>
-                                <%--</td>--%>
-                                <%--<td class="col-sm-2">--%>
-                                    <%--<div class="col-sm-12 col-un-padding">--%>
-                                        <%--<input type="submit" value="Видалити" name="status_delete_option"--%>
-                                               <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                        <%--<input type="submit" value="Відмінити" name="cancel"--%>
-                                               <%--class="btn btn-default btn-md btn-block" formmethod="post"/>--%>
-                                        <%--</button>--%>
-                                    <%--</div>--%>
-                                <%--</td>--%>
-                            <%--</form>--%>
-                        <%--</c:if>--%>
-                    <%--</tr>--%>
-                    <%--</tbody>--%>
+                    <!-- Status information -->
+                    <thead>
+                    <tr>
+                        <th class="col-sm-6 text-center"><h4><b>Статус</b></h4></th>
+                        <th class="col-sm-2 text-center"><h4><b>Дії</b></h4></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <c:if test="${createStatus eq null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <p>Натисніть кнопку для створення нового статусу!</p>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Створити" name="status_create"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                </td>
+                            </form>
+                        </c:if>
+                        <c:if test="${createStatus ne null}">
+                            <c:if test="${wrongStatus eq null}">
+                                <form action="student_configuration" method="post">
+                                    <td class="col-sm-6">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6 col-un-padding">
+                                            <input type="text" maxlength="30" class="form-control normal-area-input"
+                                                   placeholder="Назва нового статусу"
+                                                   name="status">
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </td>
+                                    <td class="col-sm-2">
+                                        <div class="col-sm-12 col-un-padding">
+                                            <input type="submit" value="Зберегти" name="status_create_option"
+                                                   class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                            <input type="submit" value="Відмінити" name="cancel"
+                                                   class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </form>
+                            </c:if>
+                            <c:if test="${wrongStatus ne null}">
+                                <form action="student_configuration" method="post">
+                                    <td class="col-sm-6">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6 col-un-padding has-error">
+                                            <input type="text" maxlength="30" class="form-control normal-area-input"
+                                                   placeholder="Назва нового статусу"
+                                                   name="status" value="${wrongStatus}">
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </td>
+                                    <td class="col-sm-2">
+                                        <div class="col-sm-12 col-un-padding">
+                                            <input type="submit" value="Зберегти" name="status_create_option"
+                                                   class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                            <input type="submit" value="Відмінити" name="cancel"
+                                                   class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </form>
+                            </c:if>
+                        </c:if>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <c:if test="${updateStatus eq null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <p>Натисніть кнопку для вибору статусу для редагування!</p>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Редагувати" name="status_update"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                </td>
+                            </form>
+                        </c:if>
+                        <c:if test="${updateStatus ne null}">
+                            <c:if test="${updateStatusArea eq null}">
+                                <form action="student_configuration" method="post">
+                                    <td class="col-sm-6">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <select name="update_status" required>
+                                                <option disabled selected>Статус</option>
+                                                <c:forEach var="statusList" items="${statusList}">
+                                                    <option value="${statusList.id}">${statusList.studentStatusTitle}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </td>
+                                    <td class="col-sm-2">
+                                        <div class="col-sm-12 col-un-padding">
+                                            <input type="submit" value="Вибрати" name="status_update_option"
+                                                   class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                            <input type="submit" value="Відмінити" name="cancel"
+                                                   class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </form>
+                            </c:if>
+                            <c:if test="${updateStatusArea ne null}">
+                                <c:if test="${updateStatusAreaError eq null}">
+                                    <form action="student_configuration" method="post">
+                                        <td class="col-sm-6">
+                                            <div class="col-sm-3"></div>
+                                            <div class="col-sm-6 col-un-padding">
+                                                <input type="text" maxlength="30" class="form-control normal-area-input"
+                                                       placeholder="Назва нового статусу" name="status_title"
+                                                       value="${statusToUpdate.studentStatusTitle}">
+                                                <input type="hidden" maxlength="30"
+                                                       class="form-control normal-area-input"
+                                                       name="status_id" value="${statusToUpdate.id}">
+                                            </div>
+                                            <div class="col-sm-3"></div>
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <div class="col-sm-12 col-un-padding">
+                                                <input type="submit" value="Зберегти" name="status_update_save"
+                                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                                <input type="submit" value="Відмінити" name="cancel"
+                                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </form>
+                                </c:if>
+                                <c:if test="${updateStatusAreaError ne null}">
+                                    <form action="student_configuration" method="post">
+                                        <td class="col-sm-6">
+                                            <div class="col-sm-3"></div>
+                                            <div class="col-sm-6 col-un-padding has-error">
+                                                <input type="text" maxlength="30" class="form-control normal-area-input"
+                                                       placeholder="Назва нового статусу" name="status_title"
+                                                       value="${statusTitleError}">
+                                                <input type="hidden" maxlength="30"
+                                                       class="form-control normal-area-input"
+                                                       name="status_id" value="${statusIdError}">
+                                            </div>
+                                            <div class="col-sm-3"></div>
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <div class="col-sm-12 col-un-padding">
+                                                <input type="submit" value="Зберегти" name="status_update_save"
+                                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                                <input type="submit" value="Відмінити" name="cancel"
+                                                       class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </form>
+                                </c:if>
+                            </c:if>
+                        </c:if>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <c:if test="${deleteStatus eq null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <p>Натисніть кнопку для вибору статусу на видалення!</p>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Видалити" name="status_delete"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                </td>
+                            </form>
+                        </c:if>
+                        <c:if test="${deleteStatus ne null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <select name="delete_status" required>
+                                            <option disabled selected>Статус</option>
+                                            <c:forEach var="statusList" items="${statusList}">
+                                                <option value="${statusList.id}">${statusList.studentStatusTitle}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <div class="col-sm-12 col-un-padding">
+                                        <input type="submit" value="Видалити" name="status_delete_option"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        <input type="submit" value="Відмінити" name="cancel"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        </button>
+                                    </div>
+                                </td>
+                            </form>
+                        </c:if>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <c:if test="${trueStatus eq null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <p>Натисніть кнопку для вибору дефолтного статусу!</p>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Вибрати" name="status_true"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                </td>
+                            </form>
+                        </c:if>
+                        <c:if test="${trueStatus ne null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <select name="true_status" required>
+                                            <option disabled selected>Статус</option>
+                                            <c:forEach var="statusList" items="${statusList}">
+                                                <option value="${statusList.id}">${statusList.studentStatusTitle}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <div class="col-sm-12 col-un-padding">
+                                        <input type="submit" value="Вибрати" name="status_true_option"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        <input type="submit" value="Відмінити" name="cancel"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        </button>
+                                    </div>
+                                </td>
+                            </form>
+                        </c:if>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <c:if test="${falseStatus eq null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <p>Натисніть кнопку для вибору статусів збереження данних!</p>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Вибрати" name="status_false"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                </td>
+                            </form>
+                        </c:if>
+                        <c:if test="${falseStatus ne null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <select name="false_status" required size="15" multiple>
+                                            <option disabled selected>Статус</option>
+                                            <c:forEach var="statusList" items="${statusList}">
+                                                <option value="${statusList.id}">${statusList.studentStatusTitle}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <div class="col-sm-12 col-un-padding">
+                                        <input type="submit" value="Вибрати" name="status_false_option"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        <input type="submit" value="Відмінити" name="cancel"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        </button>
+                                    </div>
+                                </td>
+                            </form>
+                        </c:if>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <c:if test="${nullStatus eq null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <p>Натисніть кнопку для вибору статусів збереження груп!</p>
+                                </td>
+                                <td class="col-sm-2">
+                                    <input type="submit" value="Вибрати" name="status_null"
+                                           class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                </td>
+                            </form>
+                        </c:if>
+                        <c:if test="${nullStatus ne null}">
+                            <form action="student_configuration" method="post">
+                                <td class="col-sm-6">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <select name="null_status" required size="15" multiple>
+                                            <option disabled selected>Статус</option>
+                                            <c:forEach var="statusList" items="${statusList}">
+                                                <option value="${statusList.id}">${statusList.studentStatusTitle}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <div class="col-sm-12 col-un-padding">
+                                        <input type="submit" value="Вибрати" name="status_null_option"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        <input type="submit" value="Відмінити" name="cancel"
+                                               class="btn btn-default btn-md btn-block" formmethod="post"/>
+                                        </button>
+                                    </div>
+                                </td>
+                            </form>
+                        </c:if>
+                    </tr>
+                    </tbody>
                 </table>
-
-
             </div>
 
         </div>
